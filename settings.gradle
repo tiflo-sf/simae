@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'simae'
-include('lib', 'sources')
+include('simae', 'simae-languages')

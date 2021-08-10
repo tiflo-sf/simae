@@ -10,6 +10,7 @@ plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
     id 'antlr'
+	id "org.openjfx.javafxplugin" version "0.0.10"
 }
 
 repositories {
@@ -17,9 +18,14 @@ repositories {
     mavenCentral()
 }
 
+javafx {
+	version = "14"
+	modules = ['javafx.controls', 'javafx.media','javafx.fxml']
+}
+
 dependencies {
 	
-	implementation project(':sources')
+	implementation project(':simae-languages')
     antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
 
     implementation("org.antlr:antlr4-runtime:4.9")
@@ -38,3 +44,5 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+apply plugin: "eclipse"

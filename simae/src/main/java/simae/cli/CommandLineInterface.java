@@ -1,4 +1,4 @@
-package simae;
+package simae.cli;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+
+import simae.lib.Simae;
 
 //FIXME: faltan tests para la clase
 public class CommandLineInterface {

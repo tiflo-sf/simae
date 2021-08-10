@@ -1,4 +1,4 @@
-package simae;
+package simae.lib;
 
 // import ANTLR's runtime libraries
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ import java.util.List;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
-import sources.*;
+import simae.*;
 
 public class Simae {
 	

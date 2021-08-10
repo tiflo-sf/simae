@@ -1,11 +1,12 @@
-package simae;
+package simae.lib;
 import java.util.ArrayList;
 import java.util.List;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
 
-import sources.*;
+import simae.*;
+
 
 
 public class CPPListener extends CPP14BaseListener {
