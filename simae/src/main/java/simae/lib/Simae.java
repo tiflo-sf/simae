@@ -10,11 +10,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import cpp14.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
-
-import simae.cpp14.CPP14Lexer;
-import simae.cpp14.CPP14Parser;
 
 public class Simae {
 	
