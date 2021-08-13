@@ -13,7 +13,8 @@ import java.util.List;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
-import simae.*;
+import simae.cpp14.CPP14Lexer;
+import simae.cpp14.CPP14Parser;
 
 public class Simae {
 	

@@ -7,3 +7,6 @@ lib/*.jar
 
 # Ignore Gradle build output directory
 build
+
+# Ignore IntelliJ files
+.idea
