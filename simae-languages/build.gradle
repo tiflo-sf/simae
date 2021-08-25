@@ -34,6 +34,17 @@ dependencies {
     implementation 'com.google.guava:guava:30.1-jre'
 }
 
+
+task combinaJavaLexerParser(type: Exec) {
+  workingDir './src/main/antlr4/java8'
+  executable "sh"
+  args "-c", "m4 Java8.m4 > ../../antlr/java8/Java8.g4"
+}
+
+tasks.named('generateGrammarSource') {
+    dependsOn tasks.named("combinaJavaLexerParser")
+}
+
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()

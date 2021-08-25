@@ -1,10 +1,11 @@
-package simae.lib;
+package simae.lib.listener;
 import java.util.ArrayList;
 import java.util.List;
 
 import cpp14.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
+import simae.lib.AnotacionMarca;
 
 public class CPPListener extends CPP14BaseListener {
 	
@@ -149,7 +150,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
 	public void exitDoWhileStatement(CPP14Parser.DoWhileStatementContext ctx) {
 		//Do statement While '(' expression ')' ';'
-		String DoW = "do";
+		String DoW = "do while";
 		String texto = "CIERRA " + DoW + " DE LINEA " + ctx.getStart().getLine();
 		
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
