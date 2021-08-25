@@ -9,6 +9,12 @@ public class Clase {
 	    else {
 	        d++;
 	    }
+	    while(c) {
+	    
+	    }
+	    do {
+	    
+	    } while(c);
 
 	}	
 }

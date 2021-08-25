@@ -18,26 +18,26 @@ public class JavaListener extends Java8BaseListener {
 
 
 	public JavaListener(Java8Parser parser) {
-		
+
 	}
 
 	private String getOriginalCode(Token start, Token stop) {
-		return getOriginalCode(start,stop,1);
+		return getOriginalCode(start,stop,0);
 	}
-	
+
 	private String getOriginalCode(Token start, Token stop, int adicion) {
 		//Se crea un int que sera el index siguiente al stop.
 		int indexNuevo = stop.getStopIndex() + adicion;
 		Interval interval = new Interval(start.getStartIndex(), indexNuevo);
 		String retorno = start.getInputStream().getText(interval);
-		
+
 		//reemplazar todos los espacios, tabulaciones
 		retorno = retorno.replaceAll("//.*" + nl, "");
 		retorno = retorno.replaceAll("/\\*.*\\*/", "");
 		retorno = retorno.replaceAll("(\n|\r|\t| )+", " ");
 		return retorno;
 	}
-	
+
 	public List<AnotacionMarca> getMarcas() {
 		return marcas;
 	}
@@ -74,7 +74,7 @@ public class JavaListener extends Java8BaseListener {
 	public void enterSwitchStatement(Java8Parser.SwitchStatementContext ctx) {
 		//SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'
 		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
-		Token parentesis = (Token)ctx.getChild(2).getPayload();
+		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
 				texto));
@@ -119,4 +119,45 @@ public class JavaListener extends Java8BaseListener {
 				textoElse));
 	}
 
+	@Override
+	public void enterWhileStatement(Java8Parser.WhileStatementContext ctx) {
+		//WHILE parExpression statement
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		Token parentesis = ctx.parExpression().getStop();
+		marcas.add(new AnotacionMarca(parentesis.getLine(),
+				parentesis.getCharPositionInLine(),
+				texto));
+	}
+
+	@Override
+	public void exitWhileStatement(Java8Parser.WhileStatementContext ctx) {
+		//WHILE parExpression statement
+		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
+		String texto = "CIERRA " + whileCompleto + " DE LINEA " + ctx.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+				ctx.getStop().getCharPositionInLine(),
+				texto));
+	}
+
+	@Override
+	public void enterDoWhileStatement(Java8Parser.DoWhileStatementContext ctx) {
+		//DO statement WHILE parExpression ';'
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		Token parentesis = (Token)ctx.getChild(0).getPayload();
+		marcas.add(new AnotacionMarca(parentesis.getLine(),
+				parentesis.getCharPositionInLine() + 1, //FIXME: es correcto esto?
+				texto));
+	}
+
+	@Override
+	public void exitDoWhileStatement(Java8Parser.DoWhileStatementContext ctx) {
+		//DO statement WHILE parExpression ';'
+		String DoW = "do while";
+		String texto = "CIERRA " + DoW + " DE LINEA " + ctx.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+				ctx.getStop().getCharPositionInLine(),
+				texto));
+	}
 }
