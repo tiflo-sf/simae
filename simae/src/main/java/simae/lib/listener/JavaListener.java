@@ -160,4 +160,34 @@ public class JavaListener extends Java8BaseListener {
 				ctx.getStop().getCharPositionInLine(),
 				texto));
 	}
+
+	//A diferencia de C++, la gramatica entiende a ForEach y For como una sola estructura repetitiva.
+
+	@Override
+	public void enterForStatement(Java8Parser.ForStatementContext ctx){
+		//FOR '(' forControl ')' statement
+		String texto;
+		texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
+		marcas.add(new AnotacionMarca(parentesis.getLine(),
+				parentesis.getCharPositionInLine(),
+				texto));
+	}
+
+	@Override
+	public void exitForStatement(Java8Parser.ForStatementContext ctx){
+		//FOR '(' forControl ')' statement
+		String texto;
+		String forCompleto = "";
+
+		forCompleto = getOriginalCode(ctx.getStart(), ctx.forControl().getStop(), 1);
+
+		//textoFor = "for (" + forinitstatement + condition + ";" + expression + ")";
+		texto = "CIERRA " + forCompleto + " DE LINEA " + ctx.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+				ctx.getStop().getCharPositionInLine(),
+				texto));
+	}
+
 }
