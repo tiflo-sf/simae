@@ -11,8 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import cpp14.*;
+import java8.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
+import simae.lib.listener.CPPListener;
+import simae.lib.listener.JavaListener;
 
 public class Simae {
 	
@@ -34,6 +37,23 @@ public class Simae {
 
 	}
 
+	//FIXME: reestructurar funcion para que no solo funcione con translationunit
+	private static List<AnotacionMarca> iniciaTranslationUnitJava(ANTLRInputStream antlrEntrada) throws IOException {
+
+		Java8Lexer lexer = new Java8Lexer(antlrEntrada);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		Java8Parser parser = new Java8Parser(tokens);
+		ParseTree tree = parser.compilationUnit();
+		JavaListener extractor = new JavaListener(parser);
+		ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
+		walker.walk(extractor, tree); // initiate walk of tree with listener
+
+		//System.out.println(extractor.marcas);
+
+		return extractor.getMarcas();
+
+	}
+
 	public static void fuenteMarcado(BufferedReader br, PrintWriter pw) throws IOException {
 		
 		StringBuilder armaCompleto = new StringBuilder();
@@ -48,7 +68,7 @@ public class Simae {
 		
 		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompletoStr));
 		
-		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada);
+		List<AnotacionMarca> todasMarcas = iniciaTranslationUnitJava(antlrEntrada);
 		
         String entrada = "";
         int nroFila = 1;

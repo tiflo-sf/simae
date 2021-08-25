@@ -381,23 +381,27 @@ localTypeDeclaration
     ;
 
 statement
-    : blockLabel=block
-    | ASSERT expression (':' expression)? ';'
-    | IF parExpression statement (ELSE statement)?
-    | FOR '(' forControl ')' statement
-    | WHILE parExpression statement
-    | DO statement WHILE parExpression ';'
-    | TRY block (catchClause+ finallyBlock? | finallyBlock)
-    | TRY resourceSpecification block catchClause* finallyBlock?
-    | SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'
-    | SYNCHRONIZED parExpression block
-    | RETURN expression? ';'
-    | THROW expression ';'
-    | BREAK IDENTIFIER? ';'
-    | CONTINUE IDENTIFIER? ';'
-    | SEMI
-    | statementExpression=expression ';'
-    | identifierLabel=IDENTIFIER ':' statement
+    : blockLabel=block #BlockLabelStatement
+    | ASSERT expression (':' expression)? ';' # AssertStatement
+    | IF parExpression statement (elseStatement)? # IfStatement
+    | FOR '(' forControl ')' statement # ForStatement
+    | WHILE parExpression statement # WhileStatement
+    | DO statement WHILE parExpression ';' # DoWhileStatement
+    | TRY block (catchClause+ finallyBlock? | finallyBlock) # TryStatement
+    | TRY resourceSpecification block catchClause* finallyBlock? # TryCatchStatement
+    | SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}' # SwitchStatement
+    | SYNCHRONIZED parExpression block # SynchronizedStatement
+    | RETURN expression? ';' # ReturnStatemnet
+    | THROW expression ';' # ThrowStatement
+    | BREAK IDENTIFIER? ';' # BreakStatement
+    | CONTINUE IDENTIFIER? ';' # ContinueStatement
+    | SEMI # SemiStatement
+    | statementExpression=expression ';' # StatementStatement
+    | identifierLabel=IDENTIFIER ':' statement # IdentifierStatement
+    ;
+
+elseStatement
+    : ELSE statement
     ;
 
 catchClause

@@ -38,7 +38,7 @@ dependencies {
 task combinaJavaLexerParser(type: Exec) {
   workingDir './src/main/antlr4/java8'
   executable "sh"
-  args "-c", "m4 Java8.m4 > ../../antlr/java8/java8.g4"
+  args "-c", "m4 Java8.m4 > ../../antlr/java8/Java8.g4"
 }
 
 tasks.named('generateGrammarSource') {

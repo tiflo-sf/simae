@@ -1,4 +1,4 @@
-grammar java8;
+grammar Java8;
 @header {
 package java8;
 }
