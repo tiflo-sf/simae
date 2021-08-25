@@ -21,40 +21,43 @@ public class Simae {
 	
 	
 	//FIXME: reestructurar funcion para que no solo funcione con translationunit
-	private static List<AnotacionMarca> iniciaTranslationUnit(ANTLRInputStream antlrEntrada) throws IOException {
+	private static List<AnotacionMarca> iniciaTranslationUnit(ANTLRInputStream antlrEntrada, Lenguaje lenguaje) throws IOException {
 
-		CPP14Lexer lexer = new CPP14Lexer(antlrEntrada);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		CPP14Parser parser = new CPP14Parser(tokens);
-		ParseTree tree = parser.translationunit();
-		CPPListener extractor = new CPPListener(parser);
-		ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
-		walker.walk(extractor, tree); // initiate walk of tree with listener
-		
-		//System.out.println(extractor.marcas);
-		
-		return extractor.getMarcas();
 
+
+		//FIXME: usar <T>
+
+		if(lenguaje == Lenguaje.CPLUSPLUS) {
+			CPP14Lexer lexer = new CPP14Lexer(antlrEntrada);
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			CPP14Parser parser = new CPP14Parser(tokens);
+			ParseTree tree = parser.translationunit();
+			CPPListener extractor = new CPPListener(parser);
+			ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
+			walker.walk(extractor, tree); // initiate walk of tree with listener
+
+			//System.out.println(extractor.marcas);
+
+			return extractor.getMarcas();
+		}
+		else if(lenguaje == Lenguaje.JAVA8) {
+				Java8Lexer lexer = new Java8Lexer(antlrEntrada);
+				CommonTokenStream tokens = new CommonTokenStream(lexer);
+				Java8Parser parser = new Java8Parser(tokens);
+				ParseTree tree = parser.compilationUnit();
+				JavaListener extractor = new JavaListener(parser);
+				ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
+				walker.walk(extractor, tree); // initiate walk of tree with listener
+
+				//System.out.println(extractor.marcas);
+
+				return extractor.getMarcas();
+		}
+
+		return null;
 	}
 
-	//FIXME: reestructurar funcion para que no solo funcione con translationunit
-	private static List<AnotacionMarca> iniciaTranslationUnitJava(ANTLRInputStream antlrEntrada) throws IOException {
-
-		Java8Lexer lexer = new Java8Lexer(antlrEntrada);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		Java8Parser parser = new Java8Parser(tokens);
-		ParseTree tree = parser.compilationUnit();
-		JavaListener extractor = new JavaListener(parser);
-		ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
-		walker.walk(extractor, tree); // initiate walk of tree with listener
-
-		//System.out.println(extractor.marcas);
-
-		return extractor.getMarcas();
-
-	}
-
-	public static void fuenteMarcado(BufferedReader br, PrintWriter pw) throws IOException {
+	public static void fuenteMarcado(BufferedReader br, PrintWriter pw, Lenguaje lenguaje) throws IOException {
 		
 		StringBuilder armaCompleto = new StringBuilder();
 		
@@ -68,7 +71,7 @@ public class Simae {
 		
 		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompletoStr));
 		
-		List<AnotacionMarca> todasMarcas = iniciaTranslationUnitJava(antlrEntrada);
+		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, lenguaje);
 		
         String entrada = "";
         int nroFila = 1;
@@ -133,7 +136,7 @@ public class Simae {
         }
 	}
 	
-	public String testMarcado(String entrada) throws IOException {
+	public String testMarcado(String entrada, Lenguaje lenguaje) throws IOException {
 
 		StringReader srEntrada = new StringReader(entrada);
 		BufferedReader reader = new BufferedReader(srEntrada);
@@ -141,7 +144,7 @@ public class Simae {
 		StringWriter swSalida = new StringWriter();
 		PrintWriter writer = new PrintWriter(swSalida);
 		
-		fuenteMarcado(reader, writer);
+		fuenteMarcado(reader, writer, lenguaje);
 		
 		String salida = swSalida.toString();
 		

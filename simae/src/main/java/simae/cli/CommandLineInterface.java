@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
 //FIXME: faltan tests para la clase
@@ -18,15 +19,30 @@ public class CommandLineInterface {
 		
 		String inputFileName;
 		String outputFileName;
-		
-		if (args.length < 2) {
+		String lenguajeString;
+		Lenguaje lenguaje;
+
+		if (args.length < 3) {
 			System.out.println("Faltan los argumentos");
 			return;
 		}
 				
 		inputFileName = args[0];
 		outputFileName = args[1];
-		
+		lenguajeString = args[2];
+
+		switch(lenguajeString) {
+			case "c++":
+				lenguaje = Lenguaje.CPLUSPLUS;
+				break;
+			case "java8":
+				lenguaje = Lenguaje.JAVA8;
+				break;
+			default:
+				System.out.println("Lenguaje invalido");
+				return;
+		}
+
 		File inputFile;
 		BufferedReader inputReader;
 		File workFile;
@@ -44,7 +60,7 @@ public class CommandLineInterface {
 		}	
 		
 		try {
-			Simae.fuenteMarcado(inputReader, workWriter);	
+			Simae.fuenteMarcado(inputReader, workWriter, lenguaje);
 			workWriter.close();
 		} catch (IOException e) {
 			System.out.println("Fallo en el proceso de escritura de marcas");
