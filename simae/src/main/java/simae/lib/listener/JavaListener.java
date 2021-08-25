@@ -108,8 +108,8 @@ public class JavaListener extends Java8BaseListener {
 		Java8Parser.IfStatementContext ifPadre = (Java8Parser.IfStatementContext)ctx.getParent();
 		String ifCompleto = getOriginalCode(ifPadre.getStart(), ifPadre.parExpression().getStop());
 		String texto = "CIERRA " + ifCompleto + " DE LINEA " + ifPadre.getStart().getLine();
-		marcas.add(new AnotacionMarca(ifPadre.getStop().getLine(),
-				ifPadre.getStop().getCharPositionInLine(),
+		marcas.add(new AnotacionMarca(ifPadre.statement().getStop().getLine(),
+				ifPadre.statement().getStop().getCharPositionInLine(),
 				texto));
 
 		//Ahora se procesa el Else
@@ -118,4 +118,5 @@ public class JavaListener extends Java8BaseListener {
 				ctx.getStop().getCharPositionInLine(),
 				textoElse));
 	}
+
 }

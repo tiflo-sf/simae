@@ -5,10 +5,10 @@ public class Clase {
 	    }/*/CIERRA switch(c)  DE LINEA 3/*/
 	    if(c)/*/CIERRA EN LINEA 8/*/ {
 	        c++;
-	    }
+	    }/*/CIERRA if(c)  DE LINEA 6/*/
 	    else/*/CIERRA EN LINEA 11/*/ {
 	        d++;
-	    }/*/CIERRA if(c)  DE LINEA 6 y CIERRA else DE LINEA 9/*/
+	    }/*/CIERRA else DE LINEA 9/*/
 
 	}/*/CIERRA void funcionJava() DE LINEA 2/*/	
 }
