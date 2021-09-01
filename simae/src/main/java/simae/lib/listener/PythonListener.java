@@ -1,10 +1,10 @@
 package simae.lib.listener;
 
-import commonGrammar.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
 import simae.lib.AnotacionMarca;
 
+import simae.grammars.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,16 +42,27 @@ public class PythonListener extends Python3ParserBaseListener {
 	public List<AnotacionMarca> getMarcas() {
 		return marcas;
 	}
-/*
+
 	//FIXME: no se deberían mostrar los tipos de datos que retorne?
 	@Override
-	public void exitIf_stmt(Python3Parser.If_stmtContext ctxt) {
-		//attributespecifierseq? declspecifierseq? declarator virtspecifierseq? functionbody
-		String texto = "CIERRA " + getOriginalCode(ctx.declarator().getStart(),ctx.declarator().getStop(),0) + " DE LINEA " + ctx.getStart().getLine();
-		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
-				ctx.getStop().getCharPositionInLine(), texto));
+	public void exitIf_stmt(Python3Parser.If_stmtContext ctx) {
+		//if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ('else' ':' suite)?;
+		Iterator<Python3Parser.TestContext> testIterator = ctx.test().iterator();
+		Iterator<Python3Parser.SuiteContext> suiteIterator = ctx.suite().iterator();
+		int alProximoTerminal = 0;
+
+		while(testIterator.hasNext() && suiteIterator.hasNext()) {
+			Python3Parser.TestContext testActual = testIterator.next();
+			Python3Parser.SuiteContext suiteActual = suiteIterator.next();
+			String texto = "CIERRA " + ctx.getChild(alProximoTerminal).getText() + " " + getOriginalCode(testActual.getStart(),suiteActual.getStop()) + " DE LINEA " + ((Token)ctx.getChild(alProximoTerminal).getPayload()).getLine();
+			alProximoTerminal += 4;
+			marcas.add(new AnotacionMarca(suiteActual.getStop().getLine(),
+					                      suiteActual.getStop().getCharPositionInLine(),
+					                      texto, "\"\"\"", "\"\"\""));
+		}
+
 	}
-*/
+
 	@Override
 	public void enterIf_stmt(Python3Parser.If_stmtContext ctx) {
 		//if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ('else' ':' suite)?;
@@ -66,7 +77,14 @@ public class PythonListener extends Python3ParserBaseListener {
 					ultimoAntesDeMarca.getCharPositionInLine(),
 					texto, "\"\"\"", "\"\"\""));
 		}
-
+		//Tiene else
+		if(suiteIterator.hasNext()) {
+			String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+			Token ultimoAntesDeMarca = (Token)ctx.getChild(ctx.getChildCount()-3).getPayload();
+			marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
+					ultimoAntesDeMarca.getCharPositionInLine() + 3,
+					texto, "\"\"\"", "\"\"\""));
+		}
 	}
 
 

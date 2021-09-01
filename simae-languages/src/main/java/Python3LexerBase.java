@@ -1,4 +1,4 @@
-package commonGrammar;
+package simae.grammars;
 import org.antlr.v4.runtime.*;
 
 abstract class Python3LexerBase extends Lexer {

@@ -1,6 +1,7 @@
 package simae.lib;
 
 // import ANTLR's runtime libraries
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +11,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import commonGrammar.*;
+import simae.grammars.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import simae.lib.listener.CPPListener;
@@ -37,9 +38,9 @@ public class Simae {
 			return extractor.getMarcas();
 		}
 		else if (lenguaje == Lenguaje.JAVA8) {
-				Java8Lexer lexer = new Java8Lexer(antlrEntrada);
+				JavaLexer lexer = new JavaLexer(antlrEntrada);
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
-				Java8Parser parser = new Java8Parser(tokens);
+				JavaParser parser = new JavaParser(tokens);
 				ParseTree tree = parser.compilationUnit();
 				JavaListener extractor = new JavaListener(parser);
 				ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker

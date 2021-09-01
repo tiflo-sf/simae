@@ -2,7 +2,7 @@ package simae.lib.listener;
 import java.util.ArrayList;
 import java.util.List;
 
-import commonGrammar.*;
+import simae.grammars.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
 import simae.lib.AnotacionMarca;

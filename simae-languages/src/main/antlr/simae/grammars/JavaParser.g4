@@ -27,6 +27,10 @@
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+parser grammar JavaParser;
+
+options { tokenVocab=JavaLexer; }
+
 compilationUnit
     : packageDeclaration? importDeclaration* typeDeclaration* EOF
     ;
