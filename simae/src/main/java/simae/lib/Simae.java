@@ -10,12 +10,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import cpp14.*;
-import java8.*;
+import commonGrammar.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import simae.lib.listener.CPPListener;
 import simae.lib.listener.JavaListener;
+import simae.lib.listener.PythonListener;
 
 public class Simae {
 	
@@ -23,11 +23,7 @@ public class Simae {
 	//FIXME: reestructurar funcion para que no solo funcione con translationunit
 	private static List<AnotacionMarca> iniciaTranslationUnit(ANTLRInputStream antlrEntrada, Lenguaje lenguaje) throws IOException {
 
-
-
-		//FIXME: usar <T>
-
-		if(lenguaje == Lenguaje.CPLUSPLUS) {
+		if (lenguaje == Lenguaje.CPLUSPLUS) {
 			CPP14Lexer lexer = new CPP14Lexer(antlrEntrada);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			CPP14Parser parser = new CPP14Parser(tokens);
@@ -40,7 +36,7 @@ public class Simae {
 
 			return extractor.getMarcas();
 		}
-		else if(lenguaje == Lenguaje.JAVA8) {
+		else if (lenguaje == Lenguaje.JAVA8) {
 				Java8Lexer lexer = new Java8Lexer(antlrEntrada);
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 				Java8Parser parser = new Java8Parser(tokens);
@@ -53,6 +49,19 @@ public class Simae {
 
 				return extractor.getMarcas();
 		}
+		else if (lenguaje == Lenguaje.PYTHON3) {
+			Python3Lexer lexer = new Python3Lexer(antlrEntrada);
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			Python3Parser parser = new Python3Parser(tokens);
+			ParseTree tree = parser.file_input();
+			PythonListener extractor = new PythonListener(parser);
+			ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
+			walker.walk(extractor, tree); // initiate walk of tree with listener
+
+			//System.out.println(extractor.marcas);
+
+			return extractor.getMarcas();
+		}
 
 		return null;
 	}
@@ -60,10 +69,13 @@ public class Simae {
 	public static void fuenteMarcado(BufferedReader br, PrintWriter pw, Lenguaje lenguaje) throws IOException {
 		
 		StringBuilder armaCompleto = new StringBuilder();
-		
-		br.lines().forEach(linea -> armaCompleto
-									.append(linea.replaceAll("/\\*/[^/]*/\\*/", ""))
-									.append("\n"));
+
+		if(lenguaje != Lenguaje.PYTHON3) br.lines().forEach(linea -> armaCompleto
+													.append(linea.replaceAll("/\\*/[^/]*/\\*/", ""))
+													.append("\n"));
+		else br.lines().forEach(linea -> armaCompleto
+				.append(linea.replaceAll("\"\"\"[^/]*\"\"\"", ""))
+				.append("\n"));
 		
 		String armaCompletoStr = armaCompleto.toString();
 		

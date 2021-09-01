@@ -15,14 +15,14 @@ import simae.lib.Simae;
 //FIXME: faltan tests para la clase
 public class CommandLineInterface {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args)/*/CIERRA EN LINEA 76/*/ {
 		
 		String inputFileName;
 		String outputFileName;
 		String lenguajeString;
 		Lenguaje lenguaje;
 
-		if (args.length < 3) {
+		if (args.length < 3)/*/CIERRA EN LINEA 28/*/ {
 			System.out.println("Faltan los argumentos");
 			return;
 		}
@@ -31,17 +31,20 @@ public class CommandLineInterface {
 		outputFileName = args[1];
 		lenguajeString = args[2];
 
-		switch(lenguajeString) {
+		switch(lenguajeString)/*/CIERRA EN LINEA 44/*/ {
 			case "c++":
 				lenguaje = Lenguaje.CPLUSPLUS;
 				break;
 			case "java8":
 				lenguaje = Lenguaje.JAVA8;
 				break;
+			case "python3":
+				lenguaje = Lenguaje.PYTHON3;
+				break;
 			default:
 				System.out.println("Lenguaje invalido");
 				return;
-		}
+		}/*/CIERRA switch(lenguajeString) DE LINEA 34/*/
 
 		File inputFile;
 		BufferedReader inputReader;
@@ -73,6 +76,6 @@ public class CommandLineInterface {
 			System.out.println("Fallo en la escritura del archivo de trabajo");
 		}
 		
-	}
+	}/*/CIERRA void main(String[] args) DE LINEA 18/*/
 	
 }

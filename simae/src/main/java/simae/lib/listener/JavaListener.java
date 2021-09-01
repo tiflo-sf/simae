@@ -1,8 +1,6 @@
 package simae.lib.listener;
 
-import cpp14.CPP14BaseListener;
-import cpp14.CPP14Parser;
-import java8.*;
+import commonGrammar.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
 import simae.lib.AnotacionMarca;
@@ -81,7 +79,8 @@ public class JavaListener extends Java8BaseListener {
 	}
 	@Override
 	public void enterIfStatement(Java8Parser.IfStatementContext ctx) {
-		//IF parExpression statement (elseStatement)?
+		//IF parExpression statement #IfStatement
+		//IF parExpression statement elseStatement #IfElseStatement
 		String texto = "CIERRA EN LINEA " + ctx.statement().getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),

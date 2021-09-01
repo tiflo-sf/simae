@@ -28,7 +28,7 @@ javafx {
 
 dependencies {
 	
-	implementation project(':simae-languages')
+    implementation project(':simae-languages')
     antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
 
     implementation("org.antlr:antlr4-runtime:4.9")
@@ -50,4 +50,5 @@ tasks.named('test') {
 
 application {
     mainClass = 'simae.cli.CommandLineInterface'
+    //mainClass = 'simae.gui.SelectorApplication'
 }

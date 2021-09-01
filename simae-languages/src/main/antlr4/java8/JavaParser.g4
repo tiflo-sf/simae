@@ -381,23 +381,24 @@ localTypeDeclaration
     ;
 
 statement
-    : blockLabel=block #BlockLabelStatement
-    | ASSERT expression (':' expression)? ';' # AssertStatement
-    | IF parExpression statement (elseStatement)? # IfStatement
-    | FOR '(' forControl ')' statement # ForStatement
-    | WHILE parExpression statement # WhileStatement
-    | DO statement WHILE parExpression ';' # DoWhileStatement
-    | TRY block (catchClause+ finallyBlock? | finallyBlock) # TryStatement
-    | TRY resourceSpecification block catchClause* finallyBlock? # TryCatchStatement
-    | SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}' # SwitchStatement
-    | SYNCHRONIZED parExpression block # SynchronizedStatement
-    | RETURN expression? ';' # ReturnStatemnet
-    | THROW expression ';' # ThrowStatement
-    | BREAK IDENTIFIER? ';' # BreakStatement
-    | CONTINUE IDENTIFIER? ';' # ContinueStatement
-    | SEMI # SemiStatement
-    | statementExpression=expression ';' # StatementStatement
-    | identifierLabel=IDENTIFIER ':' statement # IdentifierStatement
+    : blockLabel=block                                                      # BlockLabelStatement
+    | ASSERT expression (':' expression)? ';'                               # AssertStatement
+    | IF parExpression statement                                            # IfStatement
+    | IF parExpression statement elseStatement                              # IfElseStatement
+    | FOR '(' forControl ')' statement                                      # ForStatement
+    | WHILE parExpression statement                                         # WhileStatement
+    | DO statement WHILE parExpression ';'                                  # DoWhileStatement
+    | TRY block (catchClause+ finallyBlock? | finallyBlock)                 # TryStatement
+    | TRY resourceSpecification block catchClause* finallyBlock?            # TryCatchStatement
+    | SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'  # SwitchStatement
+    | SYNCHRONIZED parExpression block                                      # SynchronizedStatement
+    | RETURN expression? ';'                                                # ReturnStatement
+    | THROW expression ';'                                                  # ThrowStatement
+    | BREAK IDENTIFIER? ';'                                                 # BreakStatement
+    | CONTINUE IDENTIFIER? ';'                                              # ContinueStatement
+    | SEMI                                                                  # SemiStatement
+    | statementExpression=expression ';'                                    # StatementStatement
+    | identifierLabel=IDENTIFIER ':' statement                              # IdentifierStatement
     ;
 
 elseStatement
