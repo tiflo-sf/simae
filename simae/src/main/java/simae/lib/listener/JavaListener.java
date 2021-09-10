@@ -40,6 +40,45 @@ public class JavaListener extends JavaParserBaseListener {
 	}
 
 	@Override
+	public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+		//classDeclaration
+		//    : CLASS IDENTIFIER typeParameters?
+		//      (EXTENDS typeType)?
+		//      (IMPLEMENTS typeList)?
+		//      classBody
+		//    ;
+		Token ultimoAntesDeMarca;
+		if(ctx.typeList() != null) ultimoAntesDeMarca = ctx.typeList().getStop();
+		else if(ctx.typeType() != null) ultimoAntesDeMarca = ctx.typeType().getStop();
+		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
+		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		System.out.println(ultimoAntesDeMarca);
+		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
+				ultimoAntesDeMarca.getCharPositionInLine() + ultimoAntesDeMarca.getText().length(),
+				texto));
+	}
+
+	@Override
+	public void exitClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+		//classDeclaration
+		//    : CLASS IDENTIFIER typeParameters?
+		//      (EXTENDS typeType)?
+		//      (IMPLEMENTS typeList)?
+		//      classBody
+		//    ;
+		Token ultimoAntesDeMarca;
+		if(ctx.typeList() != null) ultimoAntesDeMarca = ctx.typeList().getStop();
+		else if(ctx.typeType() != null) ultimoAntesDeMarca = ctx.typeType().getStop();
+		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
+		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
+		String texto = "CIERRA " + getOriginalCode(ctx.CLASS().getSymbol(),ultimoAntesDeMarca,0) + " DE LINEA " + ctx.getStart().getLine();
+		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+				ctx.getStop().getCharPositionInLine(), texto));
+	}
+
+
+	@Override
 	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
 		String texto = "CIERRA " + getOriginalCode(ctx.typeTypeOrVoid().getStart(),ctx.formalParameters().getStop(),0) + " DE LINEA " + ctx.getStart().getLine();

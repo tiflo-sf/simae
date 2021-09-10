@@ -75,9 +75,9 @@ public class Simae {
 													.append(linea.replaceAll("/\\*/[^/]*/\\*/", ""))
 													.append("\n"));
 		else br.lines().forEach(linea -> armaCompleto
-				.append(linea.replaceAll("\"\"\"[^/]*\"\"\"", ""))
+				.append(linea.replaceAll("# /.*/", ""))
 				.append("\n"));
-		
+		System.out.println("["+armaCompleto+"]");
 		String armaCompletoStr = armaCompleto.toString();
 		
 		ANTLRInputStream antlrEntrada = new ANTLRInputStream(armaCompletoStr);
@@ -85,7 +85,9 @@ public class Simae {
 		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompletoStr));
 		
 		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, lenguaje);
-		
+
+		System.out.println(todasMarcas);
+
         String entrada = "";
         int nroFila = 1;
         
@@ -104,49 +106,44 @@ public class Simae {
         Iterator<AnotacionMarca> it = todasMarcas.iterator();
         boolean yaEstaCargadaLaMarcaSiguiente = false;
         AnotacionMarca marca = null;
-        
-    	while(it.hasNext() || yaEstaCargadaLaMarcaSiguiente) {
-        	if(!yaEstaCargadaLaMarcaSiguiente) marca = it.next();
-            //Si no coincide con la fila, se imprime la linea completa
-        	
-        	while(nroFila != marca.getFila()) {
-        		pw.println(entrada.substring(posEnFila));
-        		posEnFila = 0;
-        		entrada = brPreprocesado.readLine();
-        		nroFila++;
-        	}
-        	
-        	//Coincide la linea, se imprime hasta la marca y luego se imprime la marca.
-        	pw.print(entrada.substring(posEnFila,marca.getPosicion() + 1));
-        	pw.print(marca.getInicioComentario());
-    		pw.print(marca.getMarca());
-    		
-        	yaEstaCargadaLaMarcaSiguiente = false;
-        	while(it.hasNext()) {
-        		int filaMarca = marca.getFila();
-        		int posMarca = marca.getPosicion();
+		AnotacionMarca marcaSiguiente = null;
 
-        		marca = it.next();
-        		yaEstaCargadaLaMarcaSiguiente = true;
-        		
-        		if(filaMarca != marca.getFila() || posMarca != marca.getPosicion()) {
-        			posEnFila = posMarca + 1;
-        			break;
-        		}
-        		
-        		pw.print(" y " + marca.getMarca());
-        	}
-        	pw.print(marca.getFinComentario());
-        	if(!yaEstaCargadaLaMarcaSiguiente) posEnFila = marca.getPosicion() + 1;
-    	}
-    	pw.print(entrada.substring(posEnFila));
-        entrada = brPreprocesado.readLine();
-        
-        pw.println();
-        while(entrada != null) {
-        	pw.println(entrada);
-        	entrada = brPreprocesado.readLine();
-        }
+		while (it.hasNext() || marcaSiguiente != null) {
+			marca = (marcaSiguiente != null) ? marcaSiguiente : it.next();
+			marcaSiguiente = it.hasNext() ? it.next() : null;
+
+			while (nroFila != marca.getFila()) {
+				pw.println(entrada.substring(posEnFila));
+				entrada = brPreprocesado.readLine();
+				nroFila++;
+				posEnFila = 0;
+			}
+			// Coincide la linea, se imprime hasta la marca y luego se imprime la marca.
+			pw.print(entrada.substring(posEnFila, marca.getPosicion() + 1));
+			pw.print(marca.getInicioComentario());
+			pw.print(marca.getMarca());
+
+			// En este punto nroFila coincide con marca.getFila()
+			// Asegurar ademas que posEnFila coincide con marca.getPosicion()
+			posEnFila = marca.getPosicion();
+
+			while (marcaSiguiente != null) {
+				if (nroFila != marcaSiguiente.getFila()
+						|| posEnFila != marcaSiguiente.getPosicion()) break;
+
+				pw.print(" y " + marcaSiguiente.getMarca());
+				marcaSiguiente = it.hasNext() ? it.next() : null;
+			}
+			pw.print(marca.getFinComentario());
+			posEnFila = posEnFila + 1;
+		}
+// Terminaron las marcas, imprimir el resto de la entrada
+		pw.println(entrada.substring(posEnFila));
+		entrada = brPreprocesado.readLine();
+		while(entrada != null) {
+			pw.println(entrada);
+			entrada = brPreprocesado.readLine();
+		}
 	}
 	
 	public String testMarcado(String entrada, Lenguaje lenguaje) throws IOException {

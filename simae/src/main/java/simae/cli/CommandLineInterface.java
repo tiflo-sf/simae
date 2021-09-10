@@ -58,6 +58,9 @@ public class CommandLineInterface {
 			workFile = new File(inputFile.getPath() + ".work");	
 			workWriter = new PrintWriter(new FileWriter(workFile));
 		} catch (IOException e) {
+			System.out.println(args[0]);
+			System.out.println(args[1]);
+			System.out.println(args[2]);
 			System.out.println("Fallo algo en los argumentos");
 			return;
 		}	

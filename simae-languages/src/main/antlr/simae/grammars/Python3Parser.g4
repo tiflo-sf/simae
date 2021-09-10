@@ -37,7 +37,6 @@ options {
 
 // All comments that start with "///" are copy-pasted from
 // The Python Language Reference
-
 single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE;
 file_input: (NEWLINE | stmt)* EOF;
 eval_input: testlist NEWLINE* EOF;
@@ -99,7 +98,11 @@ assert_stmt: 'assert' test (',' test)?;
 
 compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef | decorated | async_stmt;
 async_stmt: ASYNC (funcdef | with_stmt | for_stmt);
-if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ('else' ':' suite)?;
+//if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ('else' ':' suite)?;
+if_stmt: if_stmt_if (if_stmt_elif)* (if_stmt_else)?; //agregado para implementacion simae
+if_stmt_if: 'if' test ':' suite; //agregado para implementacion simae
+if_stmt_elif: 'elif' test ':' suite; //agregado para implementacion simae
+if_stmt_else: 'else' ':' suite; //agregado para implementacion simae
 while_stmt: 'while' test ':' suite ('else' ':' suite)?;
 for_stmt: 'for' exprlist 'in' testlist ':' suite ('else' ':' suite)?;
 try_stmt: ('try' ':' suite

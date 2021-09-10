@@ -53,7 +53,6 @@ tasks.named('compileJava') {
     dependsOn tasks.named("moverASimaeGrammars")
 }
 
-
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
