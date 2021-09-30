@@ -77,7 +77,6 @@ public class Simae {
 		else br.lines().forEach(linea -> armaCompleto
 				.append(linea.replaceAll("# /.*/", ""))
 				.append("\n"));
-		System.out.println("["+armaCompleto+"]");
 		String armaCompletoStr = armaCompleto.toString();
 		
 		ANTLRInputStream antlrEntrada = new ANTLRInputStream(armaCompletoStr);
@@ -85,8 +84,6 @@ public class Simae {
 		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompletoStr));
 		
 		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, lenguaje);
-
-		System.out.println(todasMarcas);
 
         String entrada = "";
         int nroFila = 1;

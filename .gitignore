@@ -10,3 +10,6 @@ build
 
 # Ignore IntelliJ files
 .idea
+
+simae/src/main/java/simae/cli/Nodo.java
+simae/src/main/java/simae/cli/Testing.py
