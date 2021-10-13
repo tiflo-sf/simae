@@ -60,7 +60,7 @@
             <Text layoutX="33.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de archivos a marcar:" />
             <Button fx:id="botonQuitar" disable="true" layoutX="487.0" layoutY="240.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Quitar todo" />
             <Button layoutX="564.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="64.0" text="Ayuda" />
-            <Button fx:id="botonDesmarcar" disable="true" layoutX="486.0" layoutY="284.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Desmarcar" />
+            <Button fx:id="botonDesmarcar" disable="true" layoutX="486.0" layoutY="284.0" mnemonicParsing="false" onAction="#desMarcaArchivos" prefHeight="35.0" prefWidth="137.0" text="Desmarcar" />
       </children>
     </AnchorPane>
   </children>

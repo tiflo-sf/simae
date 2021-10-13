@@ -65,16 +65,22 @@ public class Simae {
 		return null;
 	}
 
+	public static void fuenteDesmarcado(BufferedReader br, PrintWriter pw, Lenguaje lenguaje) {
+
+		String gramaticaMarca = (lenguaje == Lenguaje.PYTHON3) ? "# /.*/" : "/\\*/[^/]*/\\*/";
+		br.lines().forEach(linea -> pw.println(linea.replaceAll(gramaticaMarca, "")));
+
+	}
+
 	public static void fuenteMarcado(BufferedReader br, PrintWriter pw, Lenguaje lenguaje) throws IOException {
 		
 		StringBuilder armaCompleto = new StringBuilder();
 
-		if(lenguaje != Lenguaje.PYTHON3) br.lines().forEach(linea -> armaCompleto
-													.append(linea.replaceAll("/\\*/[^/]*/\\*/", ""))
-													.append("\n"));
-		else br.lines().forEach(linea -> armaCompleto
-				.append(linea.replaceAll("# /.*/", ""))
-				.append("\n"));
+		String gramaticaMarca = (lenguaje == Lenguaje.PYTHON3) ? "# /.*/" : "/\\*/[^/]*/\\*/";
+
+		br.lines().forEach(linea -> armaCompleto
+												.append(linea.replaceAll(gramaticaMarca, ""))
+												.append("\n"));
 		String armaCompletoStr = armaCompleto.toString();
 		
 		ANTLRInputStream antlrEntrada = new ANTLRInputStream(armaCompletoStr);
@@ -141,7 +147,7 @@ public class Simae {
 		}
 	}
 
-	public void marcaPorArchivos(File inputFile, String outputFileName, String lenguajeString) {
+	public void marcaDesmarcaPorArchivos(File inputFile, String outputFileName, String lenguajeString, char operacion) {
 		BufferedReader inputReader;
 		File workFile;
 		PrintWriter workWriter;
@@ -177,7 +183,10 @@ public class Simae {
 		}
 
 		try {
-			fuenteMarcado(inputReader, workWriter, lenguaje);
+			if(operacion == 'M')
+				fuenteMarcado(inputReader, workWriter, lenguaje);
+			else
+				fuenteDesmarcado(inputReader, workWriter, lenguaje);
 			workWriter.close();
 		} catch (IOException e) {
 			System.out.println("Fallo en el proceso de escritura de marcas");

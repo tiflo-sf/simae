@@ -53,8 +53,14 @@ public class SelectorApplicationController {
     @FXML
     void marcaArchivos() {
         Simae simae = new Simae();
+        archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), 'M'));
+    }
+
+    @FXML
+    void desMarcaArchivos() {
+        Simae simae = new Simae();
         System.out.println("pasando: " + seleccionLenguajes.getValue().toString());
-        archivos.parallelStream().forEach(file -> simae.marcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString()));
+        archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), 'D'));
     }
 
     private void habilitarMarcado() {
