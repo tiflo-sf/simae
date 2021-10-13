@@ -44,7 +44,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="531.0" prefWidth="968.0" VBox.vgrow="ALWAYS">
       <children>
-            <ListView fx:id="listaDeArchivos" layoutX="33.0" layoutY="100.0" prefHeight="273.0" prefWidth="434.0" />
+            <ListView fx:id="listaDeArchivos" layoutX="33.0" layoutY="100.0" onMouseClicked="#detectaHabilitaQuitado" prefHeight="273.0" prefWidth="434.0" />
             <Button layoutX="486.0" layoutY="108.0" mnemonicParsing="false" onAction="#multiFileChooser" prefHeight="35.0" prefWidth="137.0" text="Agregar Archivos" />
             <Button layoutX="486.0" layoutY="152.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Agregar Carpetas" />
             <Button fx:id="botonMarcar" disable="true" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" onAction="#marcaArchivos" prefHeight="35.0" prefWidth="137.0" text="Marcar" />
@@ -56,9 +56,9 @@
             <ComboBox fx:id="seleccionLenguajes" layoutX="105.0" layoutY="47.0" prefHeight="24.0" prefWidth="363.0" />
             <Text layoutX="33.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lenguaje:" />
             <Button layoutX="481.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="79.0" text="Opciones" />
-            <Button disable="true" layoutX="486.0" layoutY="196.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Quitar seleccion" />
+            <Button fx:id="botonQuitarSeleccion" disable="true" layoutX="486.0" layoutY="196.0" mnemonicParsing="false" onAction="#eliminarArchivoSeleccionado" prefHeight="35.0" prefWidth="137.0" text="Quitar seleccion" />
             <Text layoutX="33.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de archivos a marcar:" />
-            <Button fx:id="botonQuitar" disable="true" layoutX="487.0" layoutY="240.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Quitar todo" />
+            <Button fx:id="botonQuitar" disable="true" layoutX="487.0" layoutY="240.0" mnemonicParsing="false" onAction="#eliminarTodos" prefHeight="35.0" prefWidth="137.0" text="Quitar todo" />
             <Button layoutX="564.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="64.0" text="Ayuda" />
             <Button fx:id="botonDesmarcar" disable="true" layoutX="486.0" layoutY="284.0" mnemonicParsing="false" onAction="#desMarcaArchivos" prefHeight="35.0" prefWidth="137.0" text="Desmarcar" />
       </children>

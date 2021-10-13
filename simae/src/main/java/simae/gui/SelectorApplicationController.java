@@ -31,6 +31,9 @@ public class SelectorApplicationController {
     private Button botonQuitar;
 
     @FXML
+    private Button botonQuitarSeleccion;
+
+    @FXML
     private Button botonDesmarcar;
 
     @FXML
@@ -63,9 +66,26 @@ public class SelectorApplicationController {
         archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), 'D'));
     }
 
+    @FXML
+    void eliminarTodos() {
+        l.removeAll(l);
+    }
+
+    @FXML
+    void eliminarArchivoSeleccionado() {
+        l.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
+        detectaHabilitaQuitado();
+    }
+
+    @FXML
+    void detectaHabilitaQuitado() {
+        botonQuitarSeleccion.setDisable(listaDeArchivos.getSelectionModel().getSelectedItems().size() == 0);
+    }
+
     private void habilitarMarcado() {
         botonMarcar.setDisable(false);
         botonQuitar.setDisable(false);
         botonDesmarcar.setDisable(false);
     }
+
 }
