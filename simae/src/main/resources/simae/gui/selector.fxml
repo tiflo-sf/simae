@@ -42,24 +42,25 @@
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simae.gui.SelectorApplicationController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="400.0" prefWidth="646.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="531.0" prefWidth="968.0" VBox.vgrow="ALWAYS">
       <children>
             <ListView fx:id="listaDeArchivos" layoutX="33.0" layoutY="100.0" prefHeight="273.0" prefWidth="434.0" />
-            <Button layoutX="490.0" layoutY="100.0" mnemonicParsing="false" onAction="#multiFileChooser" prefHeight="35.0" prefWidth="137.0" text="Agregar Archivos" />
-            <Button layoutX="490.0" layoutY="144.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Agregar Carpetas" />
-            <Button disable="true" layoutX="491.0" layoutY="313.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="137.0" text="Marcar" />
-            <Text layoutX="127.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marcado de Codigo Fuente" wrappingWidth="318.7294921875">
+            <Button layoutX="486.0" layoutY="108.0" mnemonicParsing="false" onAction="#multiFileChooser" prefHeight="35.0" prefWidth="137.0" text="Agregar Archivos" />
+            <Button layoutX="486.0" layoutY="152.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Agregar Carpetas" />
+            <Button fx:id="botonMarcar" disable="true" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" onAction="#marcaArchivos" prefHeight="35.0" prefWidth="137.0" text="Marcar" />
+            <Text layoutX="127.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marcado de Código Fuente" wrappingWidth="318.7294921875">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <ComboBox layoutX="105.0" layoutY="47.0" prefHeight="24.0" prefWidth="363.0" />
+            <ComboBox fx:id="seleccionLenguajes" layoutX="105.0" layoutY="47.0" prefHeight="24.0" prefWidth="363.0" />
             <Text layoutX="33.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lenguaje:" />
             <Button layoutX="481.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="79.0" text="Opciones" />
-            <Button disable="true" layoutX="490.0" layoutY="188.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Quitar seleccion" />
+            <Button disable="true" layoutX="486.0" layoutY="196.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Quitar seleccion" />
             <Text layoutX="33.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de archivos a marcar:" />
-            <Button disable="true" layoutX="491.0" layoutY="232.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Quitar todo" />
+            <Button fx:id="botonQuitar" disable="true" layoutX="487.0" layoutY="240.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Quitar todo" />
             <Button layoutX="564.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="64.0" text="Ayuda" />
+            <Button fx:id="botonDesmarcar" disable="true" layoutX="486.0" layoutY="284.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="137.0" text="Desmarcar" />
       </children>
     </AnchorPane>
   </children>

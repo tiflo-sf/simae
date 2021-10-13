@@ -2,11 +2,10 @@ package simae.lib;
 
 // import ANTLR's runtime libraries
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +18,6 @@ import simae.lib.listener.JavaListener;
 import simae.lib.listener.PythonListener;
 
 public class Simae {
-	
 	
 	//FIXME: reestructurar funcion para que no solo funcione con translationunit
 	private static List<AnotacionMarca> iniciaTranslationUnit(ANTLRInputStream antlrEntrada, Lenguaje lenguaje) throws IOException {
@@ -142,7 +140,58 @@ public class Simae {
 			entrada = brPreprocesado.readLine();
 		}
 	}
-	
+
+	public void marcaPorArchivos(File inputFile, String outputFileName, String lenguajeString) {
+		BufferedReader inputReader;
+		File workFile;
+		PrintWriter workWriter;
+
+		Lenguaje lenguaje;
+
+		switch(lenguajeString)/*/CIERRA EN LINEA 44/*/ {
+			case "c++":
+			case "C++":
+				lenguaje = Lenguaje.CPLUSPLUS;
+				break;
+			case "java8":
+			case "Java":
+				lenguaje = Lenguaje.JAVA8;
+				break;
+			case "python3":
+			case "Python":
+				lenguaje = Lenguaje.PYTHON3;
+				break;
+			default:
+				System.out.println("Lenguaje invalido");
+				return;
+		}
+
+		try {
+			inputReader = new BufferedReader(new FileReader(inputFile));
+
+			workFile = new File(inputFile.getPath() + ".work");
+			workWriter = new PrintWriter(new FileWriter(workFile));
+		} catch (IOException e) {
+			System.out.println("Fallo algo en los argumentos");
+			return;
+		}
+
+		try {
+			fuenteMarcado(inputReader, workWriter, lenguaje);
+			workWriter.close();
+		} catch (IOException e) {
+			System.out.println("Fallo en el proceso de escritura de marcas");
+			return;
+		}
+
+		try {
+			Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			System.out.println("Fallo en la escritura del archivo de trabajo");
+		}
+
+	}
+
 	public String testMarcado(String entrada, Lenguaje lenguaje) throws IOException {
 
 		StringReader srEntrada = new StringReader(entrada);

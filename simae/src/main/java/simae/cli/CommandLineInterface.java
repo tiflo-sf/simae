@@ -16,7 +16,9 @@ import simae.lib.Simae;
 public class CommandLineInterface {
 	
 	public static void main(String[] args)/*/CIERRA EN LINEA 76/*/ {
-		
+
+		//FIXME: mantener o modificar por la funcion marcaPorArchivos?
+
 		String inputFileName;
 		String outputFileName;
 		String lenguajeString;
