@@ -67,6 +67,7 @@ public class Simae {
 
 	public static void fuenteDesmarcado(BufferedReader br, PrintWriter pw, Lenguaje lenguaje) {
 
+		//FIXME: la seleccion de la marca de acuerdo al lenguaje no va aca
 		String gramaticaMarca = (lenguaje == Lenguaje.PYTHON3) ? "# /.*/" : "/\\*/[^/]*/\\*/";
 		br.lines().forEach(linea -> pw.println(linea.replaceAll(gramaticaMarca, "")));
 
@@ -82,7 +83,8 @@ public class Simae {
 												.append(linea.replaceAll(gramaticaMarca, ""))
 												.append("\n"));
 		String armaCompletoStr = armaCompleto.toString();
-		
+
+		//FIXME: revisar deprecated ANTLRInputStream
 		ANTLRInputStream antlrEntrada = new ANTLRInputStream(armaCompletoStr);
 		
 		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompletoStr));
@@ -147,6 +149,7 @@ public class Simae {
 		}
 	}
 
+	//FIXME: eliminar acoplamiento de control
 	public void marcaDesmarcaPorArchivos(File inputFile, String outputFileName, String lenguajeString, char operacion) {
 		BufferedReader inputReader;
 		File workFile;
