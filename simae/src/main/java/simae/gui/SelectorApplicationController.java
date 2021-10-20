@@ -38,9 +38,6 @@ public class SelectorApplicationController {
     private Button botonQuitarSeleccion;
 
     @FXML
-    private Button botonDesmarcar;
-
-    @FXML
     private void initialize() {
         seleccionLenguajes.getItems().addAll("C++", "Java", "Python");
     }
@@ -102,7 +99,6 @@ public class SelectorApplicationController {
     private void habilitarMarcado() {
         botonMarcar.setDisable(false);
         botonQuitar.setDisable(false);
-        botonDesmarcar.setDisable(false);
     }
 
 }
