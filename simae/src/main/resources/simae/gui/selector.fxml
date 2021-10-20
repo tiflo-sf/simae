@@ -45,7 +45,23 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="531.0" prefWidth="968.0" VBox.vgrow="ALWAYS">
       <children>
+            <Text layoutX="127.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marcado de Código Fuente" wrappingWidth="318.7294921875">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="33.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lenguaje:" />
+            <ComboBox fx:id="seleccionLenguajes" layoutX="105.0" layoutY="47.0" onAction="#filtraObjeto" prefHeight="24.0" prefWidth="363.0" />
+            <Text layoutX="33.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de archivos a procesar:" />
             <ListView fx:id="listaDeArchivos" layoutX="33.0" layoutY="100.0" onMouseClicked="#detectaHabilitaQuitado" prefHeight="273.0" prefWidth="434.0" />
+            <Button layoutX="486.0" layoutY="16.0" prefHeight="24.0" prefWidth="74.0" text="_Opciones">
+               <font>
+                  <Font size="12.0" />
+               </font></Button>
+            <Button layoutX="564.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="57.0" text="Ayuda">
+               <font>
+                  <Font size="12.0" />
+               </font></Button>
             <Button layoutX="486.0" layoutY="100.0" onAction="#multiFileChooser" prefHeight="26.0" prefWidth="137.0" text="Agregar _Archivos...">
                <font>
                   <Font size="12.0" />
@@ -54,40 +70,24 @@
                <font>
                   <Font size="12.0" />
                </font></Button>
-            <Button fx:id="botonMarcar" disable="true" layoutX="486.0" layoutY="313.0" onAction="#marcaArchivos" prefHeight="60.0" prefWidth="137.0" text="_Procesar&#10;marcado" textAlignment="CENTER">
-               <font>
-                  <Font size="16.0" />
-               </font></Button>
-            <Text layoutX="127.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marcado de Código Fuente" wrappingWidth="318.7294921875">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Text>
-            <ComboBox fx:id="seleccionLenguajes" layoutX="105.0" layoutY="47.0" onAction="#filtraObjeto" prefHeight="24.0" prefWidth="363.0" />
-            <Text layoutX="33.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lenguaje:" />
-            <Button layoutX="486.0" layoutY="16.0" prefHeight="24.0" prefWidth="74.0" text="_Opciones">
-               <font>
-                  <Font size="12.0" />
-               </font></Button>
             <Button fx:id="botonQuitarSeleccion" disable="true" layoutX="486.0" layoutY="174.0" onAction="#eliminarArchivoSeleccionado" prefHeight="26.0" prefWidth="137.0" text="_Quitar">
                <font>
                   <Font size="12.0" />
-               </font></Button>
-            <Text layoutX="33.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de archivos a procesar:" />
+               </font>
+            </Button>
             <Button fx:id="botonQuitar" disable="true" layoutX="486.0" layoutY="211.0" onAction="#eliminarTodos" prefHeight="26.0" prefWidth="137.0" text="Quitar _todo">
                <font>
                   <Font size="12.0" />
                </font></Button>
-            <Button layoutX="564.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="57.0" text="Ayuda">
-               <font>
-                  <Font size="12.0" />
-               </font></Button>
-            <Button fx:id="botonDesmarcar" disable="true" layoutX="-10.0" layoutY="373.0" mnemonicParsing="false" onAction="#desMarcaArchivos" prefHeight="26.0" prefWidth="137.0" text="Desmarcar" />
-            <CheckBox layoutX="486.0" layoutY="286.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="137.0" text="Solo quitar marcas">
+            <CheckBox fx:id="soloQuitaMarcas" layoutX="486.0" layoutY="286.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="137.0" text="Solo quitar marcas">
                <font>
                   <Font size="12.0" />
                </font>
             </CheckBox>
+            <Button fx:id="botonMarcar" disable="true" layoutX="486.0" layoutY="313.0" onAction="#marcaArchivos" prefHeight="60.0" prefWidth="137.0" text="_Procesar&#10;marcado" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
       </children>
     </AnchorPane>
   </children>

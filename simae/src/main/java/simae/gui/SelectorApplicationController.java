@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.stage.FileChooser;
@@ -17,6 +18,9 @@ import java.util.List;
 public class SelectorApplicationController {
 
     private List<File> archivos = null;
+
+    @FXML
+    private CheckBox soloQuitaMarcas;
 
     @FXML
     private ComboBox seleccionLenguajes;
@@ -49,7 +53,9 @@ public class SelectorApplicationController {
     void multiFileChooser() {
         archivos = fc.showOpenMultipleDialog(null);
         if(archivos != null) {
-            archivos.forEach(file -> l.add(file.getName()));
+            archivos.stream()
+                            .filter(file -> !l.contains(file.getName()))
+                            .forEach(file -> l.add(file.getName()));
             listaDeArchivos.setItems(l);
             habilitarMarcado();
         }
@@ -58,14 +64,8 @@ public class SelectorApplicationController {
     @FXML
     void marcaArchivos() {
         Simae simae = new Simae();
-        archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), 'M'));
-    }
-
-    @FXML
-    void desMarcaArchivos() {
-        Simae simae = new Simae();
-        System.out.println("pasando: " + seleccionLenguajes.getValue().toString());
-        archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), 'D'));
+        char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M';
+        archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
     }
 
     @FXML
