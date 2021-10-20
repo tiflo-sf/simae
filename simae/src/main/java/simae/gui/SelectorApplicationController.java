@@ -40,6 +40,8 @@ public class SelectorApplicationController {
     @FXML
     private void initialize() {
         seleccionLenguajes.getItems().addAll("C++", "Java", "Python");
+        seleccionLenguajes.getSelectionModel().select(0);
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
     }
 
     private ObservableList l = FXCollections.observableArrayList();
