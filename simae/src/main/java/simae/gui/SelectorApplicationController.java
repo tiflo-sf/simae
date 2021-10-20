@@ -43,14 +43,16 @@ public class SelectorApplicationController {
 
     private ObservableList l = FXCollections.observableArrayList();
 
+    private FileChooser fc = new FileChooser();
+
     @FXML
     void multiFileChooser() {
-        FileChooser fc = new FileChooser();
         archivos = fc.showOpenMultipleDialog(null);
-        archivos.forEach(file -> l.add(file.getName()));
-        listaDeArchivos.setItems(l);
-        if (archivos.size() != 0);
-        habilitarMarcado();
+        if(archivos != null) {
+            archivos.forEach(file -> l.add(file.getName()));
+            listaDeArchivos.setItems(l);
+            habilitarMarcado();
+        }
     }
 
     @FXML
@@ -64,6 +66,21 @@ public class SelectorApplicationController {
         Simae simae = new Simae();
         System.out.println("pasando: " + seleccionLenguajes.getValue().toString());
         archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), 'D'));
+    }
+
+    @FXML
+    void filtraObjeto() {
+        if(fc.getExtensionFilters().size() != 0) fc.getExtensionFilters().remove(0);
+        switch(seleccionLenguajes.getSelectionModel().getSelectedItem().toString()) {
+            case "C++":
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
+                break;
+            case "Java":
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Java (.java)", "*.java"));
+                break;
+            case "Python":
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Python (.py)", "*.py"));
+        }
     }
 
     @FXML
