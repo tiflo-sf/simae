@@ -1,6 +1,5 @@
 package simae.gui;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,12 +11,14 @@ import javafx.stage.FileChooser;
 import simae.lib.Simae;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class SelectorApplicationController {
 
     private List<File> archivos = null;
+    private List<Archivo> listaArchivosObjeto;
 
     @FXML
     private CheckBox soloQuitaMarcas;
@@ -28,6 +29,8 @@ public class SelectorApplicationController {
     @FXML
     private ListView<?> listaDeArchivos;
 
+    private List<String> listaCompleta;
+
     @FXML
     private Button botonMarcar;
 
@@ -37,39 +40,101 @@ public class SelectorApplicationController {
     @FXML
     private Button botonQuitarSeleccion;
 
+    private ObservableList listaObservable = FXCollections.observableArrayList();
+
+    private FileChooser fc = new FileChooser();
+
+    private String extension() {
+        switch (seleccionLenguajes.getSelectionModel().getSelectedItem().toString()) {
+            case "C++":
+                return ".cpp";
+            case "Java":
+                return ".java";
+            case "Python":
+                return ".py";
+        }
+        return null;
+    }
+
+    private String lenguaje(String extension) {
+        switch (extension) {
+            case ".cpp":
+                return "C++";
+            case ".java":
+                return "Java";
+            case ".py":
+                return "Python";
+        }
+        return null;
+    }
+
+    private void eliminaOtrosLenguajes() {
+        for (int i = 0; i < listaObservable.size(); i++) {
+            Archivo archivo = (Archivo) listaObservable.get(i);
+            String nombreArchivo = archivo.toString();
+            if (!nombreArchivo.substring(nombreArchivo.lastIndexOf(".")).equals(extension())) {
+                listaObservable.remove(i);
+                i--;
+            }
+        }
+    }
+
     @FXML
     private void initialize() {
-        seleccionLenguajes.getItems().addAll("C++", "Java", "Python");
+        listaArchivosObjeto = new ArrayList<>();
+        listaCompleta = new ArrayList<>();
+        seleccionLenguajes.getItems().addAll("C++", "Java", "Python", "Por extensión del lenguaje");
         seleccionLenguajes.getSelectionModel().select(0);
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
     }
-
-    private ObservableList l = FXCollections.observableArrayList();
-
-    private FileChooser fc = new FileChooser();
 
     @FXML
     void multiFileChooser() {
         archivos = fc.showOpenMultipleDialog(null);
         if(archivos != null) {
             archivos.stream()
-                            .filter(file -> !l.contains(file.getName()))
-                            .forEach(file -> l.add(file.getName()));
-            listaDeArchivos.setItems(l);
-            habilitarMarcado();
+                    .filter(file -> !listaArchivosObjeto.contains(file))
+                    .forEach(file -> listaArchivosObjeto.add(new Archivo(file)));
+            /*archivos.stream()
+                            .filter(file -> !listaObservable.stream().anyMatch(archivo -> file.equals(((Archivo) (archivo)).getFile()))) //FIXME: convertir ObservableList a tipo Archivo
+                            .forEach(file -> listaObservable.add(new Archivo(file)));
+            archivos.stream()
+                            .filter(file -> !listaObservable.contains(file.getName()))
+                            .forEach(file -> listaObservable.add(file.getName()));
+            */
+            actualizaLista();
         }
+    }
+
+    private void actualizaLista() {
+        listaObservable.addAll(listaArchivosObjeto
+                .stream()
+                .filter(file -> !listaObservable.contains(file))
+                .toArray());
+        listaDeArchivos.setItems(listaObservable);
+        if (extension() != null) eliminaOtrosLenguajes();
+        habilitarMarcado();
     }
 
     @FXML
     void marcaArchivos() {
         Simae simae = new Simae();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M';
-        archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
+        //if (extension() != null) archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
+
+        listaObservable.parallelStream()
+                .forEach(file -> simae.marcaDesmarcaPorArchivos(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca));
+        /*for (File file : archivos) {
+            System.out.println(file.toString().substring(file.toString().lastIndexOf(".")));
+            simae.marcaDesmarcaPorArchivos(file, file.toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca);
+        }*/
+        //archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca));
     }
 
     @FXML
     void filtraObjeto() {
-        if(fc.getExtensionFilters().size() != 0) fc.getExtensionFilters().remove(0);
+        actualizaLista();
+        if(fc.getExtensionFilters().size() != 0) fc.getExtensionFilters().removeAll(fc.getExtensionFilters());
         switch(seleccionLenguajes.getSelectionModel().getSelectedItem().toString()) {
             case "C++":
                 fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
@@ -79,17 +144,21 @@ public class SelectorApplicationController {
                 break;
             case "Python":
                 fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Python (.py)", "*.py"));
+            default:
+                fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"), new FileChooser.ExtensionFilter("Java (.java)", "*.java"), new FileChooser.ExtensionFilter("Python (.py)", "*.py"), new FileChooser.ExtensionFilter("Todos (.*)", "*.cpp", "*.java", "*.py"));
         }
     }
 
     @FXML
     void eliminarTodos() {
-        l.removeAll(l);
+        listaObservable.removeAll(listaObservable);
+        listaCompleta.removeAll(listaCompleta);
     }
 
     @FXML
     void eliminarArchivoSeleccionado() {
-        l.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
+        listaObservable.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
+        listaCompleta.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
         detectaHabilitaQuitado();
     }
 

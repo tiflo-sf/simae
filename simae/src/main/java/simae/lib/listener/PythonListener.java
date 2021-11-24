@@ -154,6 +154,27 @@ public class PythonListener extends Python3ParserBaseListener {
 		}
 	}
 
+	@Override
+	public void enterWhile_stmt_while(Python3Parser.While_stmt_whileContext ctx) {
+		//while' test ':' suite (if_stmt_else)?;
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		Token dosPuntos = (Token) ctx.getChild(2).getPayload();
+		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
+				dosPuntos.getCharPositionInLine(),
+				texto, "# /", "/"));
+	}
+
+	@Override
+	public void exitWhile_stmt_while(Python3Parser.While_stmt_whileContext ctx) {
+		//while' test ':' suite (if_stmt_else)?;
+		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.test().getStop());
+		String texto = "CIERRA " + whileCompleto + " DE LINEA " + ctx.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ultimoSuiteLine,
+				ultimoSuiteCharPosLine,
+				texto, "# /", "/"));
+	}
+
 
 
 }

@@ -151,6 +151,7 @@ public class Simae {
 
 	//FIXME: eliminar acoplamiento de control
 	public void marcaDesmarcaPorArchivos(File inputFile, String outputFileName, String lenguajeString, char operacion) {
+		System.out.println("recibiendo: " + inputFile.toString() + " guardando salida en " + outputFileName);
 		BufferedReader inputReader;
 		File workFile;
 		PrintWriter workWriter;
