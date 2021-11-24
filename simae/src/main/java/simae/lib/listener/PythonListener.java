@@ -175,6 +175,25 @@ public class PythonListener extends Python3ParserBaseListener {
 				texto, "# /", "/"));
 	}
 
+	@Override
+	public void enterFor_stmt_for(Python3Parser.For_stmt_forContext ctx) {
+		//for_stmt_for: 'for' exprlist 'in' testlist ':' suite;
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		Token dosPuntos = (Token) ctx.getChild(4).getPayload();
+		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
+				dosPuntos.getCharPositionInLine(),
+				texto, "# /", "/"));
+	}
 
+	@Override
+	public void exitFor_stmt_for(Python3Parser.For_stmt_forContext ctx) {
+		//for_stmt_for: 'for' exprlist 'in' testlist ':' suite;
+		String forCompleto = getOriginalCode(ctx.getStart(), ctx.testlist().getStop());
+		String texto = "CIERRA " + forCompleto + " DE LINEA " + ctx.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ultimoSuiteLine,
+				ultimoSuiteCharPosLine,
+				texto, "# /", "/"));
+	}
 
 }
