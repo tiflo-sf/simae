@@ -128,7 +128,7 @@ public class JavaListener extends JavaParserBaseListener {
 	@Override
 	public void exitIfStatement(JavaParser.IfStatementContext ctx) {
 		//IF parExpression statement
-		String ifIncompleto = getOriginalCode(ctx.getStart(), ctx.statement().getStop());
+		String ifIncompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
 		String texto = "CIERRA " + ifIncompleto + " DE LINEA " + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.statement().getStop().getLine(),
 				ctx.statement().getStop().getCharPositionInLine(),
