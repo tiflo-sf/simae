@@ -145,7 +145,7 @@ public class PythonListener extends Python3ParserBaseListener {
 		int posicionEnCaracter = ctx.getStop().getCharPositionInLine();
 		String lineaCompleta = ctx.getStop().getText();
 
-		String texto = "CIERRA else DE LINEA " + ctx.getStart().getLine();
+		String texto = "CIERRA else DE LÍNEA " + ctx.getStart().getLine();
 
 		if(ctx.suite().DEDENT() != null) {
 			marcas.add(new AnotacionMarca(ultimoSuiteLine,
@@ -154,6 +154,30 @@ public class PythonListener extends Python3ParserBaseListener {
 		}
 	}
 
+	@Override
+	public void enterWhile_stmt (Python3Parser.While_stmtContext ctx) {
+		//while_stmt: 'while' test ':' suite (if_stmt_else)?;
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		Token dosPuntos = (Token) ctx.getChild(2).getPayload();
 
+		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
+				dosPuntos.getCharPositionInLine(),
+				texto, "# /", "/"));
+	}
 
+	@Override
+	public void exitWhile_stmt(Python3Parser.While_stmtContext ctx) {
+		//'else' ':' suite; //agregado para implementacion simae
+		int linea = ctx.getStop().getLine();
+		int posicionEnCaracter = ctx.getStop().getCharPositionInLine();
+		String lineaCompleta = ctx.getStop().getText();
+
+		String texto = "CIERRA while DE LÍNEA " + ctx.getStart().getLine();
+
+		if(ctx.suite().DEDENT() != null) {
+			marcas.add(new AnotacionMarca(ultimoSuiteLine,
+					ultimoSuiteCharPosLine,
+					texto, "# /", "/"));
+		}
+	}
 }
