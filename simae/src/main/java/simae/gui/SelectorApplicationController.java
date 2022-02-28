@@ -72,6 +72,7 @@ public class SelectorApplicationController {
         Simae simae = new Simae();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M';
 
+        textoProcesado.setVisible(false);
         textoError.setVisible(false);
 
         archivos.parallelStream().forEach(file -> {
