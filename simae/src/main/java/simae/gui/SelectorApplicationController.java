@@ -83,7 +83,7 @@ public class SelectorApplicationController {
     private void initialize() {
         listaArchivosObjeto = new ArrayList<>();
         listaCompleta = new ArrayList<>();
-        seleccionLenguajes.getItems().addAll("C++", "Java", "Python", "Por extensión del lenguaje");
+        seleccionLenguajes.getItems().addAll("C++", "Java", "Python", "Determinar según extensión del archivo");
         seleccionLenguajes.getSelectionModel().select(0);
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
     }
@@ -93,7 +93,7 @@ public class SelectorApplicationController {
         archivos = fc.showOpenMultipleDialog(null);
         if(archivos != null) {
             archivos.stream()
-                    .filter(file -> !listaArchivosObjeto.contains(file))
+                    .filter(file -> !listaArchivosObjeto.stream().anyMatch(archivo -> file.equals(archivo.getFile()))) //FIXME: sobreescribir equals y usar contains
                     .forEach(file -> listaArchivosObjeto.add(new Archivo(file)));
             /*archivos.stream()
                             .filter(file -> !listaObservable.stream().anyMatch(archivo -> file.equals(((Archivo) (archivo)).getFile()))) //FIXME: convertir ObservableList a tipo Archivo
@@ -119,7 +119,7 @@ public class SelectorApplicationController {
     @FXML
     void marcaArchivos() {
         Simae simae = new Simae();
-        char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M';
+        char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M'; //FIXME: intentar cambiar metodo
         //if (extension() != null) archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
 
         listaObservable.parallelStream()

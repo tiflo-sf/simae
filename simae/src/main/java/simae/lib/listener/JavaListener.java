@@ -150,7 +150,7 @@ public class JavaListener extends JavaParserBaseListener {
 		//IF parExpression statement (elseStatement)?
 		//ELSE statement;
 		//Como no esta separado en IfElse e If, primero se procesa el If.
-		JavaParser.IfStatementContext ifPadre = (JavaParser.IfStatementContext)ctx.getParent();
+		JavaParser.IfElseStatementContext ifPadre = (JavaParser.IfElseStatementContext)ctx.getParent();
 		String ifCompleto = getOriginalCode(ifPadre.getStart(), ifPadre.parExpression().getStop());
 		String texto = "CIERRA " + ifCompleto + " DE LINEA " + ifPadre.getStart().getLine();
 		marcas.add(new AnotacionMarca(ifPadre.statement().getStop().getLine(),
