@@ -8,7 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
 import java.io.File;
@@ -38,13 +40,20 @@ public class SelectorApplicationController {
     private Button botonQuitarSeleccion;
 
     @FXML
+    private Text textoProcesado;
+
+    @FXML
+    private Text textoError;
+
+    @FXML
     private void initialize() {
-        seleccionLenguajes.getItems().addAll("C++", "Java", "Python");
+        seleccionLenguajes.getItems().addAll(Lenguaje.CPLUSPLUS, Lenguaje.JAVA8, Lenguaje.PYTHON3);
     }
 
     private ObservableList l = FXCollections.observableArrayList();
 
     private FileChooser fc = new FileChooser();
+
 
     @FXML
     void multiFileChooser() {
@@ -62,7 +71,14 @@ public class SelectorApplicationController {
     void marcaArchivos() {
         Simae simae = new Simae();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M';
-        archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
+
+        textoError.setVisible(false);
+
+        archivos.parallelStream().forEach(file -> {
+            if (!simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca)) textoError.setVisible(true);
+        });
+
+        if (!textoError.isVisible()) textoProcesado.setVisible(true);
     }
 
     @FXML

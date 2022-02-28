@@ -37,7 +37,7 @@ public class CommandLineInterface {
 			case "c++":
 				lenguaje = Lenguaje.CPLUSPLUS;
 				break;
-			case "java8":
+			case "java":
 				lenguaje = Lenguaje.JAVA8;
 				break;
 			case "python3":
