@@ -58,7 +58,7 @@ public class SelectorApplicationController {
                 return ".cpp";
             case "Java":
                 return ".java";
-            case "Python":
+            case "Python3":
                 return ".py";
         }
         return null;
@@ -71,7 +71,7 @@ public class SelectorApplicationController {
             case ".java":
                 return "Java";
             case ".py":
-                return "Python";
+                return "Python3";
         }
         return null;
     }
@@ -91,7 +91,7 @@ public class SelectorApplicationController {
     private void initialize() {
         listaArchivosObjeto = new ArrayList<>();
         listaCompleta = new ArrayList<>();
-        seleccionLenguajes.getItems().addAll("C++", "Java", "Python", "Determinar según extensión del archivo");
+        seleccionLenguajes.getItems().addAll(Lenguaje.CPLUSPLUS, Lenguaje.JAVA8, Lenguaje.PYTHON3, "Determinar según extensión del archivo");
         seleccionLenguajes.getSelectionModel().select(0);
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
     }
@@ -131,8 +131,14 @@ public class SelectorApplicationController {
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M'; //FIXME: intentar cambiar metodo
         //if (extension() != null) archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
 
-        listaObservable.parallelStream()
-                .forEach(file -> simae.marcaDesmarcaPorArchivos(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca));
+        textoError.setVisible(false);
+        textoProcesado.setVisible(false);
+
+        if (listaObservable.parallelStream()
+                .anyMatch(file -> !simae.marcaDesmarcaPorArchivos(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca))) textoError.setVisible(true);
+
+        if (!textoError.isVisible()) textoProcesado.setVisible(true);
+
         /*for (File file : archivos) {
             System.out.println(file.toString().substring(file.toString().lastIndexOf(".")));
             simae.marcaDesmarcaPorArchivos(file, file.toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca);
@@ -152,7 +158,7 @@ public class SelectorApplicationController {
             case "Java":
                 fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Java (.java)", "*.java"));
                 break;
-            case "Python":
+            case "Python3":
                 fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Python (.py)", "*.py"));
             default:
                 fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"), new FileChooser.ExtensionFilter("Java (.java)", "*.java"), new FileChooser.ExtensionFilter("Python (.py)", "*.py"), new FileChooser.ExtensionFilter("Todos (.*)", "*.cpp", "*.java", "*.py"));

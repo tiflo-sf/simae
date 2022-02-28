@@ -151,12 +151,7 @@ public class Simae {
 	}
 
 	//FIXME: eliminar acoplamiento de control
-<<<<<<< HEAD
-	public void marcaDesmarcaPorArchivos(File inputFile, String outputFileName, String lenguajeString, char operacion) {
-		System.out.println("recibiendo: " + inputFile.toString() + " guardando salida en " + outputFileName);
-=======
 	public boolean marcaDesmarcaPorArchivos(File inputFile, String outputFileName, String lenguajeString, char operacion) {
->>>>>>> main
 		BufferedReader inputReader;
 		File workFile;
 		PrintWriter workWriter;
@@ -164,6 +159,8 @@ public class Simae {
 		Lenguaje lenguaje;
 
 		lenguajeString = lenguajeString.toLowerCase();
+
+		System.out.println(lenguajeString);
 
 		switch(lenguajeString) {
 			case "c++":
