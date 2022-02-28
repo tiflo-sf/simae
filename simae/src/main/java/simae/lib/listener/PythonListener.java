@@ -180,4 +180,31 @@ public class PythonListener extends Python3ParserBaseListener {
 					texto, "# /", "/"));
 		}
 	}
+
+	@Override
+	public void enterFor_stmt(Python3Parser.For_stmtContext ctx) {
+		//for_stmt: 'for' exprlist 'in' testlist ':' suite (if_stmt_else)?;
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		Token dosPuntos = (Token) ctx.getChild(4).getPayload();
+
+		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
+				dosPuntos.getCharPositionInLine(),
+				texto, "# /", "/"));
+	}
+
+	@Override
+	public void exitFor_stmt(Python3Parser.For_stmtContext ctx) {
+		//'else' ':' suite; //agregado para implementacion simae
+		int linea = ctx.getStop().getLine();
+		int posicionEnCaracter = ctx.getStop().getCharPositionInLine();
+		String lineaCompleta = ctx.getStop().getText();
+
+		String texto = "CIERRA for DE LÍNEA " + ctx.getStart().getLine();
+
+		if(ctx.suite().DEDENT() != null) {
+			marcas.add(new AnotacionMarca(ultimoSuiteLine,
+					ultimoSuiteCharPosLine,
+					texto, "# /", "/"));
+		}
+	}
 }
