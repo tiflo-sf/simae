@@ -7,7 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
 import java.io.File;
@@ -39,6 +41,12 @@ public class SelectorApplicationController {
 
     @FXML
     private Button botonQuitarSeleccion;
+
+    @FXML
+    private Text textoProcesado;
+
+    @FXML
+    private Text textoError;
 
     private ObservableList listaObservable = FXCollections.observableArrayList();
 
@@ -88,6 +96,7 @@ public class SelectorApplicationController {
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
     }
 
+
     @FXML
     void multiFileChooser() {
         archivos = fc.showOpenMultipleDialog(null);
@@ -129,6 +138,7 @@ public class SelectorApplicationController {
             simae.marcaDesmarcaPorArchivos(file, file.toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca);
         }*/
         //archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca));
+
     }
 
     @FXML

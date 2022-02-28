@@ -145,7 +145,7 @@ public class PythonListener extends Python3ParserBaseListener {
 		int posicionEnCaracter = ctx.getStop().getCharPositionInLine();
 		String lineaCompleta = ctx.getStop().getText();
 
-		String texto = "CIERRA else DE LINEA " + ctx.getStart().getLine();
+		String texto = "CIERRA else DE LÍNEA " + ctx.getStart().getLine();
 
 		if(ctx.suite().DEDENT() != null) {
 			marcas.add(new AnotacionMarca(ultimoSuiteLine,
@@ -159,6 +159,7 @@ public class PythonListener extends Python3ParserBaseListener {
 		//while' test ':' suite (if_stmt_else)?;
 		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
 		Token dosPuntos = (Token) ctx.getChild(2).getPayload();
+
 		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
 				dosPuntos.getCharPositionInLine(),
 				texto, "# /", "/"));
@@ -195,5 +196,4 @@ public class PythonListener extends Python3ParserBaseListener {
 				ultimoSuiteCharPosLine,
 				texto, "# /", "/"));
 	}
-
 }

@@ -109,6 +109,7 @@ while_stmt_while: 'while' test ':' suite; //agregado para implementacion simae
 //for_stmt: 'for' exprlist 'in' testlist ':' suite ('else' ':' suite)?;
 for_stmt: for_stmt_for (if_stmt_else)?; //agregado para implementacion simae
 for_stmt_for: 'for' exprlist 'in' testlist ':' suite;
+
 try_stmt: ('try' ':' suite
            ((except_clause ':' suite)+
             ('else' ':' suite)?

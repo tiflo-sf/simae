@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import simae.grammars.*;
 import org.antlr.v4.runtime.*;
@@ -150,30 +151,33 @@ public class Simae {
 	}
 
 	//FIXME: eliminar acoplamiento de control
+<<<<<<< HEAD
 	public void marcaDesmarcaPorArchivos(File inputFile, String outputFileName, String lenguajeString, char operacion) {
 		System.out.println("recibiendo: " + inputFile.toString() + " guardando salida en " + outputFileName);
+=======
+	public boolean marcaDesmarcaPorArchivos(File inputFile, String outputFileName, String lenguajeString, char operacion) {
+>>>>>>> main
 		BufferedReader inputReader;
 		File workFile;
 		PrintWriter workWriter;
 
 		Lenguaje lenguaje;
 
-		switch(lenguajeString)/*/CIERRA EN LINEA 44/*/ {
+		lenguajeString = lenguajeString.toLowerCase();
+
+		switch(lenguajeString) {
 			case "c++":
-			case "C++":
 				lenguaje = Lenguaje.CPLUSPLUS;
 				break;
-			case "java8":
-			case "Java":
+			case "java":
 				lenguaje = Lenguaje.JAVA8;
 				break;
 			case "python3":
-			case "Python":
 				lenguaje = Lenguaje.PYTHON3;
 				break;
 			default:
 				System.out.println("Lenguaje invalido");
-				return;
+				return false;
 		}
 
 		try {
@@ -183,7 +187,7 @@ public class Simae {
 			workWriter = new PrintWriter(new FileWriter(workFile));
 		} catch (IOException e) {
 			System.out.println("Fallo algo en los argumentos");
-			return;
+			return false;
 		}
 
 		try {
@@ -194,15 +198,17 @@ public class Simae {
 			workWriter.close();
 		} catch (IOException e) {
 			System.out.println("Fallo en el proceso de escritura de marcas");
-			return;
+			return false;
 		}
 
 		try {
 			Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			System.out.println("Fallo en la escritura del archivo de trabajo");
+			return false;
 		}
 
+		return true;
 	}
 
 	public String testMarcado(String entrada, Lenguaje lenguaje) throws IOException {

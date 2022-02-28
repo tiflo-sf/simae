@@ -15,7 +15,7 @@ import simae.lib.Simae;
 //FIXME: faltan tests para la clase
 public class CommandLineInterface {
 	
-	public static void main(String[] args)/*/CIERRA EN LINEA 76/*/ {
+	public static void main(String[] args) {
 
 		//FIXME: mantener o modificar por la funcion marcaPorArchivos?
 
@@ -24,7 +24,7 @@ public class CommandLineInterface {
 		String lenguajeString;
 		Lenguaje lenguaje;
 
-		if (args.length < 3)/*/CIERRA EN LINEA 28/*/ {
+		if (args.length < 3) {
 			System.out.println("Faltan los argumentos");
 			return;
 		}
@@ -33,11 +33,11 @@ public class CommandLineInterface {
 		outputFileName = args[1];
 		lenguajeString = args[2];
 
-		switch(lenguajeString)/*/CIERRA EN LINEA 44/*/ {
+		switch(lenguajeString) {
 			case "c++":
 				lenguaje = Lenguaje.CPLUSPLUS;
 				break;
-			case "java8":
+			case "java":
 				lenguaje = Lenguaje.JAVA8;
 				break;
 			case "python3":
@@ -46,7 +46,7 @@ public class CommandLineInterface {
 			default:
 				System.out.println("Lenguaje invalido");
 				return;
-		}/*/CIERRA switch(lenguajeString) DE LINEA 34/*/
+		}
 
 		File inputFile;
 		BufferedReader inputReader;
@@ -81,6 +81,6 @@ public class CommandLineInterface {
 			System.out.println("Fallo en la escritura del archivo de trabajo");
 		}
 		
-	}/*/CIERRA void main(String[] args) DE LINEA 18/*/
+	}
 	
 }
