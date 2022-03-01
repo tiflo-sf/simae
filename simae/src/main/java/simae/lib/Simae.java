@@ -108,8 +108,7 @@ public class Simae {
         int posEnFila = 0;
         Collections.sort(todasMarcas);
         Iterator<AnotacionMarca> it = todasMarcas.iterator();
-        boolean yaEstaCargadaLaMarcaSiguiente = false;
-        AnotacionMarca marca = null;
+		AnotacionMarca marca;
 		AnotacionMarca marcaSiguiente = null;
 
 		while (it.hasNext() || marcaSiguiente != null) {
