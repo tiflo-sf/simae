@@ -32,7 +32,10 @@ dependencies {
 task moverASimaeGrammars(type: Exec) {
   workingDir './build/generated-src/antlr/main/'
   executable "sh"
-  args "-c", "mkdir -p simae/grammars/; mv *.* simae/grammars"
+  args "-c", "if [ -d \"./build/generated-src/antlr/main/\" ]; then\n" +
+          "    mkdir -p simae/grammars/ \n" +
+          "    mv *.* simae/grammars\n" +
+          "fi"
 }
 
 generateGrammarSource {
