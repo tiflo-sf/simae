@@ -32,7 +32,7 @@ dependencies {
 task moverASimaeGrammars(type: Exec) {
   workingDir './build/generated-src/antlr/main/'
   executable "sh"
-  args "-c", "if [ -d \"./simae/\" ]; then \nrm -r simae\nfi\nmkdir -p simae/grammars/; mv *.* simae/grammars"
+  args "-c", "mkdir -p simae/grammars/; mv *.* simae/grammars"
 }
 
 generateGrammarSource {
@@ -50,6 +50,7 @@ sourceSets {
 }	
 
 tasks.named('compileJava') {
+    dependsOn tasks.named("clean")
     dependsOn tasks.named("moverASimaeGrammars")
 }
 
