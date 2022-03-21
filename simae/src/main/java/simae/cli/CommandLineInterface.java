@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+import javafx.application.Application;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
@@ -16,6 +17,13 @@ import simae.lib.Simae;
 public class CommandLineInterface {
 	
 	public static void main(String[] args) {
+
+		//Si no recibe argumentos, llama a la GUI
+
+		if (args.length == 0) {
+			Application.launch(simae.gui.SelectorApplication.class,args);
+			return;
+		}
 
 		//FIXME: mantener o modificar por la funcion marcaPorArchivos?
 

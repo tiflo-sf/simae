@@ -61,6 +61,5 @@ tasks.named('test') {
 }
 
 application {
-    //mainClass = 'simae.cli.CommandLineInterface'
-    mainClass = 'simae.gui.Launcher'
+    mainClass = 'simae.cli.CommandLineInterface'
 }
