@@ -8,8 +8,14 @@
 - [Estado de la Herramienta](#Estado-de-la-herramienta)
 - [Instalación y uso](#Instalación-y-uso)
     * [Uso con GUI](#usocongui)
-    * [Uso con CLI](#Uso-con-CLI-(Command-Line-Interface))
-
+    * [Uso con CLI](#usoconcli)
+    * [Integración en ZinjaI](#Integración-en-ZinjaI)
+- [Instrucciones de compilación](#Instrucciones-de-compilación)
+    * [Construcción](#Construcción)
+    * [Ejecución](#Ejecución)
+    * [Producción de JAR](#Producción-de-JAR)
+    * [IntelliJ Idea IDE para compilar](#IntelliJ-Idea-IDE-para-compilar)
+- [Referencias](#Referencias)
 
 ## Descripcion
 
@@ -33,7 +39,7 @@ To-do:
 1. Descargar la versión más reciente en el apartado de "Releases" del proyecto.
 2. Ejecutar el archivo .jar.
 
-### Uso con CLI (Command Line Interface)
+### Uso con CLI (Command Line Interface) <a name="usoconcli"/>
 
 1. Descargar la versión más reciente en el apartado de "Releases" del proyecto.
 2. Desde una terminal, ejecutar el comando:
@@ -51,56 +57,11 @@ java -jar simae<version>.jar <nombreDelArchivoDeEntrada> <nombreDelArchivoDeSali
 Ejemplo:
 java -jar simae-all.jar test.py salidaTest.py python3
 
-
-### Instrucciones de compilación
-
-0. Instalar dependencias
-```shell=
-sudo apt install git
-sudo apt install openjdk-11-jre-headless
-```
-
-1. Clonar proyecto
-```shell=
-git clone https://github.com/TIFLO-SF/SIMAE
-cd SIMAE
-```
-2. Ejecutar build
-```shell=
-gradle build
-```
-
-### Ejecutar
-
-1. Clonar proyecto
-```shell=
-git clone https://github.com/TIFLO-SF/SIMAE
-cd SIMAE
-```
-2. Ejecutar run
-```shell=
-gradle run
-```
-
-### Producir JAR
-
-1. Clonar proyecto
-```shell=
-git clone https://github.com/TIFLO-SF/SIMAE
-cd SIMAE
-```
-2. Ejecutar shadowJar
-```shell=
-gradle shadowJar
-```
-
-*El jar se generará en simae/build/libs con el nombre simae-all*
-
-### Integración en ZinjaI
+### Integración en ZinjaI 
 
 Desde la materia Algoritmos y Estructuras de Datos se utiliza el IDE Zinjai con las librerías de Windows. Por lo que se añade un instructivo para generar una macro de manera que el código se marque automáticamente con un botón o hotkeys.
 
-## En Zinjai:
+#### En Zinjai:
 
 0) Guardar el jar en un lugar accesible
 
@@ -154,6 +115,52 @@ Mostrar en la barra de herramientas: SI
 ![Pestaña de Zinjai con macros añadidas](https://gitlab.com/Patacon/patacon.gitlab.io/-/raw/main/images/simae-macro.png)
 
 Finalmente, la macro se encuentra agregada al IDE.
+
+
+## Instrucciones de compilación 
+
+### Construcción
+0. Instalar dependencias
+```shell=
+sudo apt install git
+sudo apt install openjdk-11-jre-headless
+```
+
+1. Clonar proyecto
+```shell=
+git clone https://github.com/TIFLO-SF/SIMAE
+cd SIMAE
+```
+2. Ejecutar build
+```shell=
+gradle build
+```
+
+### Ejecución
+
+1. Clonar proyecto
+```shell=
+git clone https://github.com/TIFLO-SF/SIMAE
+cd SIMAE
+```
+2. Ejecutar run
+```shell=
+gradle run
+```
+
+### Producción de JAR
+
+1. Clonar proyecto
+```shell=
+git clone https://github.com/TIFLO-SF/SIMAE
+cd SIMAE
+```
+2. Ejecutar shadowJar
+```shell=
+gradle shadowJar
+```
+
+*El jar se generará en simae/build/libs con el nombre simae-all*
 
 
 ### IntelliJ Idea IDE para compilar
