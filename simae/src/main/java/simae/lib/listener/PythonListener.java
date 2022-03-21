@@ -70,6 +70,28 @@ public class PythonListener extends Python3ParserBaseListener {
 	}
 
 	@Override
+	public void enterClassdef(Python3Parser.ClassdefContext ctx) {
+		//'class' NAME ('(' (arglist)? ')')? ':' suite;
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		Token dosPuntos = (Token) ctx.getChild(ctx.getChildCount() - 2).getPayload();
+		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
+				dosPuntos.getCharPositionInLine(),
+				texto, "# /", "/"));
+	}
+
+	@Override
+	public void exitClassdef(Python3Parser.ClassdefContext ctx) {
+		//'class' NAME ('(' (arglist)? ')')? ':' suite;
+		String classCompleto = getOriginalCode(ctx.getStart(), ctx.NAME().getSymbol());
+		String texto = "CIERRA " + classCompleto + " DE LINEA " + ctx.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ultimoSuiteLine,
+				ultimoSuiteCharPosLine,
+				texto, "# /", "/"));
+	}
+
+
+	@Override
 	public void enterIf_stmt_if(Python3Parser.If_stmt_ifContext ctx) {
 		//'if' test ':' suite; //agregado para implementacion simae
 		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
