@@ -54,11 +54,11 @@
             <ComboBox fx:id="seleccionLenguajes" layoutX="105.0" layoutY="47.0" onAction="#filtraObjeto" prefHeight="24.0" prefWidth="363.0" />
             <Text layoutX="33.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de archivos a procesar:" />
             <ListView fx:id="listaDeArchivos" layoutX="33.0" layoutY="100.0" onMouseClicked="#detectaHabilitaQuitado" prefHeight="273.0" prefWidth="434.0" />
-            <Button layoutX="486.0" layoutY="16.0" prefHeight="24.0" prefWidth="74.0" text="_Opciones" visible="true">
+            <Button layoutX="486.0" layoutY="16.0" prefHeight="24.0" prefWidth="74.0" text="_Opciones" visible="false">
                <font>
                   <Font size="12.0" />
                </font></Button>
-            <Button layoutX="564.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="57.0" text="Ayuda" visible="true">
+            <Button layoutX="564.0" layoutY="16.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="57.0" text="Ayuda" visible="false">
                <font>
                   <Font size="12.0" />
                </font></Button>
