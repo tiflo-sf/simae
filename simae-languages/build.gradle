@@ -49,9 +49,13 @@ sourceSets {
     }
 }	
 
-tasks.named('compileJava') {
-    dependsOn tasks.named("clean")
-    dependsOn tasks.named("moverASimaeGrammars")
+compileJava {
+    doFirst {
+     tasks.named("clean")
+    }
+    doLast {
+     tasks.named("moverASimaeGrammars")
+    }
 }
 
 tasks.named('test') {
