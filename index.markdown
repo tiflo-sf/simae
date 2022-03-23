@@ -14,14 +14,14 @@ nav_order: 1
 ##### Contenidos
 - [Descripción](#descripcion)  
 - [Estado de la Herramienta](#Estado-de-la-herramienta)
-- [Instalación y uso](#Instalación-y-uso)
+- [Instalación y uso](#Instalacion-y-uso)
     * [Uso con GUI](#usocongui)
     * [Uso con CLI](#usoconcli)
-    * [Integración en ZinjaI](#Integración-en-ZinjaI)
-- [Instrucciones de compilación](#Instrucciones-de-compilación)
-    * [Construcción](#Construcción)
-    * [Ejecución](#Ejecución)
-    * [Producción de JAR](#Producción-de-JAR)
+    * [Integración en ZinjaI](#Integracion-en-ZinjaI)
+- [Instrucciones de compilación](#Instrucciones-de-compilacion)
+    * [Construcción](#Construccion)
+    * [Ejecución](#Ejecucion)
+    * [Producción de JAR](#Produccion-de-JAR)
     * [IntelliJ Idea IDE para compilar](#IntelliJ-Idea-IDE-para-compilar)
 - [Referencias](#Referencias)
 
@@ -29,7 +29,7 @@ nav_order: 1
 
 SIMAE es una herramienta de asistencia a la programación para desarrolladores con discapacidad visual, que brinda información contextual mediante el marcado de las estructuras contenidas en el código fuente.
 
-## Estado de la herramienta
+## Estado de la herramienta <a name ="Estado-de-la-herramienta"/>
 
 Una versión alpha está disponible para ser usada dentro de los releases de este repositorio. Se realiza un continuo mantenimiento del software.
 
@@ -40,7 +40,7 @@ To-do:
 * Mejora de la CLI.
 * Re-diseño de módulos de código para facilitar su desarrollo.
 
-## Instalación y uso
+## Instalación y uso <a name ="Instalacion-y-uso"/>
 
 ### Uso con GUI (Graphical User Interface) <a name="usocongui"/>
 
@@ -65,7 +65,7 @@ java -jar simae<version>.jar <nombreDelArchivoDeEntrada> <nombreDelArchivoDeSali
 Ejemplo:
 java -jar simae-all.jar test.py salidaTest.py python3
 
-### Integración en ZinjaI 
+### Integración en ZinjaI <a name="Integracion-en-ZinjaI"/>
 
 Desde la materia Algoritmos y Estructuras de Datos se utiliza el IDE Zinjai con las librerías de Windows. Por lo que se añade un instructivo para generar una macro de manera que el código se marque automáticamente con un botón o hotkeys.
 
@@ -125,9 +125,9 @@ Mostrar en la barra de herramientas: SI
 Finalmente, la macro se encuentra agregada al IDE.
 
 
-## Instrucciones de compilación 
+## Instrucciones de compilación <a name="Instrucciones-de-compilacion"/>
 
-### Construcción
+### Construcción <a name="Construccion"/>
 0. Instalar dependencias
 ```shell=
 sudo apt install git
@@ -144,7 +144,7 @@ cd SIMAE
 gradle build
 ```
 
-### Ejecución
+### Ejecución <a name="Ejecucion"/>
 
 1. Clonar proyecto
 ```shell=
@@ -156,7 +156,7 @@ cd SIMAE
 gradle run
 ```
 
-### Producción de JAR
+### Producción de JAR <a name="Produccion-de-JAR"/>
 
 1. Clonar proyecto
 ```shell=
@@ -171,7 +171,7 @@ gradle shadowJar
 *El jar se generará en simae/build/libs con el nombre simae-all*
 
 
-### IntelliJ Idea IDE para compilar
+### IntelliJ Idea IDE para compilar <a name="IntelliJ-Idea-IDE-para-compilar"/>
 
 1. Dentro de un terminal instalar Intellij Idea 
 ```shell=
@@ -190,5 +190,5 @@ cd SIMAE
     ![](https://i.imgur.com/mw6ECiq.png)
 7. Presionando el botón de play o shift+F10 compilar y ejecutar la herramienta
 
-## Referencias
+## Referencias <a name="Referencias"/>
 * Assenza T., Ballardini C., Marchetti P.A., Golobisky, M.F.. (2021, 13 de Agosto). Herramienta de Soporte para Programadores con Discapacidad Visual mediante el Marcado de Código Fuente. IEEE Xplore. https://ieeexplore.ieee.org/abstract/document/9505334/
