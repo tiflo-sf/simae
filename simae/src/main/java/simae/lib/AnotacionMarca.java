@@ -5,19 +5,21 @@ public class AnotacionMarca implements Comparable<AnotacionMarca> {
 	private int fila;
 	private int posicionEnFila;
 	private String marca;
-	private String comentario = "/*/";
-	
+	private String inicioComentario = "/*/";
+	private String finComentario = "/*/";
+
 	public AnotacionMarca(int f, int p, String m) {
 		fila = f;
 		posicionEnFila = p;
 		marca = m;
 	}
 	
-	public AnotacionMarca(int f, int p, String m, String i) {
+	public AnotacionMarca(int f, int p, String m, String ic, String fc) {
 		fila = f;
 		posicionEnFila = p;
 		marca = m;
-		comentario = i;
+		inicioComentario = ic;
+		finComentario = fc;
 	}
 	
 	public void setFila(int f) {
@@ -55,11 +57,11 @@ public class AnotacionMarca implements Comparable<AnotacionMarca> {
 	
 	//FIXME: inicioComentario y finComentario deben ser distintos
 	public String getInicioComentario() {
-		return comentario;
+		return inicioComentario;
 	}
 	
 	public String getFinComentario() {
-		return comentario;
+		return finComentario;
 	}
 	
 	@Override

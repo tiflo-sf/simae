@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+import javafx.application.Application;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
@@ -16,7 +17,16 @@ import simae.lib.Simae;
 public class CommandLineInterface {
 	
 	public static void main(String[] args) {
-		
+
+		//Si no recibe argumentos, llama a la GUI
+
+		if (args.length == 0) {
+			Application.launch(simae.gui.SelectorApplication.class,args);
+			return;
+		}
+
+		//FIXME: mantener o modificar por la funcion marcaPorArchivos?
+
 		String inputFileName;
 		String outputFileName;
 		String lenguajeString;
@@ -35,8 +45,11 @@ public class CommandLineInterface {
 			case "c++":
 				lenguaje = Lenguaje.CPLUSPLUS;
 				break;
-			case "java8":
+			case "java":
 				lenguaje = Lenguaje.JAVA8;
+				break;
+			case "python3":
+				lenguaje = Lenguaje.PYTHON3;
 				break;
 			default:
 				System.out.println("Lenguaje invalido");
@@ -55,6 +68,9 @@ public class CommandLineInterface {
 			workFile = new File(inputFile.getPath() + ".work");	
 			workWriter = new PrintWriter(new FileWriter(workFile));
 		} catch (IOException e) {
+			System.out.println(args[0]);
+			System.out.println(args[1]);
+			System.out.println(args[2]);
 			System.out.println("Fallo algo en los argumentos");
 			return;
 		}	

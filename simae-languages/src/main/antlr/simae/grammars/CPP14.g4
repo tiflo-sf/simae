@@ -24,9 +24,6 @@
 
 grammar CPP14;
 /*Basic concepts*/
-@header {
-package cpp14;
-}
 
 translationunit
    : declarationseq? EOF
@@ -345,9 +342,9 @@ statement
    ;
 
 labeledstatement
-   : attributespecifierseq? Identifier ':' statement						# IdentifierStatement
-   | attributespecifierseq? Case constantexpression ':' statement			# CaseStatement
-   | attributespecifierseq? Default ':' statement							# DefaultStatement
+   : attributespecifierseq? Identifier ':' statement				# IdentifierStatement
+   | attributespecifierseq? Case constantexpression ':' statement	# CaseStatement
+   | attributespecifierseq? Default ':' statement					# DefaultStatement
    ;
 
 expressionstatement
@@ -364,9 +361,9 @@ statementseq
    ;
 
 selectionstatement
-   : If '(' condition ')' statement											# IfStatement
-   | If '(' condition ')' statement elsestatement						    # IfElseStatement
-   | Switch '(' condition ')' statement										# SwitchStatement
+   : If '(' condition ')' statement					# IfStatement
+   | If '(' condition ')' statement elsestatement	# IfElseStatement
+   | Switch '(' condition ')' statement				# SwitchStatement
    ;
 
 elsestatement
@@ -379,10 +376,10 @@ condition
    ;
 
 iterationstatement
-   : While '(' condition ')' statement										# WhileStatement
-   | Do statement While '(' expression ')' ';' 								# DoWhileStatement
-   | For '(' forinitstatement condition? ';' expression? ')' statement		# ForStatement
-   | For '(' forrangedeclaration ':' forrangeinitializer ')' statement		# ForEachStatement
+   : While '(' condition ')' statement									# WhileStatement
+   | Do statement While '(' expression ')' ';' 							# DoWhileStatement
+   | For '(' forinitstatement condition? ';' expression? ')' statement	# ForStatement
+   | For '(' forrangedeclaration ':' forrangeinitializer ')' statement	# ForEachStatement
    ;
 
 forinitstatement
@@ -400,11 +397,11 @@ forrangeinitializer
    ;
 
 jumpstatement
-   : Break ';'													#BreakStatement
-   | Continue ';'												#ContinueStatement
-   | Return expression? ';'										#ExpressionTestStatement
-   | Return bracedinitlist ';'									#BracedInitListStatement
-   | Goto Identifier ';'										#GotoStatement
+   : Break ';'					# BreakStatement
+   | Continue ';'				# ContinueStatement
+   | Return expression? ';'		# ExpressionTestStatement
+   | Return bracedinitlist ';'  # BracedInitListStatement
+   | Goto Identifier ';'		# GotoStatement
    ;
 
 declarationstatement

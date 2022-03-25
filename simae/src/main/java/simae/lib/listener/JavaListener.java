@@ -1,23 +1,20 @@
 package simae.lib.listener;
 
-import cpp14.CPP14BaseListener;
-import cpp14.CPP14Parser;
-import java8.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
 import simae.lib.AnotacionMarca;
-
+import simae.grammars.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JavaListener extends Java8BaseListener {
+public class JavaListener extends JavaParserBaseListener {
 
 	//declarar y asignar atributo de lista de marcas
 	private final List<AnotacionMarca> marcas = new ArrayList<>();
 	private final String nl = System.lineSeparator();
 
 
-	public JavaListener(Java8Parser parser) {
+	public JavaListener(JavaParser parser) {
 
 	}
 
@@ -43,7 +40,46 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void enterMethodDeclaration(Java8Parser.MethodDeclarationContext ctx) {
+	public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+		//classDeclaration
+		//    : CLASS IDENTIFIER typeParameters?
+		//      (EXTENDS typeType)?
+		//      (IMPLEMENTS typeList)?
+		//      classBody
+		//    ;
+		Token ultimoAntesDeMarca;
+		if(ctx.typeList() != null) ultimoAntesDeMarca = ctx.typeList().getStop();
+		else if(ctx.typeType() != null) ultimoAntesDeMarca = ctx.typeType().getStop();
+		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
+		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
+		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		System.out.println(ultimoAntesDeMarca);
+		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
+				ultimoAntesDeMarca.getCharPositionInLine() + ultimoAntesDeMarca.getText().length(),
+				texto));
+	}
+
+	@Override
+	public void exitClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+		//classDeclaration
+		//    : CLASS IDENTIFIER typeParameters?
+		//      (EXTENDS typeType)?
+		//      (IMPLEMENTS typeList)?
+		//      classBody
+		//    ;
+		Token ultimoAntesDeMarca;
+		if(ctx.typeList() != null) ultimoAntesDeMarca = ctx.typeList().getStop();
+		else if(ctx.typeType() != null) ultimoAntesDeMarca = ctx.typeType().getStop();
+		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
+		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
+		String texto = "CIERRA " + getOriginalCode(ctx.CLASS().getSymbol(),ultimoAntesDeMarca,0) + " DE LINEA " + ctx.getStart().getLine();
+		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+				ctx.getStop().getCharPositionInLine(), texto));
+	}
+
+
+	@Override
+	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
 		String texto = "CIERRA " + getOriginalCode(ctx.typeTypeOrVoid().getStart(),ctx.formalParameters().getStop(),0) + " DE LINEA " + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
@@ -51,7 +87,7 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void exitMethodDeclaration(Java8Parser.MethodDeclarationContext ctx) {
+	public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
 		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
 		Token ultimoAntesDeMarca = ctx.qualifiedNameList() != null ? ctx.qualifiedNameList().getStop() : ctx.formalParameters().getStop();
@@ -61,7 +97,7 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void exitSwitchStatement(Java8Parser.SwitchStatementContext ctx) {
+	public void exitSwitchStatement(JavaParser.SwitchStatementContext ctx) {
 		//SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'
 		String switchCompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
 		String texto = "CIERRA " + switchCompleto + " DE LINEA " + ctx.getStart().getLine();
@@ -71,7 +107,7 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void enterSwitchStatement(Java8Parser.SwitchStatementContext ctx) {
+	public void enterSwitchStatement(JavaParser.SwitchStatementContext ctx) {
 		//SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'
 		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
@@ -80,8 +116,8 @@ public class JavaListener extends Java8BaseListener {
 				texto));
 	}
 	@Override
-	public void enterIfStatement(Java8Parser.IfStatementContext ctx) {
-		//IF parExpression statement (elseStatement)?
+	public void enterIfStatement(JavaParser.IfStatementContext ctx) {
+		//IF parExpression statement
 		String texto = "CIERRA EN LINEA " + ctx.statement().getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
@@ -90,7 +126,17 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void enterElseStatement(Java8Parser.ElseStatementContext ctx) {
+	public void exitIfStatement(JavaParser.IfStatementContext ctx) {
+		//IF parExpression statement
+		String ifIncompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
+		String texto = "CIERRA " + ifIncompleto + " DE LINEA " + ctx.getStart().getLine();
+		marcas.add(new AnotacionMarca(ctx.statement().getStop().getLine(),
+				ctx.statement().getStop().getCharPositionInLine(),
+				texto));
+	}
+
+	@Override
+	public void enterElseStatement(JavaParser.ElseStatementContext ctx) {
 		//ELSE statement;
 		String texto = "CIERRA " + "EN LINEA " + ctx.statement().getStop().getLine();
 		Token elseT = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
@@ -100,11 +146,11 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void exitElseStatement(Java8Parser.ElseStatementContext ctx) {
+	public void exitElseStatement(JavaParser.ElseStatementContext ctx) {
 		//IF parExpression statement (elseStatement)?
 		//ELSE statement;
 		//Como no esta separado en IfElse e If, primero se procesa el If.
-		Java8Parser.IfStatementContext ifPadre = (Java8Parser.IfStatementContext)ctx.getParent();
+		JavaParser.IfElseStatementContext ifPadre = (JavaParser.IfElseStatementContext)ctx.getParent();
 		String ifCompleto = getOriginalCode(ifPadre.getStart(), ifPadre.parExpression().getStop());
 		String texto = "CIERRA " + ifCompleto + " DE LINEA " + ifPadre.getStart().getLine();
 		marcas.add(new AnotacionMarca(ifPadre.statement().getStop().getLine(),
@@ -119,7 +165,7 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void enterWhileStatement(Java8Parser.WhileStatementContext ctx) {
+	public void enterWhileStatement(JavaParser.WhileStatementContext ctx) {
 		//WHILE parExpression statement
 		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
@@ -129,7 +175,7 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void exitWhileStatement(Java8Parser.WhileStatementContext ctx) {
+	public void exitWhileStatement(JavaParser.WhileStatementContext ctx) {
 		//WHILE parExpression statement
 		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
 		String texto = "CIERRA " + whileCompleto + " DE LINEA " + ctx.getStart().getLine();
@@ -140,7 +186,7 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void enterDoWhileStatement(Java8Parser.DoWhileStatementContext ctx) {
+	public void enterDoWhileStatement(JavaParser.DoWhileStatementContext ctx) {
 		//DO statement WHILE parExpression ';'
 		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(0).getPayload();
@@ -150,7 +196,7 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void exitDoWhileStatement(Java8Parser.DoWhileStatementContext ctx) {
+	public void exitDoWhileStatement(JavaParser.DoWhileStatementContext ctx) {
 		//DO statement WHILE parExpression ';'
 		String DoW = "do while";
 		String texto = "CIERRA " + DoW + " DE LINEA " + ctx.getStart().getLine();
@@ -163,7 +209,7 @@ public class JavaListener extends Java8BaseListener {
 	//A diferencia de C++, la gramatica entiende a ForEach y For como una sola estructura repetitiva.
 
 	@Override
-	public void enterForStatement(Java8Parser.ForStatementContext ctx){
+	public void enterForStatement(JavaParser.ForStatementContext ctx){
 		//FOR '(' forControl ')' statement
 		String texto;
 		texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
@@ -174,7 +220,7 @@ public class JavaListener extends Java8BaseListener {
 	}
 
 	@Override
-	public void exitForStatement(Java8Parser.ForStatementContext ctx){
+	public void exitForStatement(JavaParser.ForStatementContext ctx){
 		//FOR '(' forControl ')' statement
 		String texto;
 		String forCompleto = "";
