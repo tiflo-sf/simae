@@ -46,7 +46,7 @@ java -jar simae<version>.jar <nombreDelArchivoDeEntrada> <nombreDelArchivoDeSali
 |Python (versión 3.x)|python3|
 
 Ejemplo:
-java -jar simae-all.jar test.py salidaTest.py python3
+java -jar simae-0.1.0.jar test.py salidaTest.py python3
 
 ### Integración en ZinjaI 
 
