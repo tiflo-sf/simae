@@ -8,11 +8,15 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -111,6 +115,21 @@ public class SelectorApplicationController {
                             .filter(file -> !listaObservable.contains(file.getName()))
                             .forEach(file -> listaObservable.add(file.getName()));
             */
+            actualizaLista();
+        }
+    }
+
+    @FXML
+    void multiFolderChooser() throws IOException {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(null);
+        if (selectedDirectory == null) {
+            System.out.println("No seleccinó ninguna carpeta");
+        } else {
+            Path dir = selectedDirectory.toPath();
+            Files.find(dir, Integer.MAX_VALUE, (path, attributes) ->
+                    path.getFileName().toString().toLowerCase().endsWith(extension()))
+                    .forEach(file -> listaArchivosObjeto.add(new Archivo(file.toFile())));
             actualizaLista();
         }
     }
