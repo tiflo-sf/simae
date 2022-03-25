@@ -103,10 +103,12 @@ if_stmt: if_stmt_if (if_stmt_elif)* (if_stmt_else)?; //agregado para implementac
 if_stmt_if: 'if' test ':' suite; //agregado para implementacion simae
 if_stmt_elif: 'elif' test ':' suite; //agregado para implementacion simae
 if_stmt_else: 'else' ':' suite; //agregado para implementacion simae
-//while_stmt: 'while' test ':' suite ('else' ':' suite)?;
+//while_stmt: 'while' test ':' suite (if_stmt_else)?;
+while_stmt: while_stmt_while (if_stmt_else)?; //agregado para implementacion simae
+while_stmt_while: 'while' test ':' suite; //agregado para implementacion simae
 //for_stmt: 'for' exprlist 'in' testlist ':' suite ('else' ':' suite)?;
-while_stmt: 'while' test ':' suite (if_stmt_else)?;
-for_stmt: 'for' exprlist 'in' testlist ':' suite (if_stmt_else)?;
+for_stmt: for_stmt_for (if_stmt_else)?; //agregado para implementacion simae
+for_stmt_for: 'for' exprlist 'in' testlist ':' suite;
 
 try_stmt: ('try' ':' suite
            ((except_clause ':' suite)+

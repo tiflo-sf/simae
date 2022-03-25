@@ -2,6 +2,7 @@ package simae.lib.listener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import simae.grammars.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
@@ -38,7 +39,29 @@ public class CPPListener extends CPP14BaseListener {
 	public List<AnotacionMarca> getMarcas() {
 		return marcas;
 	}
-	
+
+	@Override
+	public void exitClassspecifier(CPP14Parser.ClassspecifierContext ctx) {
+		//classhead '{'  memberspecification? '}'
+		Token tokenFinalizacion = ((TerminalNode)ctx.getChild(3)).getSymbol();
+		String classCompleto = getOriginalCode(ctx.getStart(), ctx.classhead().getStop());
+		String texto = "CIERRA " + classCompleto + " DE LINEA " + ctx.getStart().getLine();
+		marcas.add(new AnotacionMarca(tokenFinalizacion.getLine(),
+				ctx.getStop().getCharPositionInLine(),
+				texto));
+	}
+
+	@Override
+	public void enterClassspecifier(CPP14Parser.ClassspecifierContext ctx) {
+		//classhead '{'  memberspecification? '}'
+		Token tokenFinalizacion = ((TerminalNode)ctx.getChild(3)).getSymbol();
+		Token tokenArranque = ((TerminalNode)ctx.getChild(1)).getSymbol();
+		String texto = "CIERRA EN LINEA " + tokenFinalizacion.getLine();
+		marcas.add(new AnotacionMarca(tokenArranque.getLine(),
+				tokenArranque.getCharPositionInLine() - 1,
+				texto));
+	}
+
 	//FIXME: no se deberían mostrar los tipos de datos que retorne?
 	@Override
 	public void exitFunctiondefinition(CPP14Parser.FunctiondefinitionContext ctx) {
