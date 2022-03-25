@@ -5,7 +5,6 @@
 
 ##### Table of Contents  
 - [Descripción](#Descripcion)  
-- [Estado de la Herramienta](#Estado-de-la-herramienta)
 - [Instalación y uso](#Instalación-y-uso)
     * [Uso con GUI](#usocongui)
     * [Uso con CLI](#usoconcli)
@@ -15,22 +14,14 @@
     * [Ejecución](#Ejecución)
     * [Producción de JAR](#Producción-de-JAR)
     * [IntelliJ Idea IDE para compilar](#IntelliJ-Idea-IDE-para-compilar)
+- [Estado de la Herramienta](#Estado-de-desarrollo-de-la-herramienta)
 - [Referencias](#Referencias)
 
 ## Descripcion
 
 SIMAE es una herramienta de asistencia a la programación para desarrolladores con discapacidad visual, que brinda información contextual mediante el marcado de las estructuras contenidas en el código fuente.
 
-## Estado de la herramienta
 
-Una versión alpha está disponible para ser usada dentro de los releases de este repositorio. Se realiza un continuo mantenimiento del software.
-
-To-do:
-
-* Implementar integración continua.
-* Traducción a otros lenguajes.
-* Mejora de la CLI.
-* Re-diseño de módulos de código para facilitar su desarrollo.
 
 ## Instalación y uso
 
@@ -181,6 +172,17 @@ cd SIMAE
 6. Dentro de IntelliJ ir a Add Configuration... y crear una configuración que ejecute el comando "clean run"
     ![](https://i.imgur.com/mw6ECiq.png)
 7. Presionando el botón de play o shift+F10 compilar y ejecutar la herramienta
+
+## Estado de desarrollo de la herramienta
+
+Una versión alpha está disponible para ser usada dentro de los releases de este repositorio. Se realiza un continuo mantenimiento del software.
+
+Lineas de trabajo:
+
+* Implementar integración continua.
+* Traducción a otros lenguajes.
+* Mejora de la CLI.
+* Re-diseño de módulos de código para facilitar su desarrollo.
 
 ## Referencias
 * Assenza T., Ballardini C., Marchetti P.A., Golobisky, M.F.. (2021, 13 de Agosto). Herramienta de Soporte para Programadores con Discapacidad Visual mediante el Marcado de Código Fuente. IEEE Xplore. https://ieeexplore.ieee.org/abstract/document/9505334/
