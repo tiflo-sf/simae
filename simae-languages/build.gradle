@@ -47,15 +47,14 @@ sourceSets {
             srcDirs += 'src/main/resources/'
         }
     }
-}	
+}
+
+build {
+    dependsOn clean
+}
 
 compileJava {
-    doFirst {
-     tasks.named("clean")
-    }
-    doLast {
-     tasks.named("moverASimaeGrammars")
-    }
+    dependsOn moverASimaeGrammars
 }
 
 tasks.named('test') {
