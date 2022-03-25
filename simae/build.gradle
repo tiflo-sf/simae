@@ -17,6 +17,12 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
+version = "0.1.0-alpha"
+
+shadowJar {
+    classifier = null
+}
+
 compileJava {
     doFirst {
         options.compilerArgs = [
