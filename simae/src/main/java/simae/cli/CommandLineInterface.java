@@ -8,38 +8,41 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.Callable;
 
 import javafx.application.Application;
+import picocli.CommandLine;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
 //FIXME: faltan tests para la clase
-public class CommandLineInterface {
-	
+public class CommandLineInterface implements Callable<Integer> {
+
+	@CommandLine.Option(names = {"-i", "--in"})
+	static String inputFileName;
+
+	@CommandLine.Option(names = {"-o", "--out"})
+	static String outputFileName;
+
+	@CommandLine.Option(names = {"-l", "--language"})
+	static String lenguajeString;
+
 	public static void main(String[] args) {
+		System.exit(new CommandLine(new CommandLineInterface()).execute(args));
+	}
 
+	@Override
+	public Integer call() throws Exception {
 		//Si no recibe argumentos, llama a la GUI
-
-		if (args.length == 0) {
-			Application.launch(simae.gui.SelectorApplication.class,args);
-			return;
-		}
 
 		//FIXME: mantener o modificar por la funcion marcaPorArchivos?
 
-		String inputFileName;
-		String outputFileName;
-		String lenguajeString;
-		Lenguaje lenguaje;
 
-		if (args.length < 3) {
-			System.out.println("Faltan los argumentos");
-			return;
-		}
-				
-		inputFileName = args[0];
-		outputFileName = args[1];
-		lenguajeString = args[2];
+		//inputFileName = args[0];
+		//outputFileName = args[1];
+		//lenguajeString = args[2];
+
+		Lenguaje lenguaje;
 
 		switch(lenguajeString) {
 			case "c++":
@@ -53,42 +56,40 @@ public class CommandLineInterface {
 				break;
 			default:
 				System.out.println("Lenguaje invalido");
-				return;
+				return -1;
 		}
 
 		File inputFile;
 		BufferedReader inputReader;
 		File workFile;
 		PrintWriter workWriter;
-		
+
 		try {
+			System.out.println(inputFileName);
 			inputFile = new File(inputFileName);
 			inputReader = new BufferedReader(new FileReader(inputFile));
-			
-			workFile = new File(inputFile.getPath() + ".work");	
+
+			workFile = new File(inputFile.getPath() + ".work");
 			workWriter = new PrintWriter(new FileWriter(workFile));
 		} catch (IOException e) {
-			System.out.println(args[0]);
-			System.out.println(args[1]);
-			System.out.println(args[2]);
 			System.out.println("Fallo algo en los argumentos");
-			return;
-		}	
-		
+			return -1;
+		}
+
 		try {
 			Simae.fuenteMarcado(inputReader, workWriter, lenguaje);
 			workWriter.close();
 		} catch (IOException e) {
 			System.out.println("Fallo en el proceso de escritura de marcas");
-			return;
+			return -1;
 		}
-		
+
 		try {
-			Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);	
+			Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			System.out.println("Fallo en la escritura del archivo de trabajo");
 		}
-		
+
+		return 0;
 	}
-	
 }

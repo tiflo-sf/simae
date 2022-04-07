@@ -24,14 +24,7 @@ shadowJar {
 }
 
 compileJava {
-    doFirst {
-        options.compilerArgs = [
-                '--module-path', classpath.asPath,
-                '--add-modules', 'javafx.graphics',
-                '--add-modules', 'javafx.controls',
-                '--add-modules', 'javafx.fxml'
-        ]
-    }
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
 repositories {
@@ -45,7 +38,10 @@ javafx {
 }
 
 dependencies {
-	
+
+    implementation 'info.picocli:picocli:4.6.3'
+    annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
+
     implementation project(':simae-languages')
     antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
 
