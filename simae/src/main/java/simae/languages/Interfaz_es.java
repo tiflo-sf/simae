@@ -7,7 +7,9 @@ public class Interfaz_es extends ListResourceBundle {
     @Override
     protected Object[][] getContents() {
             return new Object[][] {
-                    {"finMarca", "CIERRA EN LINEA "}
+                    {"endsOn", "CIERRA EN LINEA "},
+                    {"closes", "CIERRA "},
+                    {"onLine", " DE LINEA "}
             };
     }
 
