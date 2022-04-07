@@ -26,6 +26,8 @@ public class CommandLineInterface implements Callable<Integer> {
 
 	@CommandLine.Option(names = {"-l", "--language"})
 	static String lenguajeString;
+	@CommandLine.Option(names = {"-g", "--gui"})
+	static Boolean gui;
 
 	public static void main(String[] args) {
 		System.exit(new CommandLine(new CommandLineInterface()).execute(args));
@@ -34,7 +36,10 @@ public class CommandLineInterface implements Callable<Integer> {
 	@Override
 	public Integer call() throws Exception {
 		//Si no recibe argumentos, llama a la GUI
-
+		if(gui){
+			Application.launch(simae.gui.SelectorApplication.class);
+			return 0;
+		}
 		//FIXME: mantener o modificar por la funcion marcaPorArchivos?
 
 
