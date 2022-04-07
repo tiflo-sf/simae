@@ -6,8 +6,10 @@ import simae.lib.AnotacionMarca;
 import simae.grammars.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-public class JavaListener extends JavaParserBaseListener {
+public class JavaListener extends JavaParserBaseListener implements StringTags {
 
 	//declarar y asignar atributo de lista de marcas
 	private final List<AnotacionMarca> marcas = new ArrayList<>();
@@ -52,7 +54,7 @@ public class JavaListener extends JavaParserBaseListener {
 		else if(ctx.typeType() != null) ultimoAntesDeMarca = ctx.typeType().getStop();
 		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
 		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = endTag + ctx.getStop().getLine();
 		System.out.println(ultimoAntesDeMarca);
 		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
 				ultimoAntesDeMarca.getCharPositionInLine() + ultimoAntesDeMarca.getText().length(),
@@ -89,7 +91,7 @@ public class JavaListener extends JavaParserBaseListener {
 	@Override
 	public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = endTag + ctx.getStop().getLine();
 		Token ultimoAntesDeMarca = ctx.qualifiedNameList() != null ? ctx.qualifiedNameList().getStop() : ctx.formalParameters().getStop();
 		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
 				ultimoAntesDeMarca.getCharPositionInLine(),
@@ -109,7 +111,7 @@ public class JavaListener extends JavaParserBaseListener {
 	@Override
 	public void enterSwitchStatement(JavaParser.SwitchStatementContext ctx) {
 		//SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = endTag + ctx.getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
@@ -118,7 +120,7 @@ public class JavaListener extends JavaParserBaseListener {
 	@Override
 	public void enterIfStatement(JavaParser.IfStatementContext ctx) {
 		//IF parExpression statement
-		String texto = "CIERRA EN LINEA " + ctx.statement().getStop().getLine();
+		String texto = endTag + ctx.statement().getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
@@ -167,7 +169,7 @@ public class JavaListener extends JavaParserBaseListener {
 	@Override
 	public void enterWhileStatement(JavaParser.WhileStatementContext ctx) {
 		//WHILE parExpression statement
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = endTag + ctx.getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
@@ -188,7 +190,7 @@ public class JavaListener extends JavaParserBaseListener {
 	@Override
 	public void enterDoWhileStatement(JavaParser.DoWhileStatementContext ctx) {
 		//DO statement WHILE parExpression ';'
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = endTag + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(0).getPayload();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine() + 1, //FIXME: es correcto esto?
@@ -212,7 +214,7 @@ public class JavaListener extends JavaParserBaseListener {
 	public void enterForStatement(JavaParser.ForStatementContext ctx){
 		//FOR '(' forControl ')' statement
 		String texto;
-		texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		texto = endTag + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
