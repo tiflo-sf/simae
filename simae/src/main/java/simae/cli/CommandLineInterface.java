@@ -30,6 +30,7 @@ public class CommandLineInterface implements Callable<Integer> {
 	static Boolean gui;
 
 	public static void main(String[] args) {
+		gui = false;
 		System.exit(new CommandLine(new CommandLineInterface()).execute(args));
 	}
 
