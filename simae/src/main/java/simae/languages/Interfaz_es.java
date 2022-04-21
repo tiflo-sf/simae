@@ -9,7 +9,7 @@ public class Interfaz_es extends ListResourceBundle {
             return new Object[][] {
                     {"endsOn", "CIERRA EN LINEA "},
                     {"closes", "CIERRA "},
-                    {"onLine", " DE LINEA "}
+                    {"ofLine", " DE LINEA "}
             };
     }
 

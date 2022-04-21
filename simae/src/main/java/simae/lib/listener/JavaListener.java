@@ -5,17 +5,22 @@ import org.antlr.v4.runtime.misc.Interval;
 import simae.lib.AnotacionMarca;
 import simae.grammars.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class JavaListener extends JavaParserBaseListener implements StringTags {
+public class JavaListener extends JavaParserBaseListener {
+
+	private HashMap<String, String> strings;
 
 	//declarar y asignar atributo de lista de marcas
 	private final List<AnotacionMarca> marcas = new ArrayList<>();
 	private final String nl = System.lineSeparator();
 
 
-	public JavaListener(JavaParser parser) {
 
+	public JavaListener(JavaParser parser, HashMap<String, String> strings) {
+		this.strings = strings;
 	}
 
 	private String getOriginalCode(Token start, Token stop) {
@@ -52,7 +57,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 		else if(ctx.typeType() != null) ultimoAntesDeMarca = ctx.typeType().getStop();
 		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
 		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
-		String texto = endTag + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		System.out.println(ultimoAntesDeMarca);
 		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
 				ultimoAntesDeMarca.getCharPositionInLine() + ultimoAntesDeMarca.getText().length(),
@@ -72,7 +77,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 		else if(ctx.typeType() != null) ultimoAntesDeMarca = ctx.typeType().getStop();
 		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
 		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
-		String texto = closes + getOriginalCode(ctx.CLASS().getSymbol(),ultimoAntesDeMarca,0) + ofLine + ctx.getStart().getLine();
+		String texto = strings.get("closes") + getOriginalCode(ctx.CLASS().getSymbol(),ultimoAntesDeMarca,0) + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(), texto));
 	}
@@ -81,7 +86,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
-		String texto = closes + getOriginalCode(ctx.typeTypeOrVoid().getStart(),ctx.formalParameters().getStop(),0) + ofLine + ctx.getStart().getLine();
+		String texto = strings.get("closes") + getOriginalCode(ctx.typeTypeOrVoid().getStart(),ctx.formalParameters().getStop(),0) + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(), texto));
 	}
@@ -89,7 +94,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
-		String texto = endTag + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token ultimoAntesDeMarca = ctx.qualifiedNameList() != null ? ctx.qualifiedNameList().getStop() : ctx.formalParameters().getStop();
 		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
 				ultimoAntesDeMarca.getCharPositionInLine(),
@@ -100,7 +105,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void exitSwitchStatement(JavaParser.SwitchStatementContext ctx) {
 		//SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'
 		String switchCompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
-		String texto = closes + switchCompleto + ofLine + ctx.getStart().getLine();
+		String texto = strings.get("closes") + switchCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
 				texto));
@@ -109,7 +114,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void enterSwitchStatement(JavaParser.SwitchStatementContext ctx) {
 		//SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'
-		String texto = endTag + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
@@ -118,7 +123,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void enterIfStatement(JavaParser.IfStatementContext ctx) {
 		//IF parExpression statement
-		String texto = endTag + ctx.statement().getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
@@ -129,7 +134,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void exitIfStatement(JavaParser.IfStatementContext ctx) {
 		//IF parExpression statement
 		String ifIncompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
-		String texto = closes + ifIncompleto + ofLine + ctx.getStart().getLine();
+		String texto = strings.get("closes") + ifIncompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.statement().getStop().getLine(),
 				ctx.statement().getStop().getCharPositionInLine(),
 				texto));
@@ -138,7 +143,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void enterElseStatement(JavaParser.ElseStatementContext ctx) {
 		//ELSE statement;
-		String texto = closes + ofLine + ctx.statement().getStop().getLine();
+		String texto = strings.get("closes") + strings.get("ofLine") + ctx.statement().getStop().getLine();
 		Token elseT = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(elseT.getLine(),
 				elseT.getCharPositionInLine() + 3,
@@ -152,13 +157,13 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 		//Como no esta separado en IfElse e If, primero se procesa el If.
 		JavaParser.IfElseStatementContext ifPadre = (JavaParser.IfElseStatementContext)ctx.getParent();
 		String ifCompleto = getOriginalCode(ifPadre.getStart(), ifPadre.parExpression().getStop());
-		String texto = closes + ifCompleto + ofLine + ifPadre.getStart().getLine();
+		String texto = strings.get("closes") + ifCompleto + strings.get("ofLine") + ifPadre.getStart().getLine();
 		marcas.add(new AnotacionMarca(ifPadre.statement().getStop().getLine(),
 				ifPadre.statement().getStop().getCharPositionInLine(),
 				texto));
 
 		//Ahora se procesa el Else
-		String textoElse = closes + "else" + ofLine + ctx.getStart().getLine();
+		String textoElse = strings.get("closes") + "else" + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
 				textoElse));
@@ -167,7 +172,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void enterWhileStatement(JavaParser.WhileStatementContext ctx) {
 		//WHILE parExpression statement
-		String texto = endTag + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token parentesis = ctx.parExpression().getStop();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
@@ -178,7 +183,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void exitWhileStatement(JavaParser.WhileStatementContext ctx) {
 		//WHILE parExpression statement
 		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
-		String texto = closes + whileCompleto + ofLine + ctx.getStart().getLine();
+		String texto = strings.get("closes") + whileCompleto + strings.get("onLine") + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
@@ -188,7 +193,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void enterDoWhileStatement(JavaParser.DoWhileStatementContext ctx) {
 		//DO statement WHILE parExpression ';'
-		String texto = endTag + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(0).getPayload();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine() + 1, //FIXME: es correcto esto?
@@ -199,7 +204,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void exitDoWhileStatement(JavaParser.DoWhileStatementContext ctx) {
 		//DO statement WHILE parExpression ';'
 		String DoW = "do while";
-		String texto = closes + DoW + ofLine + ctx.getStart().getLine();
+		String texto = strings.get("closes")+ DoW + strings.get("ofLine") + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
@@ -212,7 +217,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void enterForStatement(JavaParser.ForStatementContext ctx){
 		//FOR '(' forControl ')' statement
 		String texto;
-		texto = endTag + ctx.getStop().getLine();
+		texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine(),
@@ -228,7 +233,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 		forCompleto = getOriginalCode(ctx.getStart(), ctx.forControl().getStop(), 1);
 
 		//textoFor = "for (" + forinitstatement + condition + ";" + expression + ")";
-		texto = closes + forCompleto + ofLine + ctx.getStart().getLine();
+		texto = strings.get("closes") + forCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),

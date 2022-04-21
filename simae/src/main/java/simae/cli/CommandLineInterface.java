@@ -24,10 +24,12 @@ public class CommandLineInterface implements Callable<Integer> {
 	@CommandLine.Option(names = {"-o", "--out"})
 	static String outputFileName;
 
-	@CommandLine.Option(names = {"-l", "--language"})
+	@CommandLine.Option(names = {"-pl", "--programmingLanguage"})
 	static String lenguajeString;
 	@CommandLine.Option(names = {"-g", "--gui"})
 	static Boolean gui;
+	@CommandLine.Option(names = {"-l", "language"})
+	static String language;
 
 	public static void main(String[] args) {
 		gui = false;
@@ -48,17 +50,17 @@ public class CommandLineInterface implements Callable<Integer> {
 		//outputFileName = args[1];
 		//lenguajeString = args[2];
 
-		Lenguaje lenguaje;
+		Lenguaje programmingLenguage;
 
 		switch(lenguajeString) {
 			case "c++":
-				lenguaje = Lenguaje.CPLUSPLUS;
+				programmingLenguage = Lenguaje.CPLUSPLUS;
 				break;
 			case "java":
-				lenguaje = Lenguaje.JAVA8;
+				programmingLenguage = Lenguaje.JAVA8;
 				break;
 			case "python3":
-				lenguaje = Lenguaje.PYTHON3;
+				programmingLenguage = Lenguaje.PYTHON3;
 				break;
 			default:
 				System.out.println("Lenguaje invalido");
@@ -83,7 +85,7 @@ public class CommandLineInterface implements Callable<Integer> {
 		}
 
 		try {
-			Simae.fuenteMarcado(inputReader, workWriter, lenguaje);
+			Simae.fuenteMarcado(inputReader, workWriter, programmingLenguage, language);
 			workWriter.close();
 		} catch (IOException e) {
 			System.out.println("Fallo en el proceso de escritura de marcas");

@@ -6,10 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import simae.grammars.*;
 import org.antlr.v4.runtime.*;
@@ -17,11 +14,19 @@ import org.antlr.v4.runtime.tree.*;
 import simae.lib.listener.CPPListener;
 import simae.lib.listener.JavaListener;
 import simae.lib.listener.PythonListener;
+import simae.lib.listener.StringTags;
 
 public class Simae {
 	
 	//FIXME: reestructurar funcion para que no solo funcione con translationunit
-	private static List<AnotacionMarca> iniciaTranslationUnit(ANTLRInputStream antlrEntrada, Lenguaje lenguaje) throws IOException {
+	private static List<AnotacionMarca> iniciaTranslationUnit(ANTLRInputStream antlrEntrada, Lenguaje lenguaje, String language) throws IOException {
+		StringTags st = null;
+		HashMap<String, String> strings;
+
+
+		st = new StringTags((language != null) ? language : "");
+		strings = st.getStrings();
+
 
 		if (lenguaje == Lenguaje.CPLUSPLUS) {
 			CPP14Lexer lexer = new CPP14Lexer(antlrEntrada);
@@ -41,7 +46,7 @@ public class Simae {
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 				JavaParser parser = new JavaParser(tokens);
 				ParseTree tree = parser.compilationUnit();
-				JavaListener extractor = new JavaListener(parser);
+				JavaListener extractor = new JavaListener(parser, strings);
 				ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
 				walker.walk(extractor, tree); // initiate walk of tree with listener
 
@@ -74,11 +79,11 @@ public class Simae {
 
 	}
 
-	public static void fuenteMarcado(BufferedReader br, PrintWriter pw, Lenguaje lenguaje) throws IOException {
+	public static void fuenteMarcado(BufferedReader br, PrintWriter pw, Lenguaje programmingLanguage, String language) throws IOException {
 		
 		StringBuilder armaCompleto = new StringBuilder();
 
-		String gramaticaMarca = (lenguaje == Lenguaje.PYTHON3) ? "# /.*/" : "/\\*/[^/]*/\\*/";
+		String gramaticaMarca = (programmingLanguage == Lenguaje.PYTHON3) ? "# /.*/" : "/\\*/[^/]*/\\*/";
 
 		br.lines().forEach(linea -> armaCompleto
 												.append(linea.replaceAll(gramaticaMarca, ""))
@@ -90,7 +95,7 @@ public class Simae {
 		
 		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompletoStr));
 		
-		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, lenguaje);
+		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, programmingLanguage, language);
 
         String entrada = "";
         int nroFila = 1;
@@ -188,7 +193,7 @@ public class Simae {
 
 		try {
 			if(operacion == 'M')
-				fuenteMarcado(inputReader, workWriter, lenguaje);
+				fuenteMarcado(inputReader, workWriter, lenguaje, null);
 			else
 				fuenteDesmarcado(inputReader, workWriter, lenguaje);
 			workWriter.close();
@@ -215,7 +220,7 @@ public class Simae {
 		StringWriter swSalida = new StringWriter();
 		PrintWriter writer = new PrintWriter(swSalida);
 		
-		fuenteMarcado(reader, writer, lenguaje);
+		fuenteMarcado(reader, writer, lenguaje, null);
 		
 		String salida = swSalida.toString();
 		
