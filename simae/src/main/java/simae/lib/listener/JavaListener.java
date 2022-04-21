@@ -6,8 +6,6 @@ import simae.lib.AnotacionMarca;
 import simae.grammars.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class JavaListener extends JavaParserBaseListener implements StringTags {
 
@@ -74,7 +72,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 		else if(ctx.typeType() != null) ultimoAntesDeMarca = ctx.typeType().getStop();
 		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
 		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
-		String texto = "CIERRA " + getOriginalCode(ctx.CLASS().getSymbol(),ultimoAntesDeMarca,0) +onLine+ ctx.getStart().getLine();
+		String texto = closes + getOriginalCode(ctx.CLASS().getSymbol(),ultimoAntesDeMarca,0) + ofLine + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(), texto));
 	}
@@ -83,7 +81,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
-		String texto = closes + getOriginalCode(ctx.typeTypeOrVoid().getStart(),ctx.formalParameters().getStop(),0) + onLine + ctx.getStart().getLine();
+		String texto = closes + getOriginalCode(ctx.typeTypeOrVoid().getStart(),ctx.formalParameters().getStop(),0) + ofLine + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(), texto));
 	}
@@ -102,7 +100,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void exitSwitchStatement(JavaParser.SwitchStatementContext ctx) {
 		//SWITCH parExpression '{' switchBlockStatementGroup* switchLabel* '}'
 		String switchCompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
-		String texto = closes + switchCompleto +onLine+ ctx.getStart().getLine();
+		String texto = closes + switchCompleto + ofLine + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
 				texto));
@@ -131,7 +129,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void exitIfStatement(JavaParser.IfStatementContext ctx) {
 		//IF parExpression statement
 		String ifIncompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
-		String texto = closes + ifIncompleto +onLine+ ctx.getStart().getLine();
+		String texto = closes + ifIncompleto + ofLine + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.statement().getStop().getLine(),
 				ctx.statement().getStop().getCharPositionInLine(),
 				texto));
@@ -140,7 +138,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	@Override
 	public void enterElseStatement(JavaParser.ElseStatementContext ctx) {
 		//ELSE statement;
-		String texto = closes + "EN LINEA " + ctx.statement().getStop().getLine();
+		String texto = closes + ofLine + ctx.statement().getStop().getLine();
 		Token elseT = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(elseT.getLine(),
 				elseT.getCharPositionInLine() + 3,
@@ -154,13 +152,13 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 		//Como no esta separado en IfElse e If, primero se procesa el If.
 		JavaParser.IfElseStatementContext ifPadre = (JavaParser.IfElseStatementContext)ctx.getParent();
 		String ifCompleto = getOriginalCode(ifPadre.getStart(), ifPadre.parExpression().getStop());
-		String texto = closes + ifCompleto +onLine+ ifPadre.getStart().getLine();
+		String texto = closes + ifCompleto + ofLine + ifPadre.getStart().getLine();
 		marcas.add(new AnotacionMarca(ifPadre.statement().getStop().getLine(),
 				ifPadre.statement().getStop().getCharPositionInLine(),
 				texto));
 
 		//Ahora se procesa el Else
-		String textoElse = "CIERRA else DE LINEA " + ctx.getStart().getLine();
+		String textoElse = closes + "else" + ofLine + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
 				textoElse));
@@ -180,7 +178,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void exitWhileStatement(JavaParser.WhileStatementContext ctx) {
 		//WHILE parExpression statement
 		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
-		String texto = closes + whileCompleto +onLine+ ctx.getStart().getLine();
+		String texto = closes + whileCompleto + ofLine + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
@@ -201,7 +199,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 	public void exitDoWhileStatement(JavaParser.DoWhileStatementContext ctx) {
 		//DO statement WHILE parExpression ';'
 		String DoW = "do while";
-		String texto = closes + DoW +onLine+ ctx.getStart().getLine();
+		String texto = closes + DoW + ofLine + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
@@ -230,7 +228,7 @@ public class JavaListener extends JavaParserBaseListener implements StringTags {
 		forCompleto = getOriginalCode(ctx.getStart(), ctx.forControl().getStop(), 1);
 
 		//textoFor = "for (" + forinitstatement + condition + ";" + expression + ")";
-		texto = closes + forCompleto +onLine+ ctx.getStart().getLine();
+		texto = closes + forCompleto + ofLine + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),
