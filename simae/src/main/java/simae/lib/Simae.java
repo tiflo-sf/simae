@@ -33,7 +33,7 @@ public class Simae {
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			CPP14Parser parser = new CPP14Parser(tokens);
 			ParseTree tree = parser.translationunit();
-			CPPListener extractor = new CPPListener(parser);
+			CPPListener extractor = new CPPListener(parser, strings);
 			ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
 			walker.walk(extractor, tree); // initiate walk of tree with listener
 
@@ -59,7 +59,7 @@ public class Simae {
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			Python3Parser parser = new Python3Parser(tokens);
 			ParseTree tree = parser.file_input();
-			PythonListener extractor = new PythonListener(parser);
+			PythonListener extractor = new PythonListener(parser, strings);
 			ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
 			walker.walk(extractor, tree); // initiate walk of tree with listener
 
@@ -183,7 +183,6 @@ public class Simae {
 
 		try {
 			inputReader = new BufferedReader(new FileReader(inputFile));
-
 			workFile = new File(inputFile.getPath() + ".work");
 			workWriter = new PrintWriter(new FileWriter(workFile));
 		} catch (IOException e) {
@@ -203,6 +202,7 @@ public class Simae {
 		}
 
 		try {
+			inputReader.close();
 			Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			System.out.println("Fallo en la escritura del archivo de trabajo");

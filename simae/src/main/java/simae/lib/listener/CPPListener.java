@@ -1,5 +1,6 @@
 package simae.lib.listener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -9,14 +10,16 @@ import org.antlr.v4.runtime.misc.Interval;
 import simae.lib.AnotacionMarca;
 
 public class CPPListener extends CPP14BaseListener {
-	
+
+	private HashMap<String, String> strings;
+
 	//declarar y asignar atributo de lista de marcas
 	private final List<AnotacionMarca> marcas = new ArrayList<>();
 	private final String nl = System.lineSeparator();	
 	
 	
-	public CPPListener(CPP14Parser parser) {
-		
+	public CPPListener(CPP14Parser parser, HashMap<String, String> strings) {
+		this.strings = strings;
 	}
 
 	private String getOriginalCode(Token start, Token stop) {
@@ -45,7 +48,7 @@ public class CPPListener extends CPP14BaseListener {
 		//classhead '{'  memberspecification? '}'
 		Token tokenFinalizacion = ((TerminalNode)ctx.getChild(3)).getSymbol();
 		String classCompleto = getOriginalCode(ctx.getStart(), ctx.classhead().getStop());
-		String texto = "CIERRA " + classCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + classCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(tokenFinalizacion.getLine(),
 				ctx.getStop().getCharPositionInLine(),
 				texto));
@@ -56,7 +59,7 @@ public class CPPListener extends CPP14BaseListener {
 		//classhead '{'  memberspecification? '}'
 		Token tokenFinalizacion = ((TerminalNode)ctx.getChild(3)).getSymbol();
 		Token tokenArranque = ((TerminalNode)ctx.getChild(1)).getSymbol();
-		String texto = "CIERRA EN LINEA " + tokenFinalizacion.getLine();
+		String texto = strings.get("endsOn") + tokenFinalizacion.getLine();
 		marcas.add(new AnotacionMarca(tokenArranque.getLine(),
 				tokenArranque.getCharPositionInLine() - 1,
 				texto));
@@ -66,7 +69,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
 	public void exitFunctiondefinition(CPP14Parser.FunctiondefinitionContext ctx) {
 		//attributespecifierseq? declspecifierseq? declarator virtspecifierseq? functionbody
-		String texto = "CIERRA " + getOriginalCode(ctx.declarator().getStart(),ctx.declarator().getStop(),0) + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + getOriginalCode(ctx.declarator().getStart(),ctx.declarator().getStop(),0) + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 		ctx.getStop().getCharPositionInLine(), texto));	
 	}
@@ -74,7 +77,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
 	public void enterFunctiondefinition(CPP14Parser.FunctiondefinitionContext ctx) {
 		//attributespecifierseq? declspecifierseq? declarator virtspecifierseq? functionbody
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 	    Token ultimoAntesDeMarca = ctx.virtspecifierseq() != null ? ctx.virtspecifierseq().getStop() : ctx.declarator().getStop();
 		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
 									 ultimoAntesDeMarca.getCharPositionInLine(),
@@ -85,7 +88,7 @@ public class CPPListener extends CPP14BaseListener {
 	public void exitSwitchStatement(CPP14Parser.SwitchStatementContext ctx) {
 		//Switch '(' condition ')' statement	
 		String switchCompleto = getOriginalCode(ctx.getStart(), ctx.condition().getStop());
-		String texto = "CIERRA " + switchCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + switchCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.statement().getStop().getLine(),
 			    					  ctx.getStop().getCharPositionInLine(),
 				  					  texto));
@@ -94,7 +97,7 @@ public class CPPListener extends CPP14BaseListener {
     @Override
     public void enterSwitchStatement(CPP14Parser.SwitchStatementContext ctx) {
 		//Switch '(' condition ')' statement	
-            String texto = "CIERRA EN LINEA " + ctx.statement().getStop().getLine();
+            String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
             Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
             marcas.add(new AnotacionMarca(parentesis.getLine(),
                                           parentesis.getCharPositionInLine(),
@@ -104,7 +107,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
 	public void enterIfElseStatement(CPP14Parser.IfElseStatementContext ctx) {
         //If '(' condition ')' statement elsestatement
-		String texto = "CIERRA EN LINEA " + ctx.statement().getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
         Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 3).getPayload();
         marcas.add(new AnotacionMarca(parentesis.getLine(),
                                       parentesis.getCharPositionInLine(),
@@ -114,7 +117,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
     public void enterIfStatement(CPP14Parser.IfStatementContext ctx) {
         //If '(' condition ')' statement		
-        String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+        String texto = strings.get("endsOn") + ctx.getStop().getLine();
         Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
         marcas.add(new AnotacionMarca(parentesis.getLine(),
                                       parentesis.getCharPositionInLine(),
@@ -124,7 +127,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
 	public void exitElsestatement(CPP14Parser.ElsestatementContext ctx) {
 		String elseCompleto = "else";
-		String texto = "CIERRA " + elseCompleto + " DE LINEA " + ctx.statement().getStart().getLine();
+		String texto = strings.get("closes") + elseCompleto + strings.get("ofLine") + ctx.statement().getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 									  ctx.getStop().getCharPositionInLine(),
 									  texto));
@@ -132,7 +135,7 @@ public class CPPListener extends CPP14BaseListener {
 	
 	@Override
 	public void enterElsestatement(CPP14Parser.ElsestatementContext ctx) {
-		String texto = "CIERRA " + "EN LINEA " + ctx.statement().getStop().getLine();
+		String texto = strings.get("closes") + "EN LINEA " + ctx.statement().getStop().getLine();
 		Token elseT = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 	    marcas.add(new AnotacionMarca(elseT.getLine(),
 	    						  elseT.getCharPositionInLine() + 3,
@@ -143,7 +146,7 @@ public class CPPListener extends CPP14BaseListener {
 	public void exitIfElseStatement(CPP14Parser.IfElseStatementContext ctx) {
 		//If '(' condition ')' statement elsestatement
 		String ifIncompleto = getOriginalCode(ctx.getStart(), ctx.condition().getStop());
-		String texto = "CIERRA " + ifIncompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + ifIncompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.statement().getStop().getLine(),
 			  					  ctx.statement().getStop().getCharPositionInLine(),
 			  					  texto));	
@@ -153,7 +156,7 @@ public class CPPListener extends CPP14BaseListener {
 	public void exitIfStatement(CPP14Parser.IfStatementContext ctx) {
 		//If '(' condition ')' statement		
 		String ifCompleto = getOriginalCode(ctx.getStart(), ctx.condition().getStop());
-		String texto = "CIERRA " + ifCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + ifCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
                                       ctx.getStop().getCharPositionInLine(),
                                       texto));		
@@ -163,7 +166,7 @@ public class CPPListener extends CPP14BaseListener {
 	public void exitWhileStatement(CPP14Parser.WhileStatementContext ctx) {
 		//While '(' condition ')' statement
 		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.condition().getStop());
-		String texto = "CIERRA " + whileCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + whileCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				  					  ctx.getStop().getCharPositionInLine(),
@@ -174,7 +177,7 @@ public class CPPListener extends CPP14BaseListener {
 	public void exitDoWhileStatement(CPP14Parser.DoWhileStatementContext ctx) {
 		//Do statement While '(' expression ')' ';'
 		String DoW = "do while";
-		String texto = "CIERRA " + DoW + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + DoW + strings.get("ofLine") + ctx.getStart().getLine();
 		
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				  					  ctx.getStop().getCharPositionInLine(),
@@ -193,7 +196,7 @@ public class CPPListener extends CPP14BaseListener {
 		}
 			
 		//textoFor = "for (" + forinitstatement + condition + ";" + expression + ")";
-		texto = "CIERRA " + forCompleto + " DE LINEA " + ctx.getStart().getLine();
+		texto = strings.get("closes") + forCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				  					  ctx.getStop().getCharPositionInLine(),
@@ -204,7 +207,7 @@ public class CPPListener extends CPP14BaseListener {
 	public void exitForEachStatement(CPP14Parser.ForEachStatementContext ctx) {
 		//For '(' forrangedeclaration ':' forrangeinitializer ')' statement	
 		String forEachCompleto = getOriginalCode(ctx.getStart(), ctx.forrangeinitializer().getStop());
-		String texto = "CIERRA " + forEachCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + forEachCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 		
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				  					  ctx.getStop().getCharPositionInLine(),
@@ -214,7 +217,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
 	public void enterForEachStatement(CPP14Parser.ForEachStatementContext ctx) {
 		//For '(' forrangedeclaration ':' forrangeinitializer ')' statement
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 						parentesis.getCharPositionInLine(),
@@ -224,7 +227,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
 	public void enterWhileStatement(CPP14Parser.WhileStatementContext ctx) {
 		//While '(' condition ')' statement
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				   parentesis.getCharPositionInLine(),
@@ -234,7 +237,7 @@ public class CPPListener extends CPP14BaseListener {
 	@Override
 	public void enterDoWhileStatement(CPP14Parser.DoWhileStatementContext ctx) {
 		//Do statement While '(' expression ')' ';';
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 7).getPayload();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				parentesis.getCharPositionInLine() + 1, //FIXME: es correcto esto?
@@ -245,7 +248,7 @@ public class CPPListener extends CPP14BaseListener {
 	public void enterForStatement(CPP14Parser.ForStatementContext ctx){
 		//For '(' forinitstatement condition? ';' expression? ')' statement	
 		String texto;
-		texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(parentesis.getLine(),
 				  					  parentesis.getCharPositionInLine(),
