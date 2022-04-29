@@ -93,6 +93,27 @@ public class PythonListener extends Python3ParserBaseListener {
 				texto, "# /", "/"));
 	}
 
+	@Override
+	public void enterFuncdef(Python3Parser.FuncdefContext ctx) {
+		//funcdef: 'def' NAME parameters ('->' test)? ':' suite;
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
+		Token dosPuntos = (Token) ctx.getChild(ctx.getChildCount() - 2).getPayload();
+		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
+				dosPuntos.getCharPositionInLine(),
+				texto, "# /", "/"));
+	}
+
+	@Override
+	public void exitFuncdef(Python3Parser.FuncdefContext ctx) {
+		//funcdef: 'def' NAME parameters ('->' test)? ':' suite;
+		String funcCompleto = getOriginalCode(ctx.getStart(), ctx.NAME().getSymbol());
+		String texto = strings.get("closes") + funcCompleto + " DE LINEA " + ctx.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ultimoSuiteLine,
+				ultimoSuiteCharPosLine,
+				texto, "# /", "/"));
+	}
+
 
 	@Override
 	public void enterIf_stmt_if(Python3Parser.If_stmt_ifContext ctx) {
