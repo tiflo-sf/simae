@@ -32,14 +32,15 @@ public class CommandLineInterface implements Callable<Integer> {
 	static String language;
 
 	public static void main(String[] args) {
-		gui = false;
 		System.exit(new CommandLine(new CommandLineInterface()).execute(args));
 	}
 
 	@Override
 	public Integer call() throws Exception {
-		//Si no recibe argumentos, llama a la GUI
-		if(gui){
+		if ((inputFileName == null || outputFileName == null || lenguajeString == null) && gui == null) {
+			System.out.println("Algun parametro esta vacio");
+		} else {
+			if (gui != null && gui) {
 			Application.launch(simae.gui.SelectorApplication.class);
 			return 0;
 		}
@@ -52,7 +53,7 @@ public class CommandLineInterface implements Callable<Integer> {
 
 		Lenguaje programmingLenguage;
 
-		switch(lenguajeString) {
+		switch (lenguajeString) {
 			case "c++":
 				programmingLenguage = Lenguaje.CPLUSPLUS;
 				break;
@@ -97,7 +98,8 @@ public class CommandLineInterface implements Callable<Integer> {
 		} catch (IOException e) {
 			System.out.println("Fallo en la escritura del archivo de trabajo");
 		}
-
+	}
 		return 0;
 	}
-}
+
+	}
