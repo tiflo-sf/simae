@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
@@ -147,6 +148,7 @@ public class SelectorApplicationController {
     @FXML
     void marcaArchivos() {
         Simae simae = new Simae();
+        SimaeLauncher simaeLauncher = new SimaeLauncher();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M'; //FIXME: intentar cambiar metodo
         //if (extension() != null) archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
 
@@ -154,7 +156,7 @@ public class SelectorApplicationController {
         textoProcesado.setVisible(false);
 
         if (listaObservable.parallelStream()
-                .anyMatch(file -> !simae.marcaDesmarcaPorArchivos(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca))) textoError.setVisible(true);
+                .anyMatch(file -> (decideMarca == 'M') ? !simaeLauncher.launchTagging(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))) : !simaeLauncher.launchUntagging(((Archivo) file).getFile(), ((Archivo) file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))))) textoError.setVisible(true);
 
         if (!textoError.isVisible()) textoProcesado.setVisible(true);
 

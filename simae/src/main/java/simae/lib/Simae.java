@@ -154,64 +154,6 @@ public class Simae {
 		}
 	}
 
-	//FIXME: eliminar acoplamiento de control
-	public boolean marcaDesmarcaPorArchivos(File inputFile, String outputFileName, String lenguajeString, char operacion) {
-		BufferedReader inputReader;
-		File workFile;
-		PrintWriter workWriter;
-
-		Lenguaje lenguaje;
-
-		lenguajeString = lenguajeString.toLowerCase();
-
-		System.out.println(lenguajeString);
-
-		switch(lenguajeString) {
-			case "c++":
-				lenguaje = Lenguaje.CPLUSPLUS;
-				break;
-			case "java":
-				lenguaje = Lenguaje.JAVA8;
-				break;
-			case "python3":
-				lenguaje = Lenguaje.PYTHON3;
-				break;
-			default:
-				System.out.println("Lenguaje invalido");
-				return false;
-		}
-
-		try {
-			inputReader = new BufferedReader(new FileReader(inputFile));
-			workFile = new File(inputFile.getPath() + ".work");
-			workWriter = new PrintWriter(new FileWriter(workFile));
-		} catch (IOException e) {
-			System.out.println("Fallo algo en los argumentos");
-			return false;
-		}
-
-		try {
-			if(operacion == 'M')
-				fuenteMarcado(inputReader, workWriter, lenguaje, null);
-			else
-				fuenteDesmarcado(inputReader, workWriter, lenguaje);
-			workWriter.close();
-		} catch (IOException e) {
-			System.out.println("Fallo en el proceso de escritura de marcas");
-			return false;
-		}
-
-		try {
-			inputReader.close();
-			Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			System.out.println("Fallo en la escritura del archivo de trabajo");
-			return false;
-		}
-
-		return true;
-	}
-
 	public String testMarcado(String entrada, Lenguaje lenguaje) throws IOException {
 
 		StringReader srEntrada = new StringReader(entrada);

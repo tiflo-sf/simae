@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 
 import javafx.application.Application;
 import picocli.CommandLine;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
@@ -41,64 +42,39 @@ public class CommandLineInterface implements Callable<Integer> {
 			System.out.println("Algun parametro esta vacio");
 		} else {
 			if (gui != null && gui) {
-			Application.launch(simae.gui.SelectorApplication.class);
-			return 0;
+				Application.launch(simae.gui.SelectorApplication.class);
+				return 0;
+			}
+			//FIXME: mantener o modificar por la funcion marcaPorArchivos?
+
+
+			//inputFileName = args[0];
+			//outputFileName = args[1];
+			//lenguajeString = args[2];
+
+			Lenguaje programmingLenguage;
+
+			switch (lenguajeString) {
+				case "c++":
+					programmingLenguage = Lenguaje.CPLUSPLUS;
+					break;
+				case "java":
+					programmingLenguage = Lenguaje.JAVA8;
+					break;
+				case "python3":
+					programmingLenguage = Lenguaje.PYTHON3;
+					break;
+				default:
+					System.out.println("Lenguaje invalido");
+					return -1;
+			}
+
+			File inputFile = new File(inputFileName);
+
+			SimaeLauncher simaeLauncher = new SimaeLauncher();
+
+			simaeLauncher.launchTagging(inputFile, outputFileName, lenguajeString);
 		}
-		//FIXME: mantener o modificar por la funcion marcaPorArchivos?
-
-
-		//inputFileName = args[0];
-		//outputFileName = args[1];
-		//lenguajeString = args[2];
-
-		Lenguaje programmingLenguage;
-
-		switch (lenguajeString) {
-			case "c++":
-				programmingLenguage = Lenguaje.CPLUSPLUS;
-				break;
-			case "java":
-				programmingLenguage = Lenguaje.JAVA8;
-				break;
-			case "python3":
-				programmingLenguage = Lenguaje.PYTHON3;
-				break;
-			default:
-				System.out.println("Lenguaje invalido");
-				return -1;
-		}
-
-		File inputFile;
-		BufferedReader inputReader;
-		File workFile;
-		PrintWriter workWriter;
-
-		try {
-			System.out.println(inputFileName);
-			inputFile = new File(inputFileName);
-			inputReader = new BufferedReader(new FileReader(inputFile));
-
-			workFile = new File(inputFile.getPath() + ".work");
-			workWriter = new PrintWriter(new FileWriter(workFile));
-		} catch (IOException e) {
-			System.out.println("Fallo algo en los argumentos");
-			return -1;
-		}
-
-		try {
-			Simae.fuenteMarcado(inputReader, workWriter, programmingLenguage, language);
-			workWriter.close();
-		} catch (IOException e) {
-			System.out.println("Fallo en el proceso de escritura de marcas");
-			return -1;
-		}
-
-		try {
-			Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			System.out.println("Fallo en la escritura del archivo de trabajo");
-		}
-	}
 		return 0;
 	}
 
