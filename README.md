@@ -186,3 +186,4 @@ Lineas de trabajo:
 
 ## Referencias
 * Assenza T., Ballardini C., Marchetti P.A., Golobisky, M.F.. (2021, 13 de Agosto). Herramienta de Soporte para Programadores con Discapacidad Visual mediante el Marcado de Código Fuente. IEEE Xplore. https://ieeexplore.ieee.org/abstract/document/9505334/
+* Google group: https://groups.google.com/g/tiflosf-simae
