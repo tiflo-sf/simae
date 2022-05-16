@@ -1,13 +1,10 @@
 package simae.cli;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 
 import javafx.application.Application;
@@ -16,90 +13,128 @@ import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
 //FIXME: faltan tests para la clase
+@CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="")
 public class CommandLineInterface implements Callable<Integer> {
 
-	@CommandLine.Option(names = {"-i", "--in"})
-	static String inputFileName;
+	@CommandLine.Option(names = { "-l", "--language" }, descriptionKey = "language")
+	void setLocale(String language) {
+		Locale.setDefault(new Locale(language));
+	}
 
-	@CommandLine.Option(names = {"-o", "--out"})
-	static String outputFileName;
+	//static String language;
+	//Usar este language en vez de ver cual es el locale del so en en listener.
+	ResourceBundle rb = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
+	//@CommandLine.Option(names = {"-i", "--in"})
+	@CommandLine.Parameters(index="0", arity="0..1", descriptionKey = "input")
+	static String inputFile;
 
-	@CommandLine.Option(names = {"-pl", "--programmingLanguage"})
+	@CommandLine.Option(names = {"-o", "--out"}, required=false, descriptionKey = "output")
+	static String outputFile;
+
+	@CommandLine.Option(names = {"-pl", "--programmingLanguage"}, descriptionKey="programmingLanguage", required=false)
 	static String lenguajeString;
-	@CommandLine.Option(names = {"-g", "--gui"})
+	@CommandLine.Option(names = {"-g", "--gui"}, required=false, descriptionKey = "gui")
 	static Boolean gui;
-	@CommandLine.Option(names = {"-l", "language"})
-	static String language;
+	//@CommandLine.Option(names = {"-l", "language"}, required=false, descriptionKey = "lenguajeMarcado")
+	//static String language;
+
+	static @CommandLine.Spec
+	CommandLine.Model.CommandSpec spec;
+
+
 
 	public static void main(String[] args) {
-		System.exit(new CommandLine(new CommandLineInterface()).execute(args));
+		try {
+			new CommandLine(new CommandLineInterface()).parseArgs(args);
+			new CommandLine(new CommandLineInterface()).execute(args);
+		} catch(CommandLine.UnmatchedArgumentException e){
+			spec.commandLine().usage(System.out.printf("Argumento no definido. \n"));
+		} catch(picocli.CommandLine.MissingParameterException e){
+			spec.commandLine().usage(System.out.printf("Falta valor al argumento. \n"));
+		}
+
 	}
 
 	@Override
 	public Integer call() throws Exception {
-		if ((inputFileName == null || outputFileName == null || lenguajeString == null) && gui == null) {
-			System.out.println("Algun parametro esta vacio");
-		} else {
-			if (gui != null && gui) {
+		//System.out.println(language);
+		//si se pasa parametro de la gui
+		if (inputFile == null && gui == null) {
+			spec.commandLine().usage(System.out.printf((String) rb.getObject("emptyInput")));
+			return -1;
+		}
+		if (gui != null) {
 			Application.launch(simae.gui.SelectorApplication.class);
 			return 0;
-		}
-		//FIXME: mantener o modificar por la funcion marcaPorArchivos?
+		} else {
+			//FIXME: mantener o modificar por la funcion marcaPorArchivos?
 
+			//si outputfilename no
+			if (outputFile == null) {
+				outputFile = inputFile;
+			}
 
-		//inputFileName = args[0];
-		//outputFileName = args[1];
-		//lenguajeString = args[2];
+			Lenguaje programmingLenguage;
 
-		Lenguaje programmingLenguage;
+			if (lenguajeString == null) {
+				lenguajeString = this.getFileExtension(inputFile);
+			}
+			switch (lenguajeString) {
+				case "c++":
+				case ".cpp":
+					programmingLenguage = Lenguaje.CPLUSPLUS;
+					break;
+				case "java":
+				case ".java":
+					programmingLenguage = Lenguaje.JAVA8;
+					break;
+				case "python3":
+				case ".py":
+					programmingLenguage = Lenguaje.PYTHON3;
+					break;
+				default:
+					spec.commandLine().usage(System.out.printf((String) rb.getObject("extension")));
+					return -1;
+			}
 
-		switch (lenguajeString) {
-			case "c++":
-				programmingLenguage = Lenguaje.CPLUSPLUS;
-				break;
-			case "java":
-				programmingLenguage = Lenguaje.JAVA8;
-				break;
-			case "python3":
-				programmingLenguage = Lenguaje.PYTHON3;
-				break;
-			default:
-				System.out.println("Lenguaje invalido");
+			File inputFile;
+			BufferedReader inputReader;
+			File workFile;
+			PrintWriter workWriter;
+
+			try {
+				inputFile = new File(CommandLineInterface.inputFile);
+				inputReader = new BufferedReader(new FileReader(inputFile));
+				workFile = new File(inputFile.getPath() + ".work");
+				workWriter = new PrintWriter(new FileWriter(workFile));
+			} catch (IOException e) {
+				System.out.println((String) rb.getObject("invalidInput"));
 				return -1;
-		}
+			}
 
-		File inputFile;
-		BufferedReader inputReader;
-		File workFile;
-		PrintWriter workWriter;
+			try {
+				Simae.fuenteMarcado(inputReader, workWriter, programmingLenguage, null);
+				workWriter.close();
+			} catch (IOException e) {
+				System.out.println((String) rb.getObject("falloMarcado"));
+				return -1;
+			}
 
-		try {
-			System.out.println(inputFileName);
-			inputFile = new File(inputFileName);
-			inputReader = new BufferedReader(new FileReader(inputFile));
-
-			workFile = new File(inputFile.getPath() + ".work");
-			workWriter = new PrintWriter(new FileWriter(workFile));
-		} catch (IOException e) {
-			System.out.println("Fallo algo en los argumentos");
-			return -1;
-		}
-
-		try {
-			Simae.fuenteMarcado(inputReader, workWriter, programmingLenguage, language);
-			workWriter.close();
-		} catch (IOException e) {
-			System.out.println("Fallo en el proceso de escritura de marcas");
-			return -1;
-		}
-
-		try {
-			Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			System.out.println("Fallo en la escritura del archivo de trabajo");
+			try {
+				Files.move(Path.of(workFile.getPath()), Path.of(outputFile), StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				System.out.println((String) rb.getObject("workFileError"));
+			}
+			System.out.printf((String) rb.getObject("success"));
+			return 0;
 		}
 	}
-		return 0;
+		private String getFileExtension (String name){
+			int lastIndexOf = name.lastIndexOf(".");
+			if (lastIndexOf == -1) {
+				return ""; // empty extension
+			}
+			return name.substring(lastIndexOf);
+		}
 	}
 
-	}
