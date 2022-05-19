@@ -14,7 +14,7 @@ public class Interfaz_en extends ListResourceBundle {
                     {"language", "Markup and message language"},
                     {"input", "Input filename"},
                     {"output", "Output filename"},
-                    {"programmingLanguage", "Input file programming language (java8, c++, python3"},
+                    {"programmingLanguage", "Input file programming language (java8, c++, python3)"},
                     {"gui", "Run graphical interface"},
                     {"usage.synopsisHeading", "Usage: "},
                     //Mensajes de exito y error
@@ -24,8 +24,10 @@ public class Interfaz_en extends ListResourceBundle {
                     {"falloMarcado", "Error in the process of writing marks. \n"},
                     {"workFileError", "Failed to write work file. \n"},
                     {"success", "The file has been successfully marked. \n"},
-                    {"unmatchedArgument1", "The argument"},
-                    {"unmatchedArgument2", " don't exist. \n"}
+                    {"undefinedArgument1", "The arguments "},
+                    {"undefinedArgument2", " don't exist. \n"},
+                    {"missing", "You must provide a value for the argument "},
+                    {"missingResource", "The entered language is not available."}
 
 
 

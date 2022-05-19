@@ -15,7 +15,7 @@ public class Interfaz_es extends ListResourceBundle {
                     {"language", "Idioma de marcado y de mensajes"},
                     {"input", "Archivo de entrada"},
                     {"output", "Archivo de salida"},
-                    {"programmingLanguage", "Lenguaje de programacion del archivo de entrada (java8, c++, python3"},
+                    {"programmingLanguage", "Lenguaje de programacion del archivo de entrada (java8, c++, python3)"},
                     {"gui", "Abrir interfaz grafica"},
                     {"usage.synopsisHeading", "Uso: "},
                     //Mensajes de exito y error
@@ -25,8 +25,10 @@ public class Interfaz_es extends ListResourceBundle {
                     {"falloMarcado", "Fallo en el proceso de escritura de marcas. \n"},
                     {"workFileError", "Fallo en la escritura del archivo de trabajo. \n"},
                     {"success", "El archivo ha sido marcado correctamente. \n"},
-                    {"unmatchedArgument1", "El argumento "},
-                    {"unmatchedArgument2", " no existe. \n"},
+                    {"undefinedArgument1", "Los argumentos "},
+                    {"undefinedArgument2", " no existen. \n"},
+                    {"missing", "Debe proporcionar un valor para el argumento "},
+                    {"missingResource", "El idioma ingresado no está disponible. \n"}
 
 
             };

@@ -3,6 +3,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -13,56 +14,54 @@ import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
 //FIXME: faltan tests para la clase
-@CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="")
+@CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="SIMAE")
 public class CommandLineInterface implements Callable<Integer> {
 
-	@CommandLine.Option(names = { "-l", "--language" }, descriptionKey = "language")
+	@CommandLine.Option(names = { "-l", "--language" }, descriptionKey = "language", paramLabel = "language")
 	void setLocale(String language) {
 		Locale.setDefault(new Locale(language));
 	}
 
-	//static String language;
-	//Usar este language en vez de ver cual es el locale del so en en listener.
 	ResourceBundle rb = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
-	//@CommandLine.Option(names = {"-i", "--in"})
-	@CommandLine.Parameters(index="0", arity="0..1", descriptionKey = "input")
+
+	@CommandLine.Parameters(index="0", arity="0..1", descriptionKey = "input", paramLabel = "input")
 	static String inputFile;
 
-	@CommandLine.Option(names = {"-o", "--out"}, required=false, descriptionKey = "output")
+	@CommandLine.Option(names = {"-o", "--out"}, required=false, descriptionKey = "output", paramLabel = "out")
 	static String outputFile;
 
-	@CommandLine.Option(names = {"-pl", "--programmingLanguage"}, descriptionKey="programmingLanguage", required=false)
+	@CommandLine.Option(names = {"-pl", "--programmingLanguage"}, descriptionKey="programmingLanguage", required=false, paramLabel = "programmingLanguage")
 	static String lenguajeString;
+
 	@CommandLine.Option(names = {"-g", "--gui"}, required=false, descriptionKey = "gui")
 	static Boolean gui;
-	//@CommandLine.Option(names = {"-l", "language"}, required=false, descriptionKey = "lenguajeMarcado")
-	//static String language;
 
 	static @CommandLine.Spec
 	CommandLine.Model.CommandSpec spec;
 
 
-
 	public static void main(String[] args) {
+		ResourceBundle rb2 = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
 		try {
 			new CommandLine(new CommandLineInterface()).parseArgs(args);
 			new CommandLine(new CommandLineInterface()).execute(args);
 		} catch(CommandLine.UnmatchedArgumentException e){
-			spec.commandLine().usage(System.out.printf("Argumento no definido. \n"));
+			spec.commandLine().usage(System.out.printf((String) rb2.getObject("undefinedArgument1")+ e.getUnmatched().toString() + (String) rb2.getObject("undefinedArgument2")));
 		} catch(picocli.CommandLine.MissingParameterException e){
-			spec.commandLine().usage(System.out.printf("Falta valor al argumento. \n"));
+			spec.commandLine().usage(System.out.printf((String) rb2.getObject("missing") + e.getMissing().get(0).paramLabel() + ". \n"));
+		} catch(java.util.MissingResourceException e){
+			System.out.println((String) rb2.getObject("missingResource"));
 		}
 
 	}
-
 	@Override
 	public Integer call() throws Exception {
-		//System.out.println(language);
-		//si se pasa parametro de la gui
+
 		if (inputFile == null && gui == null) {
 			spec.commandLine().usage(System.out.printf((String) rb.getObject("emptyInput")));
 			return -1;
 		}
+
 		if (gui != null) {
 			Application.launch(simae.gui.SelectorApplication.class);
 			return 0;
@@ -84,7 +83,7 @@ public class CommandLineInterface implements Callable<Integer> {
 				case ".cpp":
 					programmingLenguage = Lenguaje.CPLUSPLUS;
 					break;
-				case "java":
+				case "java8":
 				case ".java":
 					programmingLenguage = Lenguaje.JAVA8;
 					break;
