@@ -3,7 +3,7 @@
 
 ![](https://i.imgur.com/oSRdStq.png)
 
-##### Table of Contents  
+##### Tabla de contenidos  
 - [Descripción](#Descripcion)  
 - [Instalación y uso](#Instalación-y-uso)
     * [Uso con GUI](#usocongui)
