@@ -66,7 +66,7 @@ public class SimaeLauncher {
             Simae.fuenteMarcado(inputReader, workWriter, lenguaje, null);
             workWriter.close();
         } catch (IOException e) {
-            System.out.println("Fallo en el proceso de escritura de marcas");
+            //System.out.println("Fallo en el proceso de escritura de marcas"); FIXME: este mensaje se deberia dar en la CLI, no en launchTagging
             return false;
         }
 
