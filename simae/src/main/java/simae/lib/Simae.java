@@ -158,11 +158,11 @@ public class Simae {
 
 		String armaCompleto = fuenteDesmarcado(br, programmingLanguage);
 
-		InputStream antlrEntrada = new ByteArrayInputStream(armaCompleto.getBytes(StandardCharsets.UTF_8));
+		CharStream antlrEntrada = CharStreams.fromString(armaCompleto);
 		
 		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompleto));
 		
-		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(CharStreams.fromStream(antlrEntrada, StandardCharsets.UTF_8), programmingLanguage, language);
+		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, programmingLanguage, language);
 
         algoritmoMarcado(brPreprocesado, pw, todasMarcas);
 
