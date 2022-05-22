@@ -3,6 +3,7 @@ package simae.lib;
 // import ANTLR's runtime libraries
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -19,7 +20,7 @@ import simae.lib.listener.StringTags;
 public class Simae {
 	
 	//FIXME: reestructurar funcion para que no solo funcione con translationunit
-	private static List<AnotacionMarca> iniciaTranslationUnit(ANTLRInputStream antlrEntrada, Lenguaje lenguaje, String language) throws IOException {
+	private static List<AnotacionMarca> iniciaTranslationUnit(CharStream antlrEntrada, Lenguaje lenguaje, String language) throws IOException {
 		StringTags st = null;
 		HashMap<String, String> strings;
 
@@ -79,40 +80,38 @@ public class Simae {
 
 	}
 
-	public static void fuenteMarcado(BufferedReader br, PrintWriter pw, Lenguaje programmingLanguage, String language) throws IOException {
-		
-		StringBuilder armaCompleto = new StringBuilder();
+	private static String fuenteDesmarcado(BufferedReader br, Lenguaje lenguaje) {
+		//FIXME: la seleccion de la marca de acuerdo al lenguaje no va aca
+		String gramaticaMarca = (lenguaje == Lenguaje.PYTHON3) ? "# /.*/" : "/\\*/[^/]*/\\*/";
 
-		String gramaticaMarca = (programmingLanguage == Lenguaje.PYTHON3) ? "# /.*/" : "/\\*/[^/]*/\\*/";
+		StringBuilder programaCompleto = new StringBuilder();
 
-		br.lines().forEach(linea -> armaCompleto
-												.append(linea.replaceAll(gramaticaMarca, ""))
-												.append("\n"));
-		String armaCompletoStr = armaCompleto.toString();
+		br.lines().forEach(linea -> programaCompleto
+				.append(linea.replaceAll(gramaticaMarca, ""))
+				.append("\n"));
+		return programaCompleto.toString();
 
-		//FIXME: revisar deprecated ANTLRInputStream
-		ANTLRInputStream antlrEntrada = new ANTLRInputStream(armaCompletoStr);
-		
-		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompletoStr));
-		
-		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, programmingLanguage, language);
+	}
 
-        String entrada = "";
-        int nroFila = 1;
-        
-        /* 
-         * Se recorre la lista de marcas 
-         * p/cada marca hay que imprimir en
-         * la salida las filas hasta que
-         * la fila coincida con alguna marca
-         * PARA(CadaMarca)
-         * MIENTRAS(Fila != FilaMarca) IMPRIMIR(PosicionDentroDeFila, Fila.length())
-         * SI NO IMPRIMIR(HastaLaMarca),IMPRIMIR(Marca) <- Guardar PosicionDentroDeFila
-        */
-        entrada = brPreprocesado.readLine();
-        int posEnFila = 0;
-        Collections.sort(todasMarcas);
-        Iterator<AnotacionMarca> it = todasMarcas.iterator();
+	private static void algoritmoMarcado(BufferedReader brPreprocesado, PrintWriter pw, List<AnotacionMarca> todasMarcas) throws IOException {
+
+		/*
+		 * Se recorre la lista de marcas
+		 * p/cada marca hay que imprimir en
+		 * la salida las filas hasta que
+		 * la fila coincida con alguna marca
+		 * PARA(CadaMarca)
+		 * MIENTRAS(Fila != FilaMarca) IMPRIMIR(PosicionDentroDeFila, Fila.length())
+		 * SI NO IMPRIMIR(HastaLaMarca),IMPRIMIR(Marca) <- Guardar PosicionDentroDeFila
+		 */
+
+		String entrada;
+		int nroFila = 1;
+
+		entrada = brPreprocesado.readLine();
+		int posEnFila = 0;
+		Collections.sort(todasMarcas);
+		Iterator<AnotacionMarca> it = todasMarcas.iterator();
 		AnotacionMarca marca;
 		AnotacionMarca marcaSiguiente = null;
 
@@ -145,13 +144,28 @@ public class Simae {
 			pw.print(marca.getFinComentario());
 			posEnFila = posEnFila + 1;
 		}
-// Terminaron las marcas, imprimir el resto de la entrada
+
+		// Terminaron las marcas, imprimir el resto de la entrada
 		pw.println(entrada.substring(posEnFila));
 		entrada = brPreprocesado.readLine();
 		while(entrada != null) {
 			pw.println(entrada);
 			entrada = brPreprocesado.readLine();
 		}
+	}
+
+	public static void fuenteMarcado(BufferedReader br, PrintWriter pw, Lenguaje programmingLanguage, String language) throws IOException {
+
+		String armaCompleto = fuenteDesmarcado(br, programmingLanguage);
+
+		InputStream antlrEntrada = new ByteArrayInputStream(armaCompleto.getBytes(StandardCharsets.UTF_8));
+		
+		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompleto));
+		
+		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(CharStreams.fromStream(antlrEntrada, StandardCharsets.UTF_8), programmingLanguage, language);
+
+        algoritmoMarcado(brPreprocesado, pw, todasMarcas);
+
 	}
 
 	public String testMarcado(String entrada, Lenguaje lenguaje) throws IOException {
