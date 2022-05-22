@@ -21,7 +21,7 @@ public class Simae {
 	
 	//FIXME: reestructurar funcion para que no solo funcione con translationunit
 	private static List<AnotacionMarca> iniciaTranslationUnit(CharStream antlrEntrada, Lenguaje lenguaje, String language) throws IOException {
-		StringTags st = null;
+		StringTags st;
 		HashMap<String, String> strings;
 
 
@@ -29,47 +29,15 @@ public class Simae {
 		strings = st.getStrings();
 
 
-		if (lenguaje == Lenguaje.CPLUSPLUS) {
-			CPP14Lexer lexer = new CPP14Lexer(antlrEntrada);
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			CPP14Parser parser = new CPP14Parser(tokens);
-			ParseTree tree = parser.translationunit();
-			CPPListener extractor = new CPPListener(parser, strings);
-			ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
-			walker.walk(extractor, tree); // initiate walk of tree with listener
+		Lexer lexer = ANTLRFactory.getLexer(lenguaje, antlrEntrada);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		Parser parser = ANTLRFactory.getParser(lenguaje, tokens);
+		ParseTree tree = ANTLRFactory.getTree(lenguaje, parser);
+		ParseTreeListener extractor = ANTLRFactory.getListener(lenguaje, parser, strings);
+		ParseTreeWalker walker = new ParseTreeWalker();
+		walker.walk(extractor, tree);
 
-			//System.out.println(extractor.marcas);
-
-			return extractor.getMarcas();
-		}
-		else if (lenguaje == Lenguaje.JAVA8) {
-				JavaLexer lexer = new JavaLexer(antlrEntrada);
-				CommonTokenStream tokens = new CommonTokenStream(lexer);
-				JavaParser parser = new JavaParser(tokens);
-				ParseTree tree = parser.compilationUnit();
-				JavaListener extractor = new JavaListener(parser, strings);
-				ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
-				walker.walk(extractor, tree); // initiate walk of tree with listener
-
-				//System.out.println(extractor.marcas);
-
-				return extractor.getMarcas();
-		}
-		else if (lenguaje == Lenguaje.PYTHON3) {
-			Python3Lexer lexer = new Python3Lexer(antlrEntrada);
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			Python3Parser parser = new Python3Parser(tokens);
-			ParseTree tree = parser.file_input();
-			PythonListener extractor = new PythonListener(parser, strings);
-			ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
-			walker.walk(extractor, tree); // initiate walk of tree with listener
-
-			//System.out.println(extractor.marcas);
-
-			return extractor.getMarcas();
-		}
-
-		return null;
+		return ANTLRFactory.getMarcas(lenguaje, extractor);
 	}
 
 	public static void fuenteDesmarcado(BufferedReader br, PrintWriter pw, Lenguaje lenguaje) {
