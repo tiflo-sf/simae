@@ -24,10 +24,8 @@ public class Simae {
 		StringTags st;
 		HashMap<String, String> strings;
 
-
 		st = new StringTags((language != null) ? language : "");
 		strings = st.getStrings();
-
 
 		Lexer lexer = ANTLRFactory.getLexer(lenguaje, antlrEntrada);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -134,22 +132,5 @@ public class Simae {
 
         algoritmoMarcado(brPreprocesado, pw, todasMarcas);
 
-	}
-
-	public String testMarcado(String entrada, Lenguaje lenguaje) throws IOException {
-
-		StringReader srEntrada = new StringReader(entrada);
-		BufferedReader reader = new BufferedReader(srEntrada);
-		
-		StringWriter swSalida = new StringWriter();
-		PrintWriter writer = new PrintWriter(swSalida);
-		
-		fuenteMarcado(reader, writer, lenguaje, null);
-		
-		String salida = swSalida.toString();
-		
-		srEntrada.close();
-		swSalida.close();
-		return salida;
 	}
 }

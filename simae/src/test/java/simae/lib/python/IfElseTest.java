@@ -1,6 +1,7 @@
 package simae.lib.python;
 
 import org.junit.jupiter.api.Test;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.cPlusPlus.Tests;
 
@@ -21,7 +22,7 @@ class IfElseTest extends Tests {
 				  "	p=0# /CIERRA if(p==1) DE LINEA 1/" + nl +
 				  "else:# /CIERRA EN LINEA 4/" + nl +
 				  "	p=1# /CIERRA else DE LÍNEA 3/" +nl;
-		  marcado = b.testMarcado(prog, Lenguaje.PYTHON3);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3);
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

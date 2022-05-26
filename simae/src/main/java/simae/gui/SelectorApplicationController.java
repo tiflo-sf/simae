@@ -142,7 +142,7 @@ public class SelectorApplicationController {
                 .toArray());
         listaDeArchivos.setItems(listaObservable);
         if (extension() != null) eliminaOtrosLenguajes();
-        habilitarMarcado();
+        if (listaObservable.size() > 0) habilitarMarcado();
     }
 
     @FXML
@@ -171,6 +171,7 @@ public class SelectorApplicationController {
     @FXML
     void filtraObjeto() {
         actualizaLista();
+        seleccionLenguajes.setAccessibleHelp("Lenguaje: " + seleccionLenguajes.getSelectionModel().getSelectedItem().toString());
         if(fc.getExtensionFilters().size() != 0) fc.getExtensionFilters().removeAll(fc.getExtensionFilters());
         switch(seleccionLenguajes.getSelectionModel().getSelectedItem().toString()) {
             case "C++":

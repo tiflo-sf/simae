@@ -1,6 +1,7 @@
 package simae.lib.python;
 
 import org.junit.jupiter.api.Test;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.cPlusPlus.Tests;
 
@@ -17,7 +18,7 @@ class ClassTest extends Tests {
 				  "  x = 5" + nl;
 		  esperado = "class MyClass:# /CIERRA EN LINEA 2/\n" +
 				  "  x = 5# /CIERRA class MyClass DE LINEA 1/" + nl;
-		  marcado = b.testMarcado(prog, Lenguaje.PYTHON3);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3);
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

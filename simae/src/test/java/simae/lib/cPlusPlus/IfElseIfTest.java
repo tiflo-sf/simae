@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 
 class IfElseIfTest extends Tests {
@@ -26,7 +27,7 @@ class IfElseIfTest extends Tests {
 		  		"		c--;" + nl +
 		  		"	}/*/CIERRA if(c) DE LINEA 5 y CIERRA else DE LINEA 5/*/" + nl +
 		  		"}/*/CIERRA main() DE LINEA 1/*/" + nl;
-		  marcado = b.testMarcado(prog, Lenguaje.CPLUSPLUS);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

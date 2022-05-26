@@ -73,6 +73,23 @@ public class SimaeLauncher {
         return writeFile(outputFileName);
     }
 
+    public static String launchTagging(String entrada, Lenguaje lenguaje) throws IOException {
+
+        StringReader srEntrada = new StringReader(entrada);
+        BufferedReader reader = new BufferedReader(srEntrada);
+
+        StringWriter swSalida = new StringWriter();
+        PrintWriter writer = new PrintWriter(swSalida);
+
+        Simae.fuenteMarcado(reader, writer, lenguaje, null);
+
+        String salida = swSalida.toString();
+
+        srEntrada.close();
+        swSalida.close();
+        return salida;
+    }
+
     public boolean launchUntagging(File inputFile, String outputFileName, String lenguajeString) {
 
         prepareSimae(inputFile);
