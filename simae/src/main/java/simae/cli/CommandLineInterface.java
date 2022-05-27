@@ -83,30 +83,30 @@ public class CommandLineInterface implements Callable<Integer> {
 			if (lenguajeString == null) {
 				lenguajeString = this.getFileExtension(inputFile);
 			}
-			switch (lenguajeString) {
+			switch (lenguajeString) { //FIXME: esto esta hardcodeado
 				case "c++":
 				case ".cpp":
 					programmingLenguage = Lenguaje.CPLUSPLUS;
+					lenguajeString = "c++";
 					break;
 				case "java8":
 				case ".java":
 					programmingLenguage = Lenguaje.JAVA8;
+					lenguajeString = "java8";
 					break;
 				case "python3":
 				case ".py":
 					programmingLenguage = Lenguaje.PYTHON3;
+					lenguajeString = "python3";
 					break;
 				default:
 					spec.commandLine().usage(System.out.printf((String) rb.getObject("extension")));
 					return -1;
 			}
 
-			try {
-				SimaeLauncher.launchTagging(inputFile, programmingLenguage);
-			} catch (IOException e) {
-				System.out.println((String) rb.getObject("falloMarcado"));
-				return -1;
-			}
+			SimaeLauncher launcher = new SimaeLauncher();
+
+			launcher.launchTagging(new File(inputFile), outputFile, lenguajeString);
 		}
 		return 0;
 	}
