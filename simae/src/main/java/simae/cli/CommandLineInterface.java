@@ -10,6 +10,7 @@ import java.util.concurrent.Callable;
 
 import javafx.application.Application;
 import picocli.CommandLine;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
@@ -55,7 +56,12 @@ public class CommandLineInterface implements Callable<Integer> {
 
 	}
 	@Override
-	public Integer call() throws Exception {
+	public Integer call() {
+
+		if (gui == null && inputFile == null && outputFile == null && lenguajeString == null) {
+			Application.launch(simae.gui.SelectorApplication.class);
+			return 0;
+		}
 
 		if (inputFile == null && gui == null) {
 			spec.commandLine().usage(System.out.printf((String) rb.getObject("emptyInput")));
@@ -64,7 +70,6 @@ public class CommandLineInterface implements Callable<Integer> {
 
 		if (gui != null) {
 			Application.launch(simae.gui.SelectorApplication.class);
-			return 0;
 		} else {
 			//FIXME: mantener o modificar por la funcion marcaPorArchivos?
 
@@ -96,37 +101,14 @@ public class CommandLineInterface implements Callable<Integer> {
 					return -1;
 			}
 
-			File inputFile;
-			BufferedReader inputReader;
-			File workFile;
-			PrintWriter workWriter;
-
 			try {
-				inputFile = new File(CommandLineInterface.inputFile);
-				inputReader = new BufferedReader(new FileReader(inputFile));
-				workFile = new File(inputFile.getPath() + ".work");
-				workWriter = new PrintWriter(new FileWriter(workFile));
-			} catch (IOException e) {
-				System.out.println((String) rb.getObject("invalidInput"));
-				return -1;
-			}
-
-			try {
-				Simae.fuenteMarcado(inputReader, workWriter, programmingLenguage, null);
-				workWriter.close();
+				SimaeLauncher.launchTagging(inputFile, programmingLenguage);
 			} catch (IOException e) {
 				System.out.println((String) rb.getObject("falloMarcado"));
 				return -1;
 			}
-
-			try {
-				Files.move(Path.of(workFile.getPath()), Path.of(outputFile), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				System.out.println((String) rb.getObject("workFileError"));
-			}
-			System.out.printf((String) rb.getObject("success"));
-			return 0;
 		}
+		return 0;
 	}
 		private String getFileExtension (String name){
 			int lastIndexOf = name.lastIndexOf(".");
