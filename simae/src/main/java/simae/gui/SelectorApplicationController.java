@@ -147,7 +147,6 @@ public class SelectorApplicationController {
 
     @FXML
     void marcaArchivos() {
-        Simae simae = new Simae();
         SimaeLauncher simaeLauncher = new SimaeLauncher();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M'; //FIXME: intentar cambiar metodo
         //if (extension() != null) archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
@@ -191,10 +190,13 @@ public class SelectorApplicationController {
     void eliminarTodos() {
         listaObservable.removeAll(listaObservable);
         listaCompleta.removeAll(listaCompleta);
+        listaArchivosObjeto.removeAll(listaArchivosObjeto);
     }
 
     @FXML
     void eliminarArchivoSeleccionado() {
+        for (Archivo archivo : listaArchivosObjeto)
+            if (listaDeArchivos.getSelectionModel().getSelectedItems().contains(archivo)) listaArchivosObjeto.remove(archivo);
         listaObservable.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
         listaCompleta.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
         detectaHabilitaQuitado();
