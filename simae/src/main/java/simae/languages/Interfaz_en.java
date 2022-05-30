@@ -27,7 +27,10 @@ public class Interfaz_en extends ListResourceBundle {
                     {"undefinedArgument1", "The arguments "},
                     {"undefinedArgument2", " don't exist. \n"},
                     {"missing", "You must provide a value for the argument "},
-                    {"missingResource", "The entered language is not available."}
+                    {"missingResource", "The entered language is not available."},
+                    {"overwritten1", "The option "},
+                    {"overwritten2", " should be specified only once. \n"},
+                    {"overwritten2", " Version of SIMAE. \n"}
 
 
 
