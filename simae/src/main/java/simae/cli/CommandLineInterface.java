@@ -47,9 +47,9 @@ public class CommandLineInterface implements Callable<Integer> {
 			new CommandLine(new CommandLineInterface()).parseArgs(args);
 			new CommandLine(new CommandLineInterface()).execute(args);
 		} catch(CommandLine.UnmatchedArgumentException e){
-			spec.commandLine().usage(System.out.printf((String) rb2.getObject("undefinedArgument1")+ e.getUnmatched().toString() + (String) rb2.getObject("undefinedArgument2")));
+			spec.commandLine().usage(System.out.printf(rb2.getObject("undefinedArgument1")+ e.getUnmatched().toString() + rb2.getObject("undefinedArgument2")));
 		} catch(picocli.CommandLine.MissingParameterException e){
-			spec.commandLine().usage(System.out.printf((String) rb2.getObject("missing") + e.getMissing().get(0).paramLabel() + ". \n"));
+			spec.commandLine().usage(System.out.printf(rb2.getObject("missing") + e.getMissing().get(0).paramLabel() + ". \n"));
 		} catch(java.util.MissingResourceException e){
 			System.out.println((String) rb2.getObject("missingResource"));
 		}
@@ -106,7 +106,24 @@ public class CommandLineInterface implements Callable<Integer> {
 
 			SimaeLauncher launcher = new SimaeLauncher();
 
-			launcher.launchTagging(new File(inputFile), outputFile, lenguajeString);
+			File fileToMark = new File(inputFile);
+
+			if (!fileToMark.exists()) {
+				System.out.println((String) rb.getObject("invalidInput"));
+				return 1;
+			}
+
+			switch (launcher.launchTagging(new File(inputFile), outputFile, lenguajeString)) {
+				case 0:
+					System.out.printf((String) rb.getObject("success"));
+					break;
+				case 1:
+					System.out.println((String) rb.getObject("falloMarcado"));
+					break;
+				case 2:
+					System.out.println((String) rb.getObject("workFileError"));
+			}
+
 		}
 		return 0;
 	}

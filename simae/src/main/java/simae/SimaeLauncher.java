@@ -56,7 +56,7 @@ public class SimaeLauncher {
         return true;
     }
 
-    public boolean launchTagging(File inputFile, String outputFileName, String lenguajeString) {
+    public int launchTagging(File inputFile, String outputFileName, String lenguajeString) {
 
         prepareSimae(inputFile);
 
@@ -67,10 +67,10 @@ public class SimaeLauncher {
             workWriter.close();
         } catch (IOException e) {
             //System.out.println("Fallo en el proceso de escritura de marcas"); FIXME: este mensaje se deberia dar en la CLI, no en launchTagging
-            return false;
+            return 1;
         }
 
-        return writeFile(outputFileName);
+        return writeFile(outputFileName) ? 0 : 2;
     }
 
     public static String launchTagging(String entrada, Lenguaje lenguaje) throws IOException {

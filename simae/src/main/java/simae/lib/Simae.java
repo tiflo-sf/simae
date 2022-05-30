@@ -20,7 +20,7 @@ import simae.lib.listener.StringTags;
 public class Simae {
 	
 	//FIXME: reestructurar funcion para que no solo funcione con translationunit
-	private static List<AnotacionMarca> iniciaTranslationUnit(CharStream antlrEntrada, Lenguaje lenguaje, String language) throws IOException {
+	private static List<AnotacionMarca> iniciaTranslationUnit(CharStream antlrEntrada, Lenguaje lenguaje, String language) {
 		StringTags st;
 		HashMap<String, String> strings;
 

@@ -155,7 +155,7 @@ public class SelectorApplicationController {
         textoProcesado.setVisible(false);
 
         if (listaObservable.parallelStream()
-                .anyMatch(file -> (decideMarca == 'M') ? !simaeLauncher.launchTagging(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))) : !simaeLauncher.launchUntagging(((Archivo) file).getFile(), ((Archivo) file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))))) textoError.setVisible(true);
+                .anyMatch(file -> (decideMarca == 'M') ? !(simaeLauncher.launchTagging(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))) == 0) : !simaeLauncher.launchUntagging(((Archivo) file).getFile(), ((Archivo) file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))))) textoError.setVisible(true);
 
         if (!textoError.isVisible()) textoProcesado.setVisible(true);
 
