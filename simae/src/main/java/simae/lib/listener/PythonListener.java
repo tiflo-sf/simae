@@ -66,7 +66,7 @@ public class PythonListener extends Python3ParserBaseListener {
 					token = ((TerminalNode)simpleStatementContext).getSymbol();
 				}
 				ultimoSuiteLine = token.getLine();
-				ultimoSuiteCharPosLine = token.getCharPositionInLine();
+				ultimoSuiteCharPosLine = token.getCharPositionInLine() + (token.getText().length() - 1);
 			}
 			//FIXME: asegurarse que ultimoSuiteCharPosLine sea justo antes de un token newline.
 		}
