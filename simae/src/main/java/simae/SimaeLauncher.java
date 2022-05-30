@@ -9,12 +9,18 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 public class SimaeLauncher {
+
+    private String version = "0.1.5";
     public SimaeLauncher() {
     }
 
     BufferedReader inputReader = null;
     PrintWriter workWriter = null;
     File workFile = null;
+
+    public String getVersion() {
+        return version;
+    }
 
     public static Lenguaje lenguaje(String lenguajeString) {
         switch(lenguajeString) {

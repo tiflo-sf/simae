@@ -1,9 +1,5 @@
 package simae.cli;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -12,7 +8,6 @@ import javafx.application.Application;
 import picocli.CommandLine;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
-import simae.lib.Simae;
 
 //FIXME: faltan tests para la clase
 @CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="SIMAE")
@@ -37,6 +32,9 @@ public class CommandLineInterface implements Callable<Integer> {
 	@CommandLine.Option(names = {"-g", "--gui"}, required=false, descriptionKey = "gui")
 	static Boolean gui;
 
+	@CommandLine.Option(names = { "-v", "--version" }, versionHelp = true, descriptionKey = "version")
+	boolean versionRequested;
+
 	static @CommandLine.Spec
 	CommandLine.Model.CommandSpec spec;
 
@@ -44,17 +42,24 @@ public class CommandLineInterface implements Callable<Integer> {
 	public static void main(String[] args) {
 		ResourceBundle rb2 = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
 		try {
-			new CommandLine(new CommandLineInterface()).parseArgs(args);
-			new CommandLine(new CommandLineInterface()).execute(args);
+			CommandLine commandLine = new CommandLine(new CommandLineInterface());
+			commandLine.parseArgs(args);
+			commandLine.execute(args);
+			if (commandLine.isVersionHelpRequested()) {
+				System.out.println(new SimaeLauncher().getVersion());
+			}
 		} catch(CommandLine.UnmatchedArgumentException e){
 			spec.commandLine().usage(System.out.printf(rb2.getObject("undefinedArgument1")+ e.getUnmatched().toString() + rb2.getObject("undefinedArgument2")));
 		} catch(picocli.CommandLine.MissingParameterException e){
 			spec.commandLine().usage(System.out.printf(rb2.getObject("missing") + e.getMissing().get(0).paramLabel() + ". \n"));
 		} catch(java.util.MissingResourceException e){
 			System.out.println((String) rb2.getObject("missingResource"));
-		}
+		} catch(CommandLine.OverwrittenOptionException e){
+		spec.commandLine().usage(System.out.printf((String) rb2.getObject("overwritten1") + e.getOverwritten().paramLabel() + rb2.getObject("overwritten2")));
+	}
 
 	}
+
 	@Override
 	public Integer call() {
 
@@ -123,7 +128,6 @@ public class CommandLineInterface implements Callable<Integer> {
 				case 2:
 					System.out.println((String) rb.getObject("workFileError"));
 			}
-
 		}
 		return 0;
 	}

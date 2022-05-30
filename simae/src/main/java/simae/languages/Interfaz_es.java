@@ -28,8 +28,10 @@ public class Interfaz_es extends ListResourceBundle {
                     {"undefinedArgument1", "Los argumentos "},
                     {"undefinedArgument2", " no existen. \n"},
                     {"missing", "Debe proporcionar un valor para el argumento "},
-                    {"missingResource", "El idioma ingresado no está disponible. \n"}
-
+                    {"missingResource", "El idioma ingresado no está disponible. \n"},
+                    {"overwritten1", "La opción "},
+                    {"overwritten2", " debería ser especificada una sola vez. \n"},
+                    {"version", "Versión de SIMAE."}
 
             };
     }
