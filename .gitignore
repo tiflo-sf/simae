@@ -1,0 +1,14 @@
+bin/
+lib/*.jar
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+# Ignore IntelliJ files
+.idea
+
+simae/src/main/java/simae/cli/Nodo.java
+simae/src/main/java/simae/cli/Testing.py
