@@ -13,8 +13,8 @@ Sistema de Marcado Estructural de Código Fuente para Programadores con Discapac
 
 Becarios:
 
-* Assenza Tomás
-* Fontana Valentín
+* Tomás Assenza
+* Valentín Fontana
 
 Docentes:
 
@@ -31,14 +31,14 @@ Lavaisse 610, S3004EWB Santa Fe, Argentina
 
 La herramienta SIMAE se ha desarrollado y continúa desarrollando en el marco de los siguientes proyectos de I+D de la Universidad Tecnológica Nacional - SCTyP:
 
+* **Desarrollo y Despliegue de un Sistema de Marcado Estructural de Código Fuente para Programadores con Discapacidad Visual**  
+  Código: PID SIECAFE0008484TC  
+  Director: Pablo Andrés Marchetti  
+  Co-directora: María Fernanda Golobisky  
+  Período: 2022-2024
+
 * **Tecnologías de Apoyo para Estudiantes de Ingeniería en Sistemas de Información con Discapacidad Visual**  
   Código: PID TEUTIFE0005298TC  
   Directora: María Fernanda Golobisky  
   Co-director: Pablo Andrés Marchetti  
   Período: 2019-2021
-
-* **Desarrollo y Despliegue de un Sistema de Marcado Estructural de Código Fuente para Programadores con Discapacidad Visual**    
-  Código: PID SIECAFE0008484TC  
-  Director: Pablo Andrés Marchetti  
-  Co-directora: María Fernanda Golobisky  
-  Período: 2022-2024

@@ -27,20 +27,40 @@ nav_order: 1
 
 ## Descripción <a name ="descripcion"/>
 
-SIMAE es una herramienta de asistencia a la programación para desarrolladores con discapacidad visual, que brinda información contextual mediante el marcado de las estructuras contenidas en el código fuente.
+**SIMAE** es una herramienta de asistencia a la programación para desarrolladores con discapacidad visual, que brinda información contextual mediante el marcado de las estructuras contenidas en el código fuente. 
+
+La herramienta modifica el código fuente incorporando comentarios que indican las líneas de comienzo y finalización de las distintas estructuras. 
+
+**SIMAE** está escrito en Java, y soporta actualmente el marcado de las principales estructuras de código de los lenguajes C++, Java y Python. 
 
 ## Estado de la herramienta <a name ="Estado-de-la-herramienta"/>
 
-Una versión alpha está disponible para ser usada dentro de los releases de este repositorio. Se realiza un continuo mantenimiento del software.
+**SIMAE** se encuentra en desarrollo y disponible para se evaluación por la comunidad.  
 
-To-do:
+Una versión **_alpha_** puede descargarse del [repositorio de GitHub](https://github.com/tiflo-sf/simae) o directamente desde [aquí](https://github.com/tiflo-sf/simae/releases).
+
+> **IMPORTANTE:** Al tratarse de una versión preliminar, y hasta tanto el programador se haya familiarizado con la herramienta, **recomendamos que SIMAE sea utilizado únicamente con copias de los archivos de código fuente** de interés.
+
+Contamos con un [grupo de discusión en Google Groups](https://groups.google.com/g/tiflosf-simae/) donde se publican las novedades del avance del desarrollo de la herramienta y se pueden realizar consultas o enviar comentarios.
+
+Líneas de trabajo actuales:
 
 * Implementar integración continua.
-* Traducción a otros lenguajes.
-* Mejora de la CLI.
+* Traducción a otros idiomas (internacionalización).
+* Mejora de la CLI (interfaz de línea de comandos).
 * Re-diseño de módulos de código para facilitar su desarrollo.
 
 ## Instalación y uso <a name ="Instalacion-y-uso"/>
+
+Descargar la última versión de la herramienta (archivo `.jar`) desde el apartado [Releases](https://github.com/tiflo-sf/simae/releases) del repositorio.
+
+**SIMAE** es una aplicación Java, y requiere el Java Developers Kit (JDK) versión 11 o posterior.
+
+> Para instalar Java, las principales implementaciones disponibles:
+> - [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
+> - [OpenJDK](http://jdk.java.net/archive/)
+
+**Compatibilidad:** Al estar basado en Java, **SIMAE** es compatible con Windows, macOS X y Linux, entre otras plataformas. 
 
 ### Uso con GUI (Graphical User Interface) <a name="usocongui"/>
 
