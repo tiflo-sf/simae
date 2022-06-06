@@ -18,12 +18,12 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: simae
+title: SIMAE
 #email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Página estática descriptiva del proyecto SIMAE - UTN FRSF
-baseurl: "/simae" # the subpath of your site, e.g. /blog
-url: "https://tiflo-sf.net" # the base hostname & protocol for your site, e.g. http://example.com
+  Herramienta SIMAE - UTN FRSF
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "https://simae.info" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 
 github_username: tiflo-sf
 
