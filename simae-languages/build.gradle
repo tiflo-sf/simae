@@ -22,7 +22,7 @@ dependencies {
 	
     antlr "org.antlr:antlr4:4.9" // use ANTLR version 4
 
-    implementation("org.antlr:antlr4-runtime:4.9")
+    //implementation("org.antlr:antlr4-runtime:4.9")
 
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'

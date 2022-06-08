@@ -9,10 +9,8 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
-    id 'antlr'
     id 'org.openjfx.javafxplugin' version "0.0.10"
     id 'application'
-    id 'eclipse'
     id 'java'
     id("com.github.johnrengelman.shadow") version "7.1.0"
 }
@@ -54,10 +52,6 @@ dependencies {
     annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
 
     implementation project(':simae-languages')
-    antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
-
-    implementation("org.antlr:antlr4-runtime:4.9")
-
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
 }
