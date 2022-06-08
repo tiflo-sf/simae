@@ -111,17 +111,5 @@ public class SimaeLauncher {
 
     }
 
-    public static void reproducirAudio(Integer caso) throws Exception {
-        Clip sonido = AudioSystem.getClip();
-        if(caso == 0) { //exito
-            sonido.open(AudioSystem.getAudioInputStream(new File("piano2.wav")));
-        } else if(caso == 1){ //error
-            sonido.open(AudioSystem.getAudioInputStream(new File("piano2.wav")));
-        }
-        sonido.start();
-        while (sonido.isRunning())
-            Thread.sleep(1000);
-        sonido.close();
 
-    }
 }

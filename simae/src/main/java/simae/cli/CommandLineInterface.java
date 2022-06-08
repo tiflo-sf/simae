@@ -8,6 +8,7 @@ import javafx.application.Application;
 import picocli.CommandLine;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
+import simae.lib.Simae;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -133,19 +134,19 @@ public class CommandLineInterface implements Callable<Integer> {
 				case 0:
                     System.out.printf((String) rb.getObject("success"));
 					if(withSound != null){
-						launcher.reproducirAudio(0);
+						Simae.reproducirAudio(0);
 					}
 					break;
 				case 1:
 					System.out.println((String) rb.getObject("falloMarcado"));
 					if(withSound != null){
-							launcher.reproducirAudio(1);
+						Simae.reproducirAudio(1);
 					}
 					break;
 				case 2:
 					System.out.println((String) rb.getObject("workFileError"));
 					if(withSound != null){
-						launcher.reproducirAudio(1);
+						Simae.reproducirAudio(1);
 					}
 			}
 		}
