@@ -3,7 +3,7 @@ title: Funcionamiento
 has_children: false
 nav_order: 2
 ---
-# Herramienta
+# Herramienta SIMAE
 
 ## Descripción general
 Para generar la herramienta se utilizó el lenguaje de programación Java con una interfaz gráfica utilizando la biblioteca gráfica JavaFX. Se utilizó ANTLR como compilador de gramáticas para el marcado estructural del código fuente.
