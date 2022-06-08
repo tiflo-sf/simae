@@ -31,7 +31,8 @@ public class Interfaz_es extends ListResourceBundle {
                     {"missingResource", "El idioma ingresado no está disponible. \n"},
                     {"overwritten1", "La opción "},
                     {"overwritten2", " debería ser especificada una sola vez. \n"},
-                    {"version", "Versión de SIMAE."}
+                    {"version", "Versión de SIMAE."},
+                    {"withSound", "Ejecutar con audio"}
 
             };
     }

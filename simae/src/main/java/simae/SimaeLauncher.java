@@ -3,6 +3,8 @@ package simae;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -106,6 +108,20 @@ public class SimaeLauncher {
         workWriter.close();
 
         return writeFile(outputFileName);
+
+    }
+
+    public static void reproducirAudio(Integer caso) throws Exception {
+        Clip sonido = AudioSystem.getClip();
+        if(caso == 0) { //exito
+            sonido.open(AudioSystem.getAudioInputStream(new File("piano2.wav")));
+        } else if(caso == 1){ //error
+            sonido.open(AudioSystem.getAudioInputStream(new File("piano2.wav")));
+        }
+        sonido.start();
+        while (sonido.isRunning())
+            Thread.sleep(1000);
+        sonido.close();
 
     }
 }

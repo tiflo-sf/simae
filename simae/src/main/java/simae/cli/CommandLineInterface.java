@@ -9,6 +9,11 @@ import picocli.CommandLine;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 //FIXME: faltan tests para la clase
 @CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="SIMAE")
 public class CommandLineInterface implements Callable<Integer> {
@@ -32,8 +37,14 @@ public class CommandLineInterface implements Callable<Integer> {
 	@CommandLine.Option(names = {"-g", "--gui"}, required=false, descriptionKey = "gui")
 	static Boolean gui;
 
+
+	@CommandLine.Option(names = {"-ws", "--withSound"}, required=false, descriptionKey = "withSound")
+	static Boolean withSound;
+
+
 	@CommandLine.Option(names = { "-v", "--version" }, versionHelp = true, descriptionKey = "version")
 	boolean versionRequested;
+
 
 	static @CommandLine.Spec
 	CommandLine.Model.CommandSpec spec;
@@ -61,7 +72,7 @@ public class CommandLineInterface implements Callable<Integer> {
 	}
 
 	@Override
-	public Integer call() {
+	public Integer call() throws Exception {
 
 		if (gui == null && inputFile == null && outputFile == null && lenguajeString == null) {
 			Application.launch(simae.gui.SelectorApplication.class);
@@ -120,13 +131,22 @@ public class CommandLineInterface implements Callable<Integer> {
 
 			switch (launcher.launchTagging(new File(inputFile), outputFile, lenguajeString)) {
 				case 0:
-					System.out.printf((String) rb.getObject("success"));
+                    System.out.printf((String) rb.getObject("success"));
+					if(withSound != null){
+						launcher.reproducirAudio(0);
+					}
 					break;
 				case 1:
 					System.out.println((String) rb.getObject("falloMarcado"));
+					if(withSound != null){
+							launcher.reproducirAudio(1);
+					}
 					break;
 				case 2:
 					System.out.println((String) rb.getObject("workFileError"));
+					if(withSound != null){
+						launcher.reproducirAudio(1);
+					}
 			}
 		}
 		return 0;
@@ -138,5 +158,8 @@ public class CommandLineInterface implements Callable<Integer> {
 			}
 			return name.substring(lastIndexOf);
 		}
-	}
+
+}
+
+
 
