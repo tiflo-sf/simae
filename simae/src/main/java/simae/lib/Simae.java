@@ -140,9 +140,9 @@ public class Simae {
 	public static void reproducirAudio(Integer caso) throws Exception {
 		Clip sonido = AudioSystem.getClip();
 		if(caso == 0) { //exito
-			sonido.open(AudioSystem.getAudioInputStream(Simae.class.getResource("piano2.wav")));
+			sonido.open(AudioSystem.getAudioInputStream(Simae.class.getResource("success.wav")));
 		} else if(caso == 1){ //error
-			sonido.open(AudioSystem.getAudioInputStream(Simae.class.getResource("piano2.wav")));
+			sonido.open(AudioSystem.getAudioInputStream(Simae.class.getResource("error.wav")));
 		}
 		sonido.start();
 		do {

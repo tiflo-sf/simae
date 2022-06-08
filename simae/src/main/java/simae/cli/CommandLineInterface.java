@@ -127,6 +127,7 @@ public class CommandLineInterface implements Callable<Integer> {
 
 			if (!fileToMark.exists()) {
 				System.out.println((String) rb.getObject("invalidInput"));
+				Simae.reproducirAudio(1);
 				return 1;
 			}
 
