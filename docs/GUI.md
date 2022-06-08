@@ -1,6 +1,6 @@
 ---
 title: Interfaz Gráfica
-parent: InstruccionesUso
+parent: Instrucciones de uso
 has_children: false
 ---
 # Interfaz Gráfica
