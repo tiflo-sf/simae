@@ -146,7 +146,7 @@ public class SelectorApplicationController {
     }
 
     @FXML
-    void marcaArchivos() {
+    void marcaArchivos() throws Exception {
         SimaeLauncher simaeLauncher = new SimaeLauncher();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M'; //FIXME: intentar cambiar metodo
         //if (extension() != null) archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
@@ -155,9 +155,15 @@ public class SelectorApplicationController {
         textoProcesado.setVisible(false);
 
         if (listaObservable.parallelStream()
-                .anyMatch(file -> (decideMarca == 'M') ? !(simaeLauncher.launchTagging(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))) == 0) : !simaeLauncher.launchUntagging(((Archivo) file).getFile(), ((Archivo) file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))))) textoError.setVisible(true);
+                .anyMatch(file -> (decideMarca == 'M') ? !(simaeLauncher.launchTagging(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))) == 0) : !simaeLauncher.launchUntagging(((Archivo) file).getFile(), ((Archivo) file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))))) {
+            Simae.reproducirAudio(1);
+            textoError.setVisible(true);
+        }
 
-        if (!textoError.isVisible()) textoProcesado.setVisible(true);
+        if (!textoError.isVisible()) {
+            Simae.reproducirAudio(0);
+            textoProcesado.setVisible(true);
+        }
 
         /*for (File file : archivos) {
             System.out.println(file.toString().substring(file.toString().lastIndexOf(".")));
