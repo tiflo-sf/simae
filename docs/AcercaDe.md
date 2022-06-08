@@ -1,5 +1,5 @@
 ---
-title: Acerca De
+title: Acerca de
 has_children: false
 nav_order: 5
 ---
@@ -42,3 +42,6 @@ La herramienta SIMAE se ha desarrollado y continúa desarrollando en el marco de
   Directora: María Fernanda Golobisky  
   Co-director: Pablo Andrés Marchetti  
   Período: 2019-2021
+
+## Referencias
+* Assenza T., Ballardini C., Marchetti P.A., Golobisky, M.F.. (2021, 13 de Agosto). Herramienta de Soporte para Programadores con Discapacidad Visual mediante el Marcado de Código Fuente. IEEE Xplore. https://ieeexplore.ieee.org/abstract/document/9505334/
