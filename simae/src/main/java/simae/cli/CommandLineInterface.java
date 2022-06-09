@@ -8,6 +8,12 @@ import javafx.application.Application;
 import picocli.CommandLine;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
+import simae.lib.Simae;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 //FIXME: faltan tests para la clase
 @CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="SIMAE")
@@ -32,8 +38,14 @@ public class CommandLineInterface implements Callable<Integer> {
 	@CommandLine.Option(names = {"-g", "--gui"}, required=false, descriptionKey = "gui")
 	static Boolean gui;
 
+
+	@CommandLine.Option(names = {"-ws", "--withSound"}, required=false, descriptionKey = "withSound")
+	static Boolean withSound;
+
+
 	@CommandLine.Option(names = { "-v", "--version" }, versionHelp = true, descriptionKey = "version")
 	boolean versionRequested;
+
 
 	static @CommandLine.Spec
 	CommandLine.Model.CommandSpec spec;
@@ -61,7 +73,7 @@ public class CommandLineInterface implements Callable<Integer> {
 	}
 
 	@Override
-	public Integer call() {
+	public Integer call() throws Exception {
 
 		if (gui == null && inputFile == null && outputFile == null && lenguajeString == null) {
 			Application.launch(simae.gui.SelectorApplication.class);
@@ -85,21 +97,23 @@ public class CommandLineInterface implements Callable<Integer> {
 
 			Lenguaje programmingLenguage;
 
-			if (lenguajeString == null) {
+			//if (lenguajeString == null) {
 				lenguajeString = this.getFileExtension(inputFile);
-			}
+			//}
+
+
 			switch (lenguajeString) { //FIXME: esto esta hardcodeado
-				case "c++":
+				//case "c++":
 				case ".cpp":
 					programmingLenguage = Lenguaje.CPLUSPLUS;
 					lenguajeString = "c++";
 					break;
-				case "java8":
+				//case "java8":
 				case ".java":
 					programmingLenguage = Lenguaje.JAVA8;
 					lenguajeString = "java8";
 					break;
-				case "python3":
+				//case "python3":
 				case ".py":
 					programmingLenguage = Lenguaje.PYTHON3;
 					lenguajeString = "python3";
@@ -115,18 +129,28 @@ public class CommandLineInterface implements Callable<Integer> {
 
 			if (!fileToMark.exists()) {
 				System.out.println((String) rb.getObject("invalidInput"));
+				Simae.reproducirAudio(1);
 				return 1;
 			}
 
 			switch (launcher.launchTagging(new File(inputFile), outputFile, lenguajeString)) {
 				case 0:
-					System.out.printf((String) rb.getObject("success"));
+                    System.out.printf((String) rb.getObject("success"));
+					if(withSound != null){
+						Simae.reproducirAudio(0);
+					}
 					break;
 				case 1:
 					System.out.println((String) rb.getObject("falloMarcado"));
+					if(withSound != null){
+						Simae.reproducirAudio(1);
+					}
 					break;
 				case 2:
 					System.out.println((String) rb.getObject("workFileError"));
+					if(withSound != null){
+						Simae.reproducirAudio(1);
+					}
 			}
 		}
 		return 0;
@@ -138,5 +162,8 @@ public class CommandLineInterface implements Callable<Integer> {
 			}
 			return name.substring(lastIndexOf);
 		}
-	}
+
+}
+
+
 

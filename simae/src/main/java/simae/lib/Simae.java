@@ -17,6 +17,9 @@ import simae.lib.listener.JavaListener;
 import simae.lib.listener.PythonListener;
 import simae.lib.listener.StringTags;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 public class Simae {
 	
 	//FIXME: reestructurar funcion para que no solo funcione con translationunit
@@ -131,6 +134,26 @@ public class Simae {
 		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, programmingLanguage, language);
 
         algoritmoMarcado(brPreprocesado, pw, todasMarcas);
+
+	}
+
+	public static void reproducirAudio(Integer caso) throws Exception {
+		Clip sonido = AudioSystem.getClip();
+
+		switch (caso) {
+			case 0:
+				sonido.open(AudioSystem.getAudioInputStream(Simae.class.getResource("success.wav")));
+				break;
+			default:
+				sonido.open(AudioSystem.getAudioInputStream(Simae.class.getResource("error.wav")));
+				break;
+		}
+
+		sonido.start();
+		do {
+			Thread.sleep(15);
+		} while (sonido.isRunning());
+		sonido.close();
 
 	}
 }

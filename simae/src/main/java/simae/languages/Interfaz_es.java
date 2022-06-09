@@ -18,8 +18,9 @@ public class Interfaz_es extends ListResourceBundle {
                     {"programmingLanguage", "Lenguaje de programacion del archivo de entrada (java8, c++, python3)"},
                     {"gui", "Abrir interfaz grafica"},
                     {"usage.synopsisHeading", "Uso: "},
+                    {"withSound", "Ejecuta SIMAE con sonido que indica el resultado del marcado. \n"},
                     //Mensajes de exito y error
-                    {"extension", "Si el archivo no es de extension .java, .cpp, .py debe proporcionar un lenguaje. \n"},
+                    {"extension", "El archivo de entrada debe tener extension .java, .cpp o .py. \n"},
                     {"emptyInput", "Debe ingresar un archivo de entrada. \n"},
                     {"invalidInput", "El archivo de entrada no es válido. \n"},
                     {"falloMarcado", "Fallo en el proceso de escritura de marcas. \n"},
@@ -31,8 +32,7 @@ public class Interfaz_es extends ListResourceBundle {
                     {"missingResource", "El idioma ingresado no está disponible. \n"},
                     {"overwritten1", "La opción "},
                     {"overwritten2", " debería ser especificada una sola vez. \n"},
-                    {"version", "Versión de SIMAE."}
-
+                    {"version", "Versión de SIMAE."},
             };
     }
 

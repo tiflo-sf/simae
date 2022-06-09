@@ -17,8 +17,9 @@ public class Interfaz_en extends ListResourceBundle {
                     {"programmingLanguage", "Input file programming language (java8, c++, python3)"},
                     {"gui", "Run graphical interface"},
                     {"usage.synopsisHeading", "Usage: "},
-                    //Mensajes de exito y error
-                    {"extension", "If the file does not have a .java, .cpp, .py extension, you must provide a programming language. \n"},
+                    {"withSound", "Executes SIMAE with sound which indicates the result of the marking. \n"},
+                    //Mensajes de exito y error"
+                    {"extension", "The input file must have a .java, .cpp or .py extension. \n"},
                     {"emptyInput", "You must enter an input file. \n"},
                     {"invalidInput", "The input file is not valid. \n"},
                     {"falloMarcado", "Error in the process of writing marks. \n"},
@@ -30,7 +31,7 @@ public class Interfaz_en extends ListResourceBundle {
                     {"missingResource", "The entered language is not available."},
                     {"overwritten1", "The option "},
                     {"overwritten2", " should be specified only once. \n"},
-                    {"version", " Version of SIMAE. \n"}
+                    {"version", " Version of SIMAE. \n"},
 
 
 
