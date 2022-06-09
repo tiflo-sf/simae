@@ -97,7 +97,7 @@ public class JavaListener extends JavaParserBaseListener {
 		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token ultimoAntesDeMarca = ctx.qualifiedNameList() != null ? ctx.qualifiedNameList().getStop() : ctx.formalParameters().getStop();
 		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
-				ultimoAntesDeMarca.getCharPositionInLine(),
+				ultimoAntesDeMarca.getCharPositionInLine() + ultimoAntesDeMarca.getText().length() - 1,
 				texto));
 	}
 
