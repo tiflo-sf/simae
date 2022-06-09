@@ -154,7 +154,8 @@ public class SelectorApplicationController {
         textoError.setVisible(false);
         textoProcesado.setVisible(false);
 
-        if (listaObservable.parallelStream()
+        //FIXME: volver a enviar en paralelo editando SimaeLauncher
+        if (listaObservable.stream()
                 .anyMatch(file -> (decideMarca == 'M') ? !(simaeLauncher.launchTagging(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))) == 0) : !simaeLauncher.launchUntagging(((Archivo) file).getFile(), ((Archivo) file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))))) {
             Simae.reproducirAudio(1);
             textoError.setVisible(true);

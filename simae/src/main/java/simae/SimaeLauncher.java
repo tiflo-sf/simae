@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 
 public class SimaeLauncher {
 
-    private String version = "0.1.5";
+    private String version = "0.2.0-alpha";
     public SimaeLauncher() {
     }
 
