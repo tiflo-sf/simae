@@ -36,17 +36,28 @@ SIMAE es una herramienta de asistencia a la programación para desarrolladores c
 2. Desde una terminal, ejecutar el comando:
 
 ```bash=
-java -jar simae<version>.jar <nombreDelArchivoDeEntrada> <nombreDelArchivoDeSalida> <lenguaje>
+java -jar simae<version>.jar <nombreDelArchivoDeEntrada> [parámetros]
 ```
+
+Parámetros posibles:
+
+|Parámetro|Nombre completo|Descripción|
+|---|---|---|
+|-g|--gui|Abrir interfaz grafica|
+|-l|--language=language|Idioma de marcado y de mensajes|
+|-o|--out=out|Archivo de salida|
+|-pl|--programmingLanguage|Lenguaje de programacion del archivo de entrada (java8, c++, python3)|
+|-v|--version|Versión de SIMAE|
+|-ws|--withSound|Ejecuta SIMAE con sonido que indica el resultado del marcado.|
 
 |Nombre del lenguaje|Nombre como se debe poner en CLI|
 |-------------------|--------------------------------|
 |C++|c++|
-|Java|java|
+|Java|java8|
 |Python (versión 3.x)|python3|
 
 Ejemplo:
-java -jar simae-0.1.0-alpha.jar test.py salidaTest.py python3
+java -jar simae-0.2.0-alpha.jar test.py
 
 ### Integración en ZinjaI 
 
