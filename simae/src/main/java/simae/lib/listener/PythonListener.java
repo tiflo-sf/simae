@@ -10,6 +10,7 @@ import simae.lib.AnotacionMarca;
 
 import simae.grammars.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,14 +18,16 @@ import java.util.List;
 
 public class PythonListener extends Python3ParserBaseListener {
 
+	HashMap<String, String> strings;
+	
 	//declarar y asignar atributo de lista de marcas
 	private final List<AnotacionMarca> marcas = new ArrayList<>();
 	private final String nl = System.lineSeparator();
 	int ultimoSuiteLine = -1;
 	int ultimoSuiteCharPosLine = -1;
 
-	public PythonListener(Python3Parser parser) {
-
+	public PythonListener(Python3Parser parser, HashMap<String, String> strings) {
+		this.strings = strings;
 	}
 
 	private String getOriginalCode(Token start, Token stop) {
@@ -63,7 +66,7 @@ public class PythonListener extends Python3ParserBaseListener {
 					token = ((TerminalNode)simpleStatementContext).getSymbol();
 				}
 				ultimoSuiteLine = token.getLine();
-				ultimoSuiteCharPosLine = token.getCharPositionInLine();
+				ultimoSuiteCharPosLine = token.getCharPositionInLine() + (token.getText().length() - 1);
 			}
 			//FIXME: asegurarse que ultimoSuiteCharPosLine sea justo antes de un token newline.
 		}
@@ -72,7 +75,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	@Override
 	public void enterClassdef(Python3Parser.ClassdefContext ctx) {
 		//'class' NAME ('(' (arglist)? ')')? ':' suite;
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token dosPuntos = (Token) ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
 				dosPuntos.getCharPositionInLine(),
@@ -83,7 +86,28 @@ public class PythonListener extends Python3ParserBaseListener {
 	public void exitClassdef(Python3Parser.ClassdefContext ctx) {
 		//'class' NAME ('(' (arglist)? ')')? ':' suite;
 		String classCompleto = getOriginalCode(ctx.getStart(), ctx.NAME().getSymbol());
-		String texto = "CIERRA " + classCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + classCompleto + " DE LINEA " + ctx.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ultimoSuiteLine,
+				ultimoSuiteCharPosLine,
+				texto, "# /", "/"));
+	}
+
+	@Override
+	public void enterFuncdef(Python3Parser.FuncdefContext ctx) {
+		//funcdef: 'def' NAME parameters ('->' test)? ':' suite;
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
+		Token dosPuntos = (Token) ctx.getChild(ctx.getChildCount() - 2).getPayload();
+		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
+				dosPuntos.getCharPositionInLine(),
+				texto, "# /", "/"));
+	}
+
+	@Override
+	public void exitFuncdef(Python3Parser.FuncdefContext ctx) {
+		//funcdef: 'def' NAME parameters ('->' test)? ':' suite;
+		String funcCompleto = getOriginalCode(ctx.getStart(), ctx.NAME().getSymbol());
+		String texto = strings.get("closes") + funcCompleto + " DE LINEA " + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ultimoSuiteLine,
 				ultimoSuiteCharPosLine,
@@ -94,7 +118,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	@Override
 	public void enterIf_stmt_if(Python3Parser.If_stmt_ifContext ctx) {
 		//'if' test ':' suite; //agregado para implementacion simae
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token dosPuntos = (Token) ctx.getChild(2).getPayload();
 
 		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
@@ -110,7 +134,7 @@ public class PythonListener extends Python3ParserBaseListener {
 		String lineaCompleta = ctx.getStop().getText();
 
 		String ifCompleto = getOriginalCode(ctx.getStart(), ctx.test().getStop());
-		String texto = "CIERRA " + ifCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + ifCompleto + " DE LINEA " + ctx.getStart().getLine();
 
 		if(ctx.suite().DEDENT() != null) {
 			marcas.add(new AnotacionMarca(ultimoSuiteLine,
@@ -124,7 +148,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	@Override
 	public void enterIf_stmt_elif(Python3Parser.If_stmt_elifContext ctx) {
 		//'elif' test ':' suite; //agregado para implementacion simae
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token dosPuntos = (Token) ctx.getChild(2).getPayload();
 
 		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
@@ -140,7 +164,7 @@ public class PythonListener extends Python3ParserBaseListener {
 		String lineaCompleta = ctx.getStop().getText();
 
 		String ifCompleto = getOriginalCode(ctx.getStart(), ctx.test().getStop());
-		String texto = "CIERRA " + ifCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + ifCompleto + " DE LINEA " + ctx.getStart().getLine();
 
 		if(ctx.suite().DEDENT() != null) {
 			marcas.add(new AnotacionMarca(ultimoSuiteLine,
@@ -152,7 +176,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	@Override
 	public void enterIf_stmt_else(Python3Parser.If_stmt_elseContext ctx) {
 		//'else' ':' suite; //agregado para implementacion simae
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token dosPuntos = (Token) ctx.getChild(1).getPayload();
 
 		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
@@ -179,7 +203,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	@Override
 	public void enterWhile_stmt_while(Python3Parser.While_stmt_whileContext ctx) {
 		//while' test ':' suite (if_stmt_else)?;
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token dosPuntos = (Token) ctx.getChild(2).getPayload();
 
 		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
@@ -191,7 +215,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	public void exitWhile_stmt_while(Python3Parser.While_stmt_whileContext ctx) {
 		//while' test ':' suite (if_stmt_else)?;
 		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.test().getStop());
-		String texto = "CIERRA " + whileCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + whileCompleto + " DE LINEA " + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ultimoSuiteLine,
 				ultimoSuiteCharPosLine,
@@ -201,7 +225,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	@Override
 	public void enterFor_stmt_for(Python3Parser.For_stmt_forContext ctx) {
 		//for_stmt_for: 'for' exprlist 'in' testlist ':' suite;
-		String texto = "CIERRA EN LINEA " + ctx.getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token dosPuntos = (Token) ctx.getChild(4).getPayload();
 		marcas.add(new AnotacionMarca(dosPuntos.getLine(),
 				dosPuntos.getCharPositionInLine(),
@@ -212,7 +236,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	public void exitFor_stmt_for(Python3Parser.For_stmt_forContext ctx) {
 		//for_stmt_for: 'for' exprlist 'in' testlist ':' suite;
 		String forCompleto = getOriginalCode(ctx.getStart(), ctx.testlist().getStop());
-		String texto = "CIERRA " + forCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + forCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ultimoSuiteLine,
 				ultimoSuiteCharPosLine,

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 
 class ArchivoConDeclaracionDeVariableTest extends Tests{
@@ -13,7 +14,7 @@ class ArchivoConDeclaracionDeVariableTest extends Tests{
 		 
 		 prog = "int a = 4;" + nl;
 		 esperado = "int a = 4;" + nl;
-		 marcado = b.testMarcado(prog, Lenguaje.CPLUSPLUS);
+		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
 		 assertEquals(esperado,marcado, "No son iguales.");
 	}
 

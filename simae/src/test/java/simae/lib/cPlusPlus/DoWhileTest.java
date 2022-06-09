@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 
 class DoWhileTest extends Tests {
@@ -19,9 +20,8 @@ class DoWhileTest extends Tests {
 		  		"	do/*/CIERRA EN LINEA 3/*/ {" + nl + 
 		  		"	} while(c<0);/*/CIERRA do while DE LINEA 2/*/" + nl +
 		  		"}/*/CIERRA main() DE LINEA 1/*/" + nl;
-		  marcado = b.testMarcado(prog, Lenguaje.CPLUSPLUS);
-		  System.out.println("expected: " + "[" + esperado + "]");
-		  System.out.println("obtained: " + "[" + marcado + "]");
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
+
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

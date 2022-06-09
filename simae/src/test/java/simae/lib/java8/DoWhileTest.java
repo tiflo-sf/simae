@@ -1,6 +1,7 @@
 package simae.lib.java8;
 
 import org.junit.jupiter.api.Test;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.cPlusPlus.Tests;
 
@@ -32,7 +33,7 @@ class DoWhileTest extends Tests {
 				  "		} while (i <= 10);/*/CIERRA do while DE LINEA 4/*/\n" +
 				  "	}/*/CIERRA void main(String[] args) DE LINEA 2/*/\n" +
 				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = b.testMarcado(prog, Lenguaje.JAVA8);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8);
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

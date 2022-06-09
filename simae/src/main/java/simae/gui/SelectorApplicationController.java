@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
@@ -141,22 +142,29 @@ public class SelectorApplicationController {
                 .toArray());
         listaDeArchivos.setItems(listaObservable);
         if (extension() != null) eliminaOtrosLenguajes();
-        habilitarMarcado();
+        if (listaObservable.size() > 0) habilitarMarcado();
     }
 
     @FXML
-    void marcaArchivos() {
-        Simae simae = new Simae();
+    void marcaArchivos() throws Exception {
+        SimaeLauncher simaeLauncher = new SimaeLauncher();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M'; //FIXME: intentar cambiar metodo
         //if (extension() != null) archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
 
         textoError.setVisible(false);
         textoProcesado.setVisible(false);
 
-        if (listaObservable.parallelStream()
-                .anyMatch(file -> !simae.marcaDesmarcaPorArchivos(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca))) textoError.setVisible(true);
+        //FIXME: volver a enviar en paralelo editando SimaeLauncher
+        if (listaObservable.stream()
+                .anyMatch(file -> (decideMarca == 'M') ? !(simaeLauncher.launchTagging(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))) == 0) : !simaeLauncher.launchUntagging(((Archivo) file).getFile(), ((Archivo) file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))))) {
+            Simae.reproducirAudio(1);
+            textoError.setVisible(true);
+        }
 
-        if (!textoError.isVisible()) textoProcesado.setVisible(true);
+        if (!textoError.isVisible()) {
+            Simae.reproducirAudio(0);
+            textoProcesado.setVisible(true);
+        }
 
         /*for (File file : archivos) {
             System.out.println(file.toString().substring(file.toString().lastIndexOf(".")));
@@ -169,6 +177,7 @@ public class SelectorApplicationController {
     @FXML
     void filtraObjeto() {
         actualizaLista();
+        seleccionLenguajes.setAccessibleHelp("Lenguaje: " + seleccionLenguajes.getSelectionModel().getSelectedItem().toString());
         if(fc.getExtensionFilters().size() != 0) fc.getExtensionFilters().removeAll(fc.getExtensionFilters());
         switch(seleccionLenguajes.getSelectionModel().getSelectedItem().toString()) {
             case "C++":
@@ -188,10 +197,13 @@ public class SelectorApplicationController {
     void eliminarTodos() {
         listaObservable.removeAll(listaObservable);
         listaCompleta.removeAll(listaCompleta);
+        listaArchivosObjeto.removeAll(listaArchivosObjeto);
     }
 
     @FXML
     void eliminarArchivoSeleccionado() {
+        for (Archivo archivo : listaArchivosObjeto)
+            if (listaDeArchivos.getSelectionModel().getSelectedItems().contains(archivo)) listaArchivosObjeto.remove(archivo);
         listaObservable.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
         listaCompleta.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
         detectaHabilitaQuitado();

@@ -1,6 +1,7 @@
 package simae.lib.python;
 
 import org.junit.jupiter.api.Test;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.cPlusPlus.Tests;
 
@@ -19,7 +20,7 @@ class ForTest extends Tests {
 		  esperado = "for x in students:# /CIERRA EN LINEA 2/" + nl +
 			  		"    print(\"x\")# /CIERRA for x in students DE LINEA 1/" + nl +
 			  		"print(\"print2\")" + nl;
-		  marcado = b.testMarcado(prog, Lenguaje.PYTHON3);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3);
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

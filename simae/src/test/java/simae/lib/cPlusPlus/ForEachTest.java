@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
+import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 
 class ForEachTest extends Tests {
@@ -21,7 +22,7 @@ class ForEachTest extends Tests {
 		  		"		c++;" + nl +
 		  		"	}/*/CIERRA for(int it : vector) DE LINEA 2/*/" + nl + 
 		  		"}/*/CIERRA main() DE LINEA 1/*/" + nl;
-		  marcado = b.testMarcado(prog, Lenguaje.CPLUSPLUS);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }
