@@ -19,7 +19,7 @@ public class Interfaz_en extends ListResourceBundle {
                     {"usage.synopsisHeading", "Usage: "},
                     {"withSound", "Executes SIMAE with sound which indicates the result of the marking. \n"},
                     //Mensajes de exito y error"
-                    {"extension", "If the file does not have a .java, .cpp, .py extension, you must provide a programming language. \n"},
+                    {"extension", "The input file must have a .java, .cpp or .py extension. \n"},
                     {"emptyInput", "You must enter an input file. \n"},
                     {"invalidInput", "The input file is not valid. \n"},
                     {"falloMarcado", "Error in the process of writing marks. \n"},

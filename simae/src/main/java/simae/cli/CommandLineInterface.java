@@ -97,21 +97,23 @@ public class CommandLineInterface implements Callable<Integer> {
 
 			Lenguaje programmingLenguage;
 
-			if (lenguajeString == null) {
+			//if (lenguajeString == null) {
 				lenguajeString = this.getFileExtension(inputFile);
-			}
+			//}
+
+
 			switch (lenguajeString) { //FIXME: esto esta hardcodeado
-				case "c++":
+				//case "c++":
 				case ".cpp":
 					programmingLenguage = Lenguaje.CPLUSPLUS;
 					lenguajeString = "c++";
 					break;
-				case "java8":
+				//case "java8":
 				case ".java":
 					programmingLenguage = Lenguaje.JAVA8;
 					lenguajeString = "java8";
 					break;
-				case "python3":
+				//case "python3":
 				case ".py":
 					programmingLenguage = Lenguaje.PYTHON3;
 					lenguajeString = "python3";
