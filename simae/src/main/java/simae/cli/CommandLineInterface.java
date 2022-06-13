@@ -1,5 +1,6 @@
 package simae.cli;
 import java.io.*;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -10,64 +11,79 @@ import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+class InitLocale {
+
+	@CommandLine.Option(names = { "-l", "--locale" }, paramLabel = "<locale>", descriptionKey = "language")
+	void setLocale(String locale) {
+		Locale.setDefault(new Locale(locale));
+	}
+	@CommandLine.Unmatched
+	List<String> remainder; // ignore any other parameters and options in the first parsing phase
+}
 
 //FIXME: faltan tests para la clase
-@CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="SIMAE")
+@CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="simae", sortOptions = false)
 public class CommandLineInterface implements Callable<Integer> {
 
-	@CommandLine.Option(names = { "-l", "--language" }, descriptionKey = "language", paramLabel = "language")
-	void setLocale(String language) {
-		Locale.setDefault(new Locale(language));
-	}
-
-	ResourceBundle rb = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
-
-	@CommandLine.Parameters(index="0", arity="0..1", descriptionKey = "input", paramLabel = "input")
+	@CommandLine.Parameters(index="0", arity="0..1", paramLabel = "<inputFile>", descriptionKey = "input")
 	static String inputFile;
 
-	@CommandLine.Option(names = {"-o", "--out"}, required=false, descriptionKey = "output", paramLabel = "out")
+	@CommandLine.Option(names = {"-o", "--out"}, paramLabel = "<outputFile>", required=false, descriptionKey = "output")
 	static String outputFile;
 
-	@CommandLine.Option(names = {"-pl", "--programmingLanguage"}, descriptionKey="programmingLanguage", required=false, paramLabel = "programmingLanguage")
-	static String lenguajeString;
+	@CommandLine.Option(names = {"-p", "--lang"}, paramLabel = "<language>", descriptionKey="programmingLanguage", required=false)
+	static String languageString;
+
+	@CommandLine.Option(names = { "-l", "--locale" }, paramLabel = "<locale>", descriptionKey = "language")
+	static String language;
+
+	private static ResourceBundle rb;
+
+	@CommandLine.Option(names = { "-u", "--untag" }, required = false, descriptionKey = "untag")
+	static Boolean untag;
+
+	@CommandLine.Option(names = {"-s", "--sound"}, required=false, descriptionKey = "withSound")
+	static Boolean withSound;
 
 	@CommandLine.Option(names = {"-g", "--gui"}, required=false, descriptionKey = "gui")
 	static Boolean gui;
 
-
-	@CommandLine.Option(names = {"-ws", "--withSound"}, required=false, descriptionKey = "withSound")
-	static Boolean withSound;
-
+	@CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, descriptionKey = "help")
+	boolean helpRequested;
 
 	@CommandLine.Option(names = { "-v", "--version" }, versionHelp = true, descriptionKey = "version")
 	boolean versionRequested;
-
 
 	static @CommandLine.Spec
 	CommandLine.Model.CommandSpec spec;
 
 
 	public static void main(String[] args) {
-		ResourceBundle rb2 = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
 		try {
+			new CommandLine(new InitLocale()).parseArgs(args);
+
 			CommandLine commandLine = new CommandLine(new CommandLineInterface());
 			commandLine.parseArgs(args);
-			commandLine.execute(args);
-			if (commandLine.isVersionHelpRequested()) {
-				System.out.println(new SimaeLauncher().getVersion());
+
+			if (language != null) Locale.setDefault(new Locale(language));
+			rb = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
+
+			if (commandLine.isUsageHelpRequested()) {
+				commandLine.usage(System.out);
+				return;
+			} else if (commandLine.isVersionHelpRequested()) {
+				System.out.println(new SimaeLauncher().getVERSION());
+				return;
 			}
+			commandLine.execute(args);
 		} catch(CommandLine.UnmatchedArgumentException e){
-			spec.commandLine().usage(System.out.printf(rb2.getObject("undefinedArgument1")+ e.getUnmatched().toString() + rb2.getObject("undefinedArgument2")));
+			spec.commandLine().usage(System.out.printf(rb.getObject("undefinedArgument1")+ e.getUnmatched().toString() + rb.getObject("undefinedArgument2")));
 		} catch(picocli.CommandLine.MissingParameterException e){
-			spec.commandLine().usage(System.out.printf(rb2.getObject("missing") + e.getMissing().get(0).paramLabel() + ". \n"));
+			spec.commandLine().usage(System.out.printf(rb.getObject("missing") + e.getMissing().get(0).paramLabel() + ". \n"));
 		} catch(java.util.MissingResourceException e){
-			System.out.println((String) rb2.getObject("missingResource"));
+			System.out.println((String) rb.getObject("missingResource"));
 		} catch(CommandLine.OverwrittenOptionException e){
-		spec.commandLine().usage(System.out.printf((String) rb2.getObject("overwritten1") + e.getOverwritten().paramLabel() + rb2.getObject("overwritten2")));
+		spec.commandLine().usage(System.out.printf((String) rb.getObject("overwritten1") + e.getOverwritten().paramLabel() + rb.getObject("overwritten2")));
 	}
 
 	}
@@ -75,7 +91,7 @@ public class CommandLineInterface implements Callable<Integer> {
 	@Override
 	public Integer call() throws Exception {
 
-		if (gui == null && inputFile == null && outputFile == null && lenguajeString == null) {
+		if (gui == null && inputFile == null && outputFile == null && languageString == null) {
 			Application.launch(simae.gui.SelectorApplication.class);
 			return 0;
 		}
@@ -98,25 +114,25 @@ public class CommandLineInterface implements Callable<Integer> {
 			Lenguaje programmingLenguage;
 
 			//if (lenguajeString == null) {
-				lenguajeString = this.getFileExtension(inputFile);
+				languageString = this.getFileExtension(inputFile);
 			//}
 
 
-			switch (lenguajeString) { //FIXME: esto esta hardcodeado
+			switch (languageString) { //FIXME: esto esta hardcodeado
 				//case "c++":
 				case ".cpp":
 					programmingLenguage = Lenguaje.CPLUSPLUS;
-					lenguajeString = "c++";
+					languageString = "c++";
 					break;
 				//case "java8":
 				case ".java":
 					programmingLenguage = Lenguaje.JAVA8;
-					lenguajeString = "java8";
+					languageString = "java8";
 					break;
 				//case "python3":
 				case ".py":
 					programmingLenguage = Lenguaje.PYTHON3;
-					lenguajeString = "python3";
+					languageString = "python3";
 					break;
 				default:
 					spec.commandLine().usage(System.out.printf((String) rb.getObject("extension")));
@@ -125,32 +141,48 @@ public class CommandLineInterface implements Callable<Integer> {
 
 			SimaeLauncher launcher = new SimaeLauncher();
 
-			File fileToMark = new File(inputFile);
+			File fileToTag = new File(inputFile);
 
-			if (!fileToMark.exists()) {
+			if (!fileToTag.exists()) {
 				System.out.println((String) rb.getObject("invalidInput"));
-				Simae.reproducirAudio(1);
+				if (withSound != null) Simae.reproducirAudio(1);
 				return 1;
 			}
 
-			switch (launcher.launchTagging(new File(inputFile), outputFile, lenguajeString)) {
-				case 0:
-                    System.out.printf((String) rb.getObject("success"));
-					if(withSound != null){
+			if (untag == null) {
+				switch (launcher.launchTagging(new File(inputFile), outputFile, languageString)) {
+					case 0:
+						System.out.printf((String) rb.getObject("success"));
+						if (withSound != null) {
+							Simae.reproducirAudio(0);
+						}
+						break;
+					case 1:
+						System.out.println((String) rb.getObject("falloMarcado"));
+						if (withSound != null) {
+							Simae.reproducirAudio(1);
+						}
+						break;
+					case 2:
+						System.out.println((String) rb.getObject("workFileError"));
+						if (withSound != null) {
+							Simae.reproducirAudio(1);
+						}
+				}
+			}
+			else {
+				if (launcher.launchUntagging(new File(inputFile), outputFile, languageString)) {
+					System.out.printf((String) rb.getObject("success"));
+					if (withSound != null) {
 						Simae.reproducirAudio(0);
 					}
-					break;
-				case 1:
+				}
+				else {
 					System.out.println((String) rb.getObject("falloMarcado"));
-					if(withSound != null){
+					if (withSound != null) {
 						Simae.reproducirAudio(1);
 					}
-					break;
-				case 2:
-					System.out.println((String) rb.getObject("workFileError"));
-					if(withSound != null){
-						Simae.reproducirAudio(1);
-					}
+				}
 			}
 		}
 		return 0;

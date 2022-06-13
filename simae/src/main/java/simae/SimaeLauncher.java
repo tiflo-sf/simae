@@ -3,8 +3,6 @@ package simae;
 import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,7 +10,7 @@ import java.nio.file.StandardCopyOption;
 
 public class SimaeLauncher {
 
-    private String version = "0.2.0-alpha";
+    private static String VERSION = "SIMAE 0.2.1-alpha";
     public SimaeLauncher() {
     }
 
@@ -20,8 +18,8 @@ public class SimaeLauncher {
     PrintWriter workWriter = null;
     File workFile = null;
 
-    public String getVersion() {
-        return version;
+    public static String getVERSION() {
+        return VERSION;
     }
 
     public static Lenguaje lenguaje(String lenguajeString) {
@@ -29,6 +27,7 @@ public class SimaeLauncher {
             case "c++":
                 return Lenguaje.CPLUSPLUS;
             case "java":
+            case "java8":
                 return Lenguaje.JAVA8;
             case "python3":
                 return Lenguaje.PYTHON3;
@@ -69,6 +68,7 @@ public class SimaeLauncher {
         prepareSimae(inputFile);
 
         Lenguaje lenguaje = lenguaje(lenguajeString.toLowerCase());
+
 
         try {
             Simae.fuenteMarcado(inputReader, workWriter, lenguaje, null);
