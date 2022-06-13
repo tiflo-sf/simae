@@ -43,12 +43,15 @@ Parámetros posibles:
 
 |Parámetro|Nombre completo|Descripción|
 |---|---|---|
-|-g|--gui|Abrir interfaz grafica|
-|-l|--language=language|Idioma de marcado y de mensajes|
-|-o|--out=out|Archivo de salida|
-|-pl|--programmingLanguage|Lenguaje de programacion del archivo de entrada (java8, c++, python3)|
-|-v|--version|Versión de SIMAE|
-|-ws|--withSound|Ejecuta SIMAE con sonido que indica el resultado del marcado.|
+|[inputFile]|-|Input filename|
+|-o|--out=outputFile|Output filename (default is inputFile)|
+|-p| --lang=language    |Input file programming language (java8, c++, python3)|
+|-l| --locale=locale    |Language used for tagging and messages|
+|-u| --untag              |Removes SIMAE tags from inputFile|
+|-s| --sound              |Plays a sound to indicate the result of the (CLI only)|
+  |-g| --gui|Shows graphical interface|
+  |-h| --help|Displays this usage description|
+  |-v| --version|Version of SIMAE|
 
 |Nombre del lenguaje|Nombre como se debe poner en CLI|
 |-------------------|--------------------------------|
