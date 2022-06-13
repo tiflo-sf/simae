@@ -58,7 +58,6 @@ public class JavaListener extends JavaParserBaseListener {
 		else if(ctx.typeParameters() != null) ultimoAntesDeMarca = ctx.typeParameters().getStop();
 		else ultimoAntesDeMarca = ctx.IDENTIFIER().getSymbol();
 		String texto = strings.get("endsOn") + ctx.getStop().getLine();
-		System.out.println(ultimoAntesDeMarca);
 		marcas.add(new AnotacionMarca(ultimoAntesDeMarca.getLine(),
 				ultimoAntesDeMarca.getCharPositionInLine() + ultimoAntesDeMarca.getText().length(),
 				texto));
