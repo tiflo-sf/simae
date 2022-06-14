@@ -6,20 +6,61 @@ has_children: false
 
 # Interfaz por Línea de Comandos
 
-La herramienta cuenta con una interfaz de línea de comandos.
-
-**Aclaración: la interfaz cuenta con la función básica de marcado sin permitir el desmarcado. Está previsto en una futura actualización permitir el uso de más funciones.**
-
-![Interfaz por Línea de Comandos](https://user-images.githubusercontent.com/42981462/159584429-ed5f282f-fc86-4e7f-bd0f-0d84f88df72a.png)
+La herramienta cuenta con una interfaz de línea de comandos (command line interface -- CLI) que permite procesar los archivos en forma directa, uno por uno.
 
 La estructura para ejecutar la aplicación es:
 
-java -jar simae<numeroDeVersion>.jar <nombreArchivoEntrada> <nombreArchivoSalida> <lenguaje>
+```
+java -jar simae<version>.jar [<inputFile>] [<opciones>]
+```
 
-Lenguajes disponibles:
+Donde \<_inputFile_\> es el archivo de entrada, y las opciones disponibles son:
 
-|Nombre del lenguaje|Nombre como se debe poner en CLI|
-|-------------------|--------------------------------|
+|Opción | Nombre completo |Parámetro|Descripción|
+|---|---|---|---|
+|  -o | \-\-out | <_outputFile_> |  Archivo de salida (por defecto es <_inputFile_>) |
+|  -p | \-\-lang | <_language_>  |  Lenguaje de programación del archivo de entrada (`java8`, `c++`, `python3`) |
+|  -l | \-\-locale | <_locale_>  |  Idioma utilizado para el marcado y mensajes |
+|  -u | \-\-untag |           |  Quitar las marcas de SIMAE de <_inputFile_> |
+|  -s | \-\-sound  |          |  Reproduce un sonido para indicar el resultado del proceso (solo CLI) |
+|  -g | \-\-gui   |           |  Muestra la interfaz gráfica |
+|  -h | \-\-help   |          |  Muestra la descripción de uso |
+|  -v | \-\-version |         |  Versión de SIMAE |
+
+Lenguajes de programación disponibles (parámetro <_language_\>):
+
+|Lenguaje|Identificador a utilizar en CLI|
+|---|---|
 |C++|c++|
 |Java|java|
 |Python (versión 3.x)|python3|
+
+> **Nota:** El lenguaje de programación se determina automáticamente en base a la extensión del archivo. Este parámetro se utiliza para forzar un determinado lenguaje.
+
+Idiomas disponibles (parámetro <_locale_\>):
+
+|Idioma|Identificador a utilizar en CLI|
+|---|---|
+|Inglés|en|
+|Español|es|
+
+> **Nota:** Si no es indicado, la localización se obtiene de la configuración del sistema operativo.
+
+
+## Ejemplos
+
+* Marcar el archivo `test.cpp` en español:
+  ```
+  java -jar simae<version>.jar test.cpp --locale=es
+  ```
+
+* Marcar el archivo `test.java` en inglés con salida en el archivo `testOutput.java`:
+  ```
+  java -jar simae<version>.jar test.java -o testOutput.java -l en
+  ```
+
+* Desmarcar el archivo `test.py` emitiendo un sonido que indica éxito o falla de la operación:
+  ```
+  java -jar simae<version>.jar test.py -su
+  ```
+

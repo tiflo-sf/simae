@@ -5,7 +5,11 @@ has_children: false
 ---
 # Interfaz Gráfica
 
-SIMAE cuenta con una interfaz gráfica. La misma puede ser accedida ejecutando el JAR o desde la terminal sin enviar argumentos.
+SIMAE cuenta con una interfaz gráfica (graphical user interface -- GUI). La misma puede ser accedida ejecutando el JAR o desde la terminal sin enviar argumentos.
+
+```
+java -jar simae<version>.jar
+```
 
 ![Interfaz Gráfica](https://user-images.githubusercontent.com/42981462/159582933-73f197e2-0348-4805-948b-599ba2cd5724.png)
 
