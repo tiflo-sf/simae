@@ -11,7 +11,7 @@ A continuación se presenta un ejemplo del funcionamiento de la herramienta **SI
 
 Dado el siguiente archivo de entrada, denominado `Nodo.java`
 
-```java {.line-numbers}
+```java
 import java.util.List;
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ Al procesar el archivo `Nodo.java` con **SIMAE**, el código del archivo es modi
 
 La salida obtenida para el archivo anterior será:
 
-```java {.line-numbers}
+```java
 import java.util.List;
 import java.util.ArrayList;
 
