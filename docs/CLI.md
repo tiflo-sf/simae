@@ -18,16 +18,16 @@ Donde \<_inputFile_\> es el archivo de entrada, y las opciones disponibles son:
 
 |Opción | Nombre completo |Parámetro|Descripción|
 |---|---|---|---|
-|  -o | \-\-out | <outputFile> |  Archivo de salida (por defecto es <inputFile>) |
-|  -p | \-\-lang | <language>  |  Lenguaje de programación del archivo de entrada (`java8`, `c++`, `python3`) |
-|  -l | \-\-locale | <locale>  |  Idioma utilizado para el marcado y mensajes |
-|  -u | \-\-untag |           |  Quitar las marcas de SIMAE de <inputFile> |
+|  -o | \-\-out | \<outputFile\> |  Archivo de salida (por defecto es \<inputFile\>) |
+|  -p | \-\-lang | \<language\>  |  Lenguaje de programación del archivo de entrada (`java8`, `c++`, `python3`) |
+|  -l | \-\-locale | \<locale\>  |  Idioma utilizado para el marcado y mensajes |
+|  -u | \-\-untag |           |  Quitar las marcas de SIMAE de \<inputFile\> |
 |  -s | \-\-sound  |          |  Reproduce un sonido para indicar el resultado del proceso (solo CLI) |
 |  -g | \-\-gui   |           |  Muestra la interfaz gráfica |
 |  -h | \-\-help   |          |  Muestra la descripción de uso |
 |  -v | \-\-version |         |  Versión de SIMAE |
 
-Lenguajes de programación disponibles (parámetro <_language_\>):
+Lenguajes de programación disponibles (parámetro \<_language_\>):
 
 |Lenguaje|Identificador a utilizar en CLI|
 |---|---|
