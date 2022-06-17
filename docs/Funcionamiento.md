@@ -11,7 +11,7 @@ A continuación se presenta un ejemplo del funcionamiento de la herramienta **SI
 
 Dado el siguiente archivo de entrada, denominado `Nodo.java`
 
-```java  {.line-numbers}
+```java
 import java.util.List;
 import java.util.ArrayList;
 
@@ -30,6 +30,7 @@ public class Nodo {
     }
 }
 ```
+
 Este código fuente presenta diferentes estructuras gramaticales en forma anidada, en particular contiene: 
 - definición de la clase `Nodo`
   * definición del método `dfs()`
@@ -39,7 +40,8 @@ Este código fuente presenta diferentes estructuras gramaticales en forma anidad
 Al procesar el archivo `Nodo.java` con **SIMAE**, el código del archivo es modificado agregando marcas en forma de comentarios que describen su estructura.
 
 La salida obtenida para el archivo anterior será:
-```java  {.line-numbers}
+
+```java
 import java.util.List;
 import java.util.ArrayList;
 
@@ -58,6 +60,7 @@ public class Nodo /*/CIERRA EN LINEA 17/*/{
     }/*/CIERRA void dfs() DE LINEA 9/*/
 }/*/CIERRA class Nodo DE LINEA 4/*/
 ```
+
 Como puede leerse, las marcas insertadas describen las líneas de apertura y cierre de las diferentes estructuras gramaticales.
 
 Para leer las marcas en el código, el programador ciego utiliza un editor de texto (ya sea genérico o como parte de un IDE) junto con el lector de pantalla que emplea habitualmente. El lector de pantalla traduce a voz el contenido de la línea de código activa, indicando su número de línea, de manera que las marcas brindan información contextual asistiendo al programador para posicionarse, navegar e interpretar el código. 
