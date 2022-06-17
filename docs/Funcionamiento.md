@@ -11,24 +11,24 @@ A continuación se presenta un ejemplo del funcionamiento de la herramienta **SI
 
 Dado el siguiente archivo de entrada, denominado `Nodo.java`
 
-```java
-import java.util.List;
-import java.util.ArrayList;
-
-public class Nodo {
-    private String etiqueta;
-    private List<Nodo> vecinos = new ArrayList<Nodo>();
-    private boolean visitado = false;
-
-    void dfs() {
-        visitado = true;
-        for (Nodo vecino : vecinos) {
-            if (!vecino.visitado) {
-                vecino.dfs();
-            }
-        }
-    }
-}
+```text
+   1  import java.util.List;
+   2  import java.util.ArrayList;
+   3  
+   4  public class Nodo {
+   5      private String etiqueta;
+   6      private List<Nodo> vecinos = new ArrayList<Nodo>();
+   7      private boolean visitado = false;
+   8  
+   9      void dfs() {
+  10          visitado = true;
+  11          for (Nodo vecino : vecinos) {
+  12              if (!vecino.visitado) {
+  13                  vecino.dfs();
+  14              }
+  15          }
+  16      }
+  17  }
 ```
 
 Este código fuente presenta diferentes estructuras gramaticales en forma anidada, en particular contiene: 
