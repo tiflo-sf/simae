@@ -13,9 +13,15 @@ nav_order: 3
 
 ## Instalación básica <a name ="instalacion-basica"/>
 
-Descargar la última versión de la herramienta (archivo `.jar`) desde el apartado [Releases](https://github.com/tiflo-sf/simae/releases) del repositorio.
+Descargar la última versión de la herramienta desde el apartado [Releases](https://github.com/tiflo-sf/simae/releases) del repositorio.
 
-**SIMAE** es una aplicación **Java**, y requiere instalar previamente el **Java Developers Kit (JDK)** versión 11 o posterior.
+|Release|Enlace directo|Fecha de publicación|
+|---|---|---|
+|0.2.1\-alpha| [simae-0.2.1-alpha.zip](https://github.com/tiflo-sf/simae/releases/download/v0.2.1-alpha/simae-0.2.1-alpha.zip)| 2022\-06\-13|
+
+Descomprimir el archivo `.zip` en una carpeta de su elección, accediendo así al archivo `.jar`
+
+**SIMAE** es una aplicación **Java**, y requiere instalar previamente el **Java Development Kit (JDK)** versión 11 o posterior.
 
 > Para instalar Java, las principales versiones disponibles son:
 > - [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
@@ -33,7 +39,7 @@ Básicamente, se configura una macro de manera que el código fuente en el archi
 
 0) Guardar el jar en un lugar accesible
 
-Se propone como paso cero guardar el .jar generado en el título anterior en `C:\Simae` o `/home/simae` con el nombre `simae.jar` de manera que se pueda acceder fácilmente en la configuración de la macro.
+Se propone como paso cero guardar el `.jar` generado en el título anterior en `C:\Simae` o `/home/simae` con el nombre `simae.jar` de manera que se pueda acceder fácilmente en la configuración de la macro.
 
 1) Agregar hotkey
 
@@ -69,7 +75,7 @@ Y para agregar la macro usamos esta configuración:
 
 ```
 Nombre: simae
-Comando: java -jar <DirecciónDeSIMAE> "${CURRENT_SOURCE}"
+Comando: java -jar <DirecciónDeSIMAE> "${CURRENT_SOURCE}" -sl=es
 Directorio de trabajo: vacio (no escribir nada)
 Acción antes de ejecutar: Guardar el fuente actual
 Ejecución asíncrona: NO
@@ -78,7 +84,7 @@ Acción luego de ejecutar: Recargar fuente actual
 Mostrar en la barra de herramientas: SI
 ````
 
-**IMPORTANTE: reemplazar <DirecciónDeSIMAE> por la dirección donde se encuentra el software. En caso de cumplir el paso 0 será `C:/simae/simae.jar` o `/home/simae/simae.jar`**
+**IMPORTANTE: reemplazar \<DirecciónDeSIMAE\> por la dirección donde se encuentra el software. En caso de cumplir el paso 0 será `C:/simae/simae.jar` o `/home/simae/simae.jar`**
 
 Finalmente, la macro se encuentra agregada al IDE.
 
