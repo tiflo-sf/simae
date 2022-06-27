@@ -8,7 +8,6 @@ nav_order: 3
 ##### Contenidos
 - [Instalación básica](#instalacion-basica)
 - [Integración en ZinjaI IDE](#integracion-en-zinjaI)
-- [Instrucciones de compilación](#instrucciones-de-compilacion)
  
 
 ## Instalación básica <a name ="instalacion-basica"/>
