@@ -11,7 +11,7 @@ La herramienta cuenta con una interfaz de línea de comandos (command line inter
 La estructura para ejecutar la aplicación es:
 
 ```
-java -jar simae<version>.jar [<inputFile>] [<opciones>]
+java -jar simae.jar [<inputFile>] [<opciones>]
 ```
 
 Donde \<_inputFile_\> es el archivo de entrada, y las opciones disponibles son:
@@ -51,16 +51,16 @@ Idiomas disponibles (parámetro \<_locale_\>):
 
 * Marcar el archivo `test.cpp` en español:
   ```
-  java -jar simae<version>.jar test.cpp --locale=es
+  java -jar simae.jar test.cpp --locale=es
   ```
 
 * Marcar el archivo `test.java` en inglés con salida en el archivo `testOutput.java`:
   ```
-  java -jar simae<version>.jar test.java -o testOutput.java -l en
+  java -jar simae.jar test.java -o testOutput.java -l en
   ```
 
 * Desmarcar el archivo `test.py` emitiendo un sonido que indica éxito o falla de la operación:
   ```
-  java -jar simae<version>.jar test.py -su
+  java -jar simae.jar test.py -su
   ```
 
