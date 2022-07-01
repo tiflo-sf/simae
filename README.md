@@ -48,7 +48,7 @@ Parámetros posibles:
 |-p| --lang=language    |Input file programming language (java8, c++, python3)|
 |-l| --locale=locale    |Language used for tagging and messages|
 |-u| --untag              |Removes SIMAE tags from inputFile|
-|-s| --sound              |Plays a sound to indicate the result of the (CLI only)|
+|-s| --sound              |Plays a sound to indicate the result of the process (CLI only)|
   |-g| --gui|Shows graphical interface|
   |-h| --help|Displays this usage description|
   |-v| --version|Version of SIMAE|
@@ -66,7 +66,7 @@ java -jar simae-0.2.0-alpha.jar test.py
 
 Desde la materia Algoritmos y Estructuras de Datos se utiliza el IDE Zinjai con las librerías de Windows. Por lo que se añade un instructivo para generar una macro de manera que el código se marque automáticamente con un botón o hotkeys.
 
-#### En Zinjai:
+#### En ZinjaI:
 
 0) Guardar el jar en un lugar accesible
 
@@ -106,7 +106,7 @@ Y para agregar la macro usamos esta configuración:
 
 ```
 Nombre: simae
-Comando: java -jar <DirecciónDeZinjai> "${CURRENT_SOURCE}" "${CURRENT_SOURCE}"
+Comando: java -jar <DirecciónDeSIMAE> "${CURRENT_SOURCE}" "${CURRENT_SOURCE}"
 Directorio de trabajo: vacio (no escribir nada)
 Acción antes de ejecutar: Guardar el fuente actual
 Ejecución asíncrona: NO
@@ -115,7 +115,7 @@ Acción luego de ejecutar: Recargar fuente actual
 Mostrar en la barra de herramientas: SI
 ````
 
-**IMPORTANTE: reemplazar <DirecciónDeZijaI> por la dirección donde se encuentra el software. En caso de cumplir el paso 0 será C:/simae/simae.jar o /home/simae/simae.jar**
+**IMPORTANTE: reemplazar <DirecciónDeSIMAE> por la dirección donde se encuentra el software. En caso de cumplir el paso 0 será C:/simae/simae.jar o /home/simae/simae.jar**
 
 ![Pestaña de Zinjai con macros añadidas](https://gitlab.com/Patacon/patacon.gitlab.io/-/raw/main/images/simae-macro.png)
 
