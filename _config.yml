@@ -26,6 +26,7 @@ baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://simae.info" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 
 github_username: tiflo-sf
+lang: es_AR
 
 # Build settings
 # theme: minima
