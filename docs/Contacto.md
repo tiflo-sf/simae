@@ -5,7 +5,7 @@ nav_order: 5
 ---
 # Contacto
 
-Acceda a este formulario para dejarnos sus comentarios e inquietudes, y ayudarnos a mejorar la herramienta. También podrá:
+Acceda a [este formulario](https://forms.gle/kABFnMF4jzv6ssZcA) para dejarnos sus comentarios e inquietudes, y ayudarnos a mejorar la herramienta. También podrá:
 * anotarse para participar como tester (evaluador) de SIMAE.
 * registrarse para participar en el grupo de WhatsApp.
 
