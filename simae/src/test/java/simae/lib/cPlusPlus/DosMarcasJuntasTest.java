@@ -25,7 +25,7 @@ class DosMarcasJuntasTest extends Tests{
 		 		"	}/*/CIERRA if(c) DE LINEA 4 y CIERRA while(c) DE LINEA 3/*/" + nl + 
 		 		"" + nl +
 		 		"}/*/CIERRA main() DE LINEA 1/*/" + nl;
-		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
+		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
 		 assertEquals(esperado,marcado, "No son iguales.");
 	}
 

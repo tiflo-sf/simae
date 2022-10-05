@@ -139,10 +139,19 @@ public class JavaListener extends JavaParserBaseListener {
 				texto));
 	}
 
+	public void enterIfElseStatement(JavaParser.IfElseStatementContext ctx) {
+		//IF parExpression statement elseStatement
+		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
+		Token parentesis = ctx.parExpression().getStop();
+		marcas.add(new AnotacionMarca(parentesis.getLine(),
+				parentesis.getCharPositionInLine(),
+				texto));
+	}
+
 	@Override
 	public void enterElseStatement(JavaParser.ElseStatementContext ctx) {
 		//ELSE statement;
-		String texto = strings.get("closes") + strings.get("ofLine") + ctx.statement().getStop().getLine();
+		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
 		Token elseT = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(elseT.getLine(),
 				elseT.getCharPositionInLine() + 3,
@@ -182,7 +191,7 @@ public class JavaListener extends JavaParserBaseListener {
 	public void exitWhileStatement(JavaParser.WhileStatementContext ctx) {
 		//WHILE parExpression statement
 		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.parExpression().getStop());
-		String texto = strings.get("closes") + whileCompleto + strings.get("onLine") + ctx.getStart().getLine();
+		String texto = strings.get("closes") + whileCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
 				ctx.getStop().getCharPositionInLine(),

@@ -22,7 +22,7 @@ class IfTest extends Tests {
 				  "b = 200\n" +
 				  "if b > a:# /CIERRA EN LINEA 4/\n" +
 				  "  print(\"b is greater than a\")# /CIERRA if b > a DE LINEA 3/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

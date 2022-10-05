@@ -20,7 +20,7 @@ class ForTest extends Tests {
 		  esperado = "for x in students:# /CIERRA EN LINEA 2/" + nl +
 			  		"    print(\"x\")# /CIERRA for x in students DE LINEA 1/" + nl +
 			  		"print(\"print2\")" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

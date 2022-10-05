@@ -34,7 +34,7 @@ class IfTest extends Tests {
 				  "        }/*/CIERRA if (c == 5) DE LINEA 5/*/\n" +
 				  "    }/*/CIERRA void main(String[] args) DE LINEA 3/*/\n" +
 				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

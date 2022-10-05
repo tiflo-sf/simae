@@ -20,7 +20,7 @@ class ClassTest extends Tests {
 		  esperado = "public class Main /*/CIERRA EN LINEA 3/*/{\n" +
 				  "\n" +
 				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }
