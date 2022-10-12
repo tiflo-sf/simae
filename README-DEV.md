@@ -64,6 +64,7 @@ jlink.exe --compress=2 --module-path ..\jmods --add-modules "java.base,java.desk
 
 Debe tener instalado Inno Setup de acuerdo a las instrucciones del apendice C
 
+**TODO**
 
 
 # Apendice A: Instalar JDK
@@ -80,8 +81,10 @@ choco install openjdk11 -y
 Si tenia alguna terminal abierta, cierrela y vuelvala a abrir.
 
 # Apendice B: Instalar launch4j
+**TODO**
 
 # Apendice C: Instalar Inno Setup
+**TODO**
 
 # Apendice D: Instalar Chocolatey
-
+**TODO**
