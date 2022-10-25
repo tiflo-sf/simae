@@ -18,15 +18,16 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\simae-main\simae-main\LICENSE
-InfoAfterFile=C:\simae021\instrucciones.txt
+LicenseFile=..\LICENSE
+InfoAfterFile=instrucciones.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 Compression=lzma
 CreateAppDir=yes
 DefaultDirName=C:\{#MyAppName}\{#MyAppVersion}
+DisableWelcomePage=no
+DisableDirPage=no
 SolidCompression=yes
 WizardStyle=modern
 
@@ -38,7 +39,8 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\simae021\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\launch4j\output\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\launch4j\output\jre\*"; DestDir: "{app}\jre"; Flags: ignoreversion recursesubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
