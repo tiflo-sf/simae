@@ -3,8 +3,8 @@
 
 #define MyAppName "simae"
 #define MyAppVersion "0.2.1-alpha"
-#define MyAppPublisher "Universidad Tecnológica Nacional - Facultad Regional Santa Fe"
-#define MyAppURL "https://www.simae.info/"
+#define MyAppPublisher "Universidad TecnolÃ³gica Nacional - Facultad Regional Santa Fe"
+#define MyAppURL "https://simae.info/"
 #define MyAppExeName "simae.exe"
 
 [Setup]
