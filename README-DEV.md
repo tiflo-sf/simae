@@ -91,7 +91,7 @@ Si tenia alguna terminal abierta, cierrela y vuelvala a abrir.
 1. Instalar con:
 
 ```
-choco install launch4j
+choco install launch4j -y
 ```
 
 # Apendice C: Instalar Inno Setup
