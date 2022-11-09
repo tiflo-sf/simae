@@ -71,7 +71,7 @@ cd ..\..\innosetup
 iscc setupscript.iss
 ```
 
-El setup generado es guardado en la carpeta output
+El setup generado es guardado en la carpeta `output`
 
 # Apendice A: Instalar JDK
 
@@ -104,4 +104,16 @@ choco install innosetup -y
 6. Agregar la ruta de Inno Setup al final de la variable (por defecto C:\Program Files (x86)\Inno Setup 6)
 
 # Apendice D: Instalar Chocolatey
-**TODO**
+
+1. Abrir una terminal Powershell con privilegios de administador y ejecute:
+
+```
+Set-ExecutionPolicy AllSigned
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+2. En una terminal cualquiera, verificar con:
+
+```
+ choco -? 
+```
