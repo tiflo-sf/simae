@@ -40,7 +40,7 @@ Puede ejecutar `jdeps` para obtener las dependencias:
 ```
 jdeps --list-deps --ignore-missing-deps .\simae\build\libs\simae-0.2.1-alpha.jar
 ```
- C:\Users\Usuario\simae\simae\launch4j\output
+
 Lo cual muestra las siguientes dependencias:
 
 ```
@@ -59,6 +59,8 @@ Lo cual muestra las siguientes dependencias:
 cd .\launch4j\output
 jlink.exe --compress=2 --module-path ..\jmods --add-modules "java.base,java.desktop,java.logging,java.prefs,java.scripting,java.xml,jdk.unsupported" --output jre
 ```
+
+Se crea el directorio JRE con las dependencias solicitadas en **launch4j\output\jre**
 
 # 4. Construir el instalador
 
