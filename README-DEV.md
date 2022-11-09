@@ -98,6 +98,12 @@ Si tenia alguna terminal abierta, cierrela y vuelvala a abrir.
 choco install launch4j -y
 ```
 
+2. Dirigirse a Inicio -> Editar las variables de Entorno del Sistema
+3. Presionar Variables de entorno...
+4. Dentro de Variables del Sistema buscar Path y presionar Editar...
+5. Agregar la ruta de Inno Setup al final de la variable por defecto `C:\Program Files (x86)\Launch4j\`)
+
+
 # Apendice C: Instalar Inno Setup
 
 1. Abrir una terminal Powershell con privilegios de administrador
@@ -110,7 +116,7 @@ choco install innosetup -y
 3. Dirigirse a Inicio -> Editar las variables de Entorno del Sistema
 4. Presionar Variables de entorno...
 5. Dentro de Variables del Sistema buscar Path y presionar Editar...
-6. Agregar la ruta de Inno Setup al final de la variable (por defecto C:\Program Files (x86)\Inno Setup 6)
+6. Agregar la ruta de Inno Setup al final de la variable (por defecto `C:\Program Files (x86)\Inno Setup 6\`)
 
 # Apendice D: Instalar Chocolatey
 
