@@ -65,7 +65,7 @@ Se crea el directorio JRE con las dependencias solicitadas en `launch4j\output\j
 
 # 4. Construir el instalador
 
-Debe tener instalado Inno Setup de acuerdo a las instrucciones del apendice C
+Debe tener instalado Inno Setup de acuerdo a las instrucciones del apendice C. Asegúrese que los archivos de texto en formato UTF-8 contengan el BOM.
 
 1. Construir instalador
 
