@@ -35,7 +35,7 @@ El archivo ejecutable generado es: **launch4j\output\simae.exe**
 
 # 3. Construir JRE para el instalador
 
-1. Ejecutar jdeps para obtener las dependencias:
+Puede ejecutar `jdeps` para obtener las dependencias:
 
 ```
 jdeps --list-deps --ignore-missing-deps .\simae\build\libs\simae-0.2.1-alpha.jar
@@ -53,7 +53,7 @@ Lo cual muestra las siguientes dependencias:
    jdk.unsupported
 ```
 
-2. Generar JRE
+1. Generar JRE
 
 ```
 cd .\launch4j\output
