@@ -87,7 +87,12 @@ choco install openjdk11 -y
 Si tenia alguna terminal abierta, cierrela y vuelvala a abrir.
 
 # Apendice B: Instalar launch4j
-**TODO**
+
+1. Instalar con:
+
+```
+choco install launch4j
+```
 
 # Apendice C: Instalar Inno Setup
 
