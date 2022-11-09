@@ -70,8 +70,9 @@ Debe tener instalado Inno Setup de acuerdo a las instrucciones del apendice C
 1. Construir instalador
 
 ```
-cd ..\..\innosetup
+cd ..\..\innosetup ;
 iscc setupscript.iss
+
 ```
 
 El setup generado es guardado en la carpeta `output`
