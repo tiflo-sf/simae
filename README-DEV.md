@@ -56,8 +56,9 @@ Lo cual muestra las siguientes dependencias:
 1. Generar JRE
 
 ```
-cd .\launch4j\output
+cd .\launch4j\output ; 
 jlink.exe --compress=2 --module-path ..\jmods --add-modules "java.base,java.desktop,java.logging,java.prefs,java.scripting,java.xml,jdk.unsupported" --output jre
+
 ```
 
 Se crea el directorio JRE con las dependencias solicitadas en **launch4j\output\jre**
