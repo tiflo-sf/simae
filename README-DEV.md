@@ -19,7 +19,7 @@ Ejecute gradle con la instrucción shadowJar:
 .\gradlew clean shadowJar
 ```
 
-El jar fue generado en el directorio **simae\build\libs**
+El jar fue generado en el directorio `simae\build\libs\`
 
 # 2. Construir .exe
 
@@ -31,7 +31,7 @@ Ejecutar Launch4j para generar el archivo .exe
 java -jar "C:\Program Files (x86)\Launch4j\launch4j.jar" launch4j\simae.xml 
 ```
 
-El archivo ejecutable generado es: **launch4j\output\simae.exe**
+El archivo ejecutable generado es: `launch4j\output\simae.exe`
 
 # 3. Construir JRE para el instalador
 
@@ -61,7 +61,7 @@ jlink.exe --compress=2 --module-path ..\jmods --add-modules "java.base,java.desk
 
 ```
 
-Se crea el directorio JRE con las dependencias solicitadas en **launch4j\output\jre**
+Se crea el directorio JRE con las dependencias solicitadas en `launch4j\output\jre\`
 
 # 4. Construir el instalador
 
@@ -75,7 +75,7 @@ iscc setupscript.iss
 
 ```
 
-El setup generado es guardado en la carpeta `output`
+El setup generado es guardado en la carpeta `innosetup\output\`
 
 # Apendice A: Instalar JDK
 
