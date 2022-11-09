@@ -84,7 +84,13 @@ Si tenia alguna terminal abierta, cierrela y vuelvala a abrir.
 **TODO**
 
 # Apendice C: Instalar Inno Setup
-**TODO**
+
+1. Abrir una terminal Powershell con privilegios de administador
+2. Instale Inno Setup con:
+
+```
+choco install innosetup -y
+```
 
 # Apendice D: Instalar Chocolatey
 **TODO**
