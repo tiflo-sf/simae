@@ -40,7 +40,7 @@ Puede ejecutar `jdeps` para obtener las dependencias:
 ```
 jdeps --list-deps --ignore-missing-deps .\simae\build\libs\simae-0.2.1-alpha.jar
 ```
-
+ C:\Users\Usuario\simae\simae\launch4j\output
 Lo cual muestra las siguientes dependencias:
 
 ```
