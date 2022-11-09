@@ -64,8 +64,14 @@ jlink.exe --compress=2 --module-path ..\jmods --add-modules "java.base,java.desk
 
 Debe tener instalado Inno Setup de acuerdo a las instrucciones del apendice C
 
-**TODO**
+1. Construir instalador
 
+```
+cd ..\..\innosetup
+iscc setupscript.iss
+```
+
+El setup generado es guardado en la carpeta output
 
 # Apendice A: Instalar JDK
 
@@ -85,12 +91,17 @@ Si tenia alguna terminal abierta, cierrela y vuelvala a abrir.
 
 # Apendice C: Instalar Inno Setup
 
-1. Abrir una terminal Powershell con privilegios de administador
+1. Abrir una terminal Powershell con privilegios de administrador
 2. Instale Inno Setup con:
 
 ```
 choco install innosetup -y
 ```
+
+3. Dirigirse a Inicio -> Editar las variables de Entorno del Sistema
+4. Presionar Variables de entorno...
+5. Dentro de Variables del Sistema buscar Path y presionar Editar...
+6. Agregar la ruta de Inno Setup al final de la variable (por defecto C:\Program Files (x86)\Inno Setup 6)
 
 # Apendice D: Instalar Chocolatey
 **TODO**
