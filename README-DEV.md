@@ -85,6 +85,8 @@ El setup generado es guardado en la carpeta `innosetup\output\`
 
 Si tiene Java 11 instalado, no necesita instalarlo. Si tiene otra versión debe eliminarla antes de continuar.
 
+Debe tener instalado Chocolatey de acuerdo a las instrucciones del apéndice D.
+
 1. Abrir una terminal Powershell con privilegios de administrador.
 2. Instale jdk con:
 
@@ -95,6 +97,8 @@ choco install openjdk11 -y
 Si tenia alguna terminal abierta, cierrela y vuelvala a abrir.
 
 # Apendice B: Instalar launch4j
+
+Debe tener instalado Chocolatey de acuerdo a las instrucciones del apéndice D.
 
 1. Instalar con:
 
@@ -109,6 +113,8 @@ choco install launch4j -y
 
 
 # Apendice C: Instalar Inno Setup
+
+Debe tener instalado Chocolatey de acuerdo a las instrucciones del apéndice D.
 
 1. Abrir una terminal Powershell con privilegios de administrador
 2. Instale Inno Setup con:
