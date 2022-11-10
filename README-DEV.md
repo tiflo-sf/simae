@@ -1,3 +1,7 @@
+# Instrucciones para generar el ejecutable instalador de SIMAE
+
+Estas instrucciones se realizan sobre un sistema operativo MS Windows 10,11.
+
 # 0. Clonar el repositorio
 
 1. Abrir una terminal Powershell.
