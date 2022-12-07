@@ -26,6 +26,7 @@ public class Interfaz_en extends ListResourceBundle {
                     {"emptyInput", "You must enter an input file.\n"},
                     {"invalidInput", "The input file is not valid.\n"},
                     {"falloMarcado", "Error in the process of writing marks.\n"},
+                    {"falloDesmarcado", "Error in the process of untagging marks.\n"},
                     {"workFileError", "Failed to write work file.\n"},
                     {"success", "The file has been successfully marked.\n"},
                     {"undefinedArgument1", "The arguments "},
