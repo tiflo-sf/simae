@@ -27,14 +27,14 @@ class IfElseTest extends Tests {
 		  esperado = "public class Main /*/CIERRA EN LINEA 10/*/{\n" +
 				  "      public static void main(String[] args)/*/CIERRA EN LINEA 9/*/ {\n" +
 				  "      	int k = 1;\n" +
-				  "      	if(k == 1){\n" +
+				  "      	if(k == 1)/*/CIERRA EN LINEA 6/*/{\n" +
 				  "      		k++;\n" +
 				  "      	}/*/CIERRA if(k == 1) DE LINEA 4/*/ else/*/CIERRA EN LINEA 8/*/ {\n" +
 				  "      		k--;\n" +
 				  "      	}/*/CIERRA else DE LINEA 6/*/\n" +
 				  "      }/*/CIERRA void main(String[] args) DE LINEA 2/*/\n" +
 				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

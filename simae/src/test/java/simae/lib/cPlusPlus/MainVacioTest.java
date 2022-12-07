@@ -15,7 +15,7 @@ class MainVacioTest extends Tests {
 		  prog = "int main() {" + nl + "}" + nl;
 		  esperado = "int main()/*/CIERRA EN LINEA 2/*/ {" + nl +
 		  		"}/*/CIERRA main() DE LINEA 1/*/" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

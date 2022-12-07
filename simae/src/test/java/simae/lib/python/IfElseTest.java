@@ -21,8 +21,8 @@ class IfElseTest extends Tests {
 		  esperado = "if(p==1):# /CIERRA EN LINEA 2/" + nl +
 				  "	p=0# /CIERRA if(p==1) DE LINEA 1/" + nl +
 				  "else:# /CIERRA EN LINEA 4/" + nl +
-				  "	p=1# /CIERRA else DE LÍNEA 3/" +nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3);
+				  "	p=1# /CIERRA else DE LINEA 3/" +nl;
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

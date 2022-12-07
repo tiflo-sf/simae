@@ -23,7 +23,7 @@ class ClassTest extends Tests {
  				  "    char buffer[255];" + nl +
 				  "    void llamadoFuncion(const char *argumento);" + nl +
 				  "}/*/CIERRA class CRender  DE LINEA 1/*/;" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

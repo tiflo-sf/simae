@@ -20,7 +20,7 @@ class WhileTest extends Tests {
 		  esperado = "while(c):# /CIERRA EN LINEA 2/" + nl +
 			  		"    print(\"print1\")# /CIERRA while(c) DE LINEA 1/" + nl +
 			  		"print(\"print2\")" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }
