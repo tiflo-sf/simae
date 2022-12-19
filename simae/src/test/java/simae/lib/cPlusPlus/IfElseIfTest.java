@@ -27,7 +27,7 @@ class IfElseIfTest extends Tests {
 		  		"		c--;" + nl +
 		  		"	}/*/CIERRA if(c) DE LINEA 5 y CIERRA else DE LINEA 5/*/" + nl +
 		  		"}/*/CIERRA main() DE LINEA 1/*/" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

@@ -10,7 +10,7 @@ import java.nio.file.StandardCopyOption;
 
 public class SimaeLauncher {
 
-    private static String VERSION = "SIMAE 0.2.1-alpha";
+    private static String VERSION = "SIMAE 0.2.2";
     public SimaeLauncher() {
     }
 
@@ -81,7 +81,7 @@ public class SimaeLauncher {
         return writeFile(outputFileName) ? 0 : 2;
     }
 
-    public static String launchTagging(String entrada, Lenguaje lenguaje) throws IOException {
+    public static String launchTagging(String entrada, Lenguaje lenguaje, String idioma) throws IOException {
 
         StringReader srEntrada = new StringReader(entrada);
         BufferedReader reader = new BufferedReader(srEntrada);
@@ -89,7 +89,7 @@ public class SimaeLauncher {
         StringWriter swSalida = new StringWriter();
         PrintWriter writer = new PrintWriter(swSalida);
 
-        Simae.fuenteMarcado(reader, writer, lenguaje, null);
+        Simae.fuenteMarcado(reader, writer, lenguaje, idioma);
 
         String salida = swSalida.toString();
 

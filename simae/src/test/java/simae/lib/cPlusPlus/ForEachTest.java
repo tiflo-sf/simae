@@ -22,7 +22,7 @@ class ForEachTest extends Tests {
 		  		"		c++;" + nl +
 		  		"	}/*/CIERRA for(int it : vector) DE LINEA 2/*/" + nl + 
 		  		"}/*/CIERRA main() DE LINEA 1/*/" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

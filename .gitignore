@@ -10,8 +10,16 @@ build
 # Ignore IntelliJ files
 .idea
 
+# Ignore Fleet files
+.fleet
+
 simae/src/main/java/simae/cli/Nodo.java
 simae/src/main/java/simae/cli/Testing.py
 
 # Mac OS files
 .DS_Store
+
+launch4j/output/*
+!launch4j/output/.gitkeep
+
+innosetup/output

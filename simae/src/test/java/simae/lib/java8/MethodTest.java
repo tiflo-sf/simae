@@ -36,7 +36,7 @@ class MethodTest extends Tests {
 				  "    }/*/CIERRA void main(String[] args) DE LINEA 7/*/\n" +
 				  "    \n" +
 				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

@@ -187,11 +187,8 @@ public class PythonListener extends Python3ParserBaseListener {
 	@Override
 	public void exitIf_stmt_else(Python3Parser.If_stmt_elseContext ctx) {
 		//'else' ':' suite; //agregado para implementacion simae
-		int linea = ctx.getStop().getLine();
-		int posicionEnCaracter = ctx.getStop().getCharPositionInLine();
-		String lineaCompleta = ctx.getStop().getText();
 
-		String texto = "CIERRA else DE LÍNEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + "else" + strings.get("ofLine") + ctx.getStart().getLine();
 
 		if(ctx.suite().DEDENT() != null) {
 			marcas.add(new AnotacionMarca(ultimoSuiteLine,
@@ -215,7 +212,7 @@ public class PythonListener extends Python3ParserBaseListener {
 	public void exitWhile_stmt_while(Python3Parser.While_stmt_whileContext ctx) {
 		//while' test ':' suite (if_stmt_else)?;
 		String whileCompleto = getOriginalCode(ctx.getStart(), ctx.test().getStop());
-		String texto = strings.get("closes") + whileCompleto + " DE LINEA " + ctx.getStart().getLine();
+		String texto = strings.get("closes") + whileCompleto + strings.get("ofLine") + ctx.getStart().getLine();
 
 		marcas.add(new AnotacionMarca(ultimoSuiteLine,
 				ultimoSuiteCharPosLine,

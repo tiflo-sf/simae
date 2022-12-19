@@ -30,7 +30,7 @@ class ForTest extends Tests {
 				  "      	}/*/CIERRA for(int i=0; i<10; i++) DE LINEA 4/*/\n" +
 				  "      }/*/CIERRA void main(String[] args) DE LINEA 2/*/\n" +
 				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

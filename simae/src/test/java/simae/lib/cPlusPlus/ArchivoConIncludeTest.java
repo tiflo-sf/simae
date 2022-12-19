@@ -15,7 +15,7 @@ class ArchivoConIncludeTest extends Tests{
 				 "int a = 4;" + nl;
 		 esperado = "#include <iostream>" + nl +
 				 	"int a = 4;" + nl;
-		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
+		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
 		 assertEquals(esperado,marcado, "No son iguales.");
 	}
 

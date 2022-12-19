@@ -15,7 +15,7 @@ class ArchivoConDeclaracionDeDosVariablesTest extends Tests{
 				 "int b = 4;";
 		 esperado = "int a = 4;" + nl +
 				 	"int b = 4;" + nl; 
-		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS);
+		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
 		 assertEquals(esperado,marcado, "No son iguales.");
 	}
 

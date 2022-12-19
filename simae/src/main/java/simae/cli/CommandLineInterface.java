@@ -172,13 +172,13 @@ public class CommandLineInterface implements Callable<Integer> {
 			}
 			else {
 				if (launcher.launchUntagging(new File(inputFile), outputFile, languageString)) {
-					System.out.printf((String) rb.getObject("success"));
+					System.out.printf((String) rb.getObject("successUntag"));
 					if (withSound != null) {
 						Simae.reproducirAudio(0);
 					}
 				}
 				else {
-					System.out.println((String) rb.getObject("falloMarcado"));
+					System.out.println((String) rb.getObject("falloDesmarcado"));
 					if (withSound != null) {
 						Simae.reproducirAudio(1);
 					}

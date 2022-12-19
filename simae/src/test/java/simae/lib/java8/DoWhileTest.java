@@ -33,7 +33,7 @@ class DoWhileTest extends Tests {
 				  "		} while (i <= 10);/*/CIERRA do while DE LINEA 4/*/\n" +
 				  "	}/*/CIERRA void main(String[] args) DE LINEA 2/*/\n" +
 				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

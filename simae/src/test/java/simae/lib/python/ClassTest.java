@@ -18,7 +18,7 @@ class ClassTest extends Tests {
 				  "  x = 5" + nl;
 		  esperado = "class MyClass:# /CIERRA EN LINEA 2/\n" +
 				  "  x = 5# /CIERRA class MyClass DE LINEA 1/" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3);
+		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }
