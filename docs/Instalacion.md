@@ -5,12 +5,25 @@ nav_order: 3
 ---
 # Instalación
 
+**SIMAE** está desarrollado en [Java](https://www.java.com/) y es compatible con **_Windows_**, **_macOS_** y **_Linux_**, entre otras plataformas. 
+
 ##### Contenidos
-- [Instalación básica](#instalacion-basica)
+- [Instalación directa (Windows)](#instalacion-directa)
+- [Instalación estándar (Windows, Linux, macOS) ](#instalacion-estandar)
 - [Integración en ZinjaI IDE](#integracion-en-zinjaI)
  
+## Alternativa 1. Instalación directa (Windows) <a name ="instalacion-directa"/>
 
-## Instalación básica <a name ="instalacion-basica"/>
+Para instalar **SIMAE** en un paso descargue y ejecute el instalador para Windows siguiente:
+
+|Release|Enlace directo|Fecha de publicación|
+|---|---|---|
+|0.2.2| [simae-instalador.exe](https://github.com/tiflo-sf/simae/releases/download/v0.2.2/simae-instalador.exe)| 2022\-12\-19|
+
+Este instalador configura un runtime personalizado de Java y la aplicación **SIMAE** como archivo `simae.exe` con acceso directo desde el escritorio (opcional).
+
+
+## Alternativa 2. Instalación estándar (Windows, Linux, macOS) <a name ="instalacion-estandar"/>
 
 ### Paso 1. Instalación de Runtime Java
 
@@ -20,9 +33,8 @@ nav_order: 3
 > - [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
 > - [OpenJDK](http://jdk.java.net/archive/)
 
-Al estar basado en Java, **SIMAE** es compatible con **_Windows_**, **_macOS X_** y **_Linux_**, entre otras plataformas. 
 
-Verifique que Java está funcionando en su sistema, para ello abra una consola que le permita escribir comandos:
+Verifique que Java está funcionando en su sistema, para ello abra una consola que le permita escribir comandos y escriba:
 
 ```bash
 java --version
@@ -36,11 +48,11 @@ Descargar la última versión de la herramienta desde el apartado [Releases](htt
 
 |Release|Enlace directo|Fecha de publicación|
 |---|---|---|
-|0.2.1\-alpha| [simae-0.2.1-alpha.zip](https://github.com/tiflo-sf/simae/releases/download/v0.2.1-alpha/simae-0.2.1-alpha.zip)| 2022\-06\-13|
+|0.2.2| [simae-0.2.2.zip](https://github.com/tiflo-sf/simae/releases/download/v0.2.2/simae.zip)| 2022\-12\-19|
 
 Crear una carpeta para la instalación de SIMAE. La carpeta se denominará `C:\simae\` 
 
-> **Nota:** Utilizaremos en el resto de estas instrucciones la convención MS Windows para rutas de archivos.  Si tiene OS X o GNU/Linux utilice la que corresponde a su sistema operativo.
+> **Nota:** Estas instrucciones utilizan la convención _MS Windows_ para rutas de archivos.  Si tiene _macOS_ o _GNU/Linux_ utilice la que corresponde a su sistema operativo.
 
 Descomprimir el archivo `.zip` en la carpeta `C:\simae\`
 
