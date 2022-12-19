@@ -12,3 +12,11 @@ build
 
 simae/src/main/java/simae/cli/Nodo.java
 simae/src/main/java/simae/cli/Testing.py
+
+# Mac OS files
+.DS_Store
+
+launch4j/output/*
+!launch4j/output/.gitkeep
+
+innosetup/output
