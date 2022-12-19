@@ -27,6 +27,7 @@ Compression=lzma
 CreateAppDir=yes
 DefaultDirName=C:\{#MyAppName}\{#MyAppVersion}
 DisableWelcomePage=no
+UsePreviousAppDir=no
 DisableDirPage=no
 SolidCompression=yes
 WizardStyle=modern
