@@ -10,6 +10,9 @@ build
 # Ignore IntelliJ files
 .idea
 
+# Ignore Fleet files
+.fleet
+
 simae/src/main/java/simae/cli/Nodo.java
 simae/src/main/java/simae/cli/Testing.py
 
