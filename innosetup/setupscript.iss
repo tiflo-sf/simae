@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "simae"
-#define MyAppVersion "0.2.1-alpha"
+#define MyAppVersion "0.2.2"
 #define MyAppPublisher "Universidad Tecnológica Nacional - Facultad Regional Santa Fe"
 #define MyAppURL "https://simae.info/"
 #define MyAppExeName "simae.exe"
