@@ -1,4 +1,4 @@
-﻿Instrucciones de instalación y uso:
+﻿Instrucciones de uso:
 
 -----------------------------------------
 Uso con GUI (Graphical User Interface)
@@ -32,6 +32,6 @@ Java                    java8
 Python (versión 3.x)    python3
 
 Ejemplo:
-java -jar simae-0.2.0-alpha.jar test.py
+java -jar simae-0.2.2.jar test.py
 
 -----------------------------------------
