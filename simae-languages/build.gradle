@@ -17,9 +17,13 @@ repositories {
     mavenCentral()
 }
 
+generateGrammarSource {
+    outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/simae/grammars".toString())
+}
+
 dependencies {
-	
-	
+
+
     antlr "org.antlr:antlr4:4.9" // use ANTLR version 4
 
     //implementation("org.antlr:antlr4-runtime:4.9")
@@ -29,13 +33,6 @@ dependencies {
 
 }
 
-def terminal = (System.getProperty('os.name').toLowerCase().split()[0] == "linux") ? "sh" : "cmd"
-
-task moverASimaeGrammars(type: Exec) {
-  workingDir './build/generated-src/antlr/main/'
-  executable terminal
-  args "-c", "mkdir -p simae/grammars/; mv *.* simae/grammars"
-}
 
 generateGrammarSource {
     arguments << "-lib" << "./build/generated-src/" 
@@ -49,14 +46,6 @@ sourceSets {
             srcDirs += 'src/main/resources/'
         }
     }
-}
-
-build {
-    dependsOn clean
-}
-
-compileJava {
-    dependsOn moverASimaeGrammars
 }
 
 tasks.named('test') {
