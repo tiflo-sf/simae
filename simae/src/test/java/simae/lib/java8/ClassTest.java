@@ -14,12 +14,12 @@ class ClassTest extends Tests {
 	
 	@Test
 	void classTest() throws IOException {
-		  prog = "public class Main {\n" +
-				  "\n" +
-				  "}";
-		  esperado = "public class Main /*/CIERRA EN LINEA 3/*/{\n" +
-				  "\n" +
-				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
+		  prog = "public class Main {" + nl +
+				  nl +
+				  "}" + nl;
+		  esperado = "public class Main /*/CIERRA EN LINEA 3/*/{" + nl +
+				  nl +
+				  "}/*/CIERRA class Main DE LINEA 1/*/" + nl;
 		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
