@@ -339,6 +339,7 @@ statement
    | attributespecifierseq? jumpstatement
    | declarationstatement
    | attributespecifierseq? tryblock
+   | elsestatement
    ;
 
 labeledstatement
@@ -362,7 +363,6 @@ statementseq
 
 selectionstatement
    : If '(' condition ')' statement					# IfStatement
-   | If '(' condition ')' statement elsestatement	# IfElseStatement
    | Switch '(' condition ')' statement				# SwitchStatement
    ;
 

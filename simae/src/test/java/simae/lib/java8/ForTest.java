@@ -21,7 +21,7 @@ class ForTest extends Tests {
 				  "      		k++;\n" +
 				  "      	}\n" +
 				  "      }\n" +
-				  "}";
+				  "}" + nl;
 		  esperado = "public class Main /*/CIERRA EN LINEA 8/*/{\n" +
 				  "      public static void main(String[] args)/*/CIERRA EN LINEA 7/*/ {\n" +
 				  "      	int k = 1;\n" +

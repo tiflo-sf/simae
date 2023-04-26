@@ -83,7 +83,7 @@ public class JavaListener extends JavaParserBaseListener {
 
 
 	@Override
-	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+	public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
 		String texto = strings.get("closes") + getOriginalCode(ctx.typeTypeOrVoid().getStart(),ctx.formalParameters().getStop(),0) + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
@@ -91,7 +91,7 @@ public class JavaListener extends JavaParserBaseListener {
 	}
 
 	@Override
-	public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
 		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token ultimoAntesDeMarca = ctx.qualifiedNameList() != null ? ctx.qualifiedNameList().getStop() : ctx.formalParameters().getStop();
@@ -139,15 +139,6 @@ public class JavaListener extends JavaParserBaseListener {
 				texto));
 	}
 
-	public void enterIfElseStatement(JavaParser.IfElseStatementContext ctx) {
-		//IF parExpression statement elseStatement
-		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
-		Token parentesis = ctx.parExpression().getStop();
-		marcas.add(new AnotacionMarca(parentesis.getLine(),
-				parentesis.getCharPositionInLine(),
-				texto));
-	}
-
 	@Override
 	public void enterElseStatement(JavaParser.ElseStatementContext ctx) {
 		//ELSE statement;
@@ -160,15 +151,6 @@ public class JavaListener extends JavaParserBaseListener {
 
 	@Override
 	public void exitElseStatement(JavaParser.ElseStatementContext ctx) {
-		//IF parExpression statement (elseStatement)?
-		//ELSE statement;
-		//Como no esta separado en IfElse e If, primero se procesa el If.
-		JavaParser.IfElseStatementContext ifPadre = (JavaParser.IfElseStatementContext)ctx.getParent();
-		String ifCompleto = getOriginalCode(ifPadre.getStart(), ifPadre.parExpression().getStop());
-		String texto = strings.get("closes") + ifCompleto + strings.get("ofLine") + ifPadre.getStart().getLine();
-		marcas.add(new AnotacionMarca(ifPadre.statement().getStop().getLine(),
-				ifPadre.statement().getStop().getCharPositionInLine(),
-				texto));
 
 		//Ahora se procesa el Else
 		String textoElse = strings.get("closes") + "else" + strings.get("ofLine") + ctx.getStart().getLine();

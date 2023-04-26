@@ -22,7 +22,7 @@ class DoWhileTest extends Tests {
 				  "			i++;\n" +
 				  "		} while (i <= 10);\n" +
 				  "	}\n" +
-				  "}";
+				  "}" + nl;
 
 		  esperado = "public class Main /*/CIERRA EN LINEA 9/*/{\n" +
 				  "	public static void main(String[] args)/*/CIERRA EN LINEA 8/*/ {\n" +
