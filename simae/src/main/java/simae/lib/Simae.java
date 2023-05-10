@@ -79,7 +79,7 @@ public class Simae {
 
 		entrada = brPreprocesado.readLine();
 		int posEnFila = 0;
-		Collections.sort(todasMarcas);
+		//Collections.sort(todasMarcas);
 		Iterator<AnotacionMarca> it = todasMarcas.iterator();
 		AnotacionMarca marca;
 		AnotacionMarca marcaSiguiente = null;
