@@ -10,13 +10,9 @@ import java.nio.file.StandardCopyOption;
 
 public class SimaeLauncher {
 
-    private static String VERSION = "SIMAE 0.2.1-alpha";
+    private static String VERSION = "SIMAE 0.2.2";
     public SimaeLauncher() {
     }
-
-    BufferedReader inputReader = null;
-    PrintWriter workWriter = null;
-    File workFile = null;
 
     public static String getVERSION() {
         return VERSION;
@@ -36,22 +32,9 @@ public class SimaeLauncher {
                 return null;
         }
     }
-    
-    public boolean prepareSimae(File inputFile) {
 
-        try {
-            inputReader = new BufferedReader(new FileReader(inputFile));
-            workFile = new File(inputFile.getPath() + ".work");
-            workWriter = new PrintWriter(new FileWriter(workFile));
-        } catch (IOException e) {
-            System.out.println("Fallo algo en los argumentos");
-            return false;
-        }
 
-        return true;
-    }
-
-    private boolean writeFile(String outputFileName) {
+    private boolean writeFile(String outputFileName, BufferedReader inputReader, File workFile) {
         try {
             inputReader.close();
             Files.move(Path.of(workFile.getPath()), Path.of(outputFileName), StandardCopyOption.REPLACE_EXISTING);
@@ -63,36 +46,36 @@ public class SimaeLauncher {
         return true;
     }
 
-    public int launchTagging(File inputFile, String outputFileName, String lenguajeString) {
-
-        prepareSimae(inputFile);
-
-        Lenguaje lenguaje = lenguaje(lenguajeString.toLowerCase());
-
+    public int launchTagging(File inputFile, String outpuftFileName, String lenguajeString){
+        BufferedReader inputReaderC = null;
+        PrintWriter workWriterC = null;
+        File workFileC = null;
 
         try {
-            Simae.fuenteMarcado(inputReader, workWriter, lenguaje, null);
-            workWriter.close();
+            inputReaderC = new BufferedReader(new FileReader(inputFile));
+            workFileC = new File(inputFile.getPath() + ".work");
+            workWriterC = new PrintWriter(new FileWriter(workFileC));
         } catch (IOException e) {
-            //System.out.println("Fallo en el proceso de escritura de marcas"); FIXME: este mensaje se deberia dar en la CLI, no en launchTagging
+            System.out.println("Fallo algo en los argumentos");
+        }
+        try {
+            Lenguaje lenguaje = lenguaje(lenguajeString.toLowerCase());
+            Simae.fuenteMarcado(inputReaderC, workWriterC, lenguaje, null);
+            workWriterC.close();
+        } catch (IOException e) {
             return 1;
         }
-
-        return writeFile(outputFileName) ? 0 : 2;
+        return writeFile(outpuftFileName, inputReaderC, workFileC) ? 0 : 2;
     }
 
     public static String launchTagging(String entrada, Lenguaje lenguaje, String idioma) throws IOException {
 
         StringReader srEntrada = new StringReader(entrada);
         BufferedReader reader = new BufferedReader(srEntrada);
-
         StringWriter swSalida = new StringWriter();
         PrintWriter writer = new PrintWriter(swSalida);
-
         Simae.fuenteMarcado(reader, writer, lenguaje, idioma);
-
         String salida = swSalida.toString();
-
         srEntrada.close();
         swSalida.close();
         return salida;
@@ -100,16 +83,21 @@ public class SimaeLauncher {
 
     public boolean launchUntagging(File inputFile, String outputFileName, String lenguajeString) {
 
-        prepareSimae(inputFile);
+        BufferedReader inputReaderC = null;
+        PrintWriter workWriterC = null;
+        File workFileC = null;
 
+        try {
+            inputReaderC = new BufferedReader(new FileReader(inputFile));
+            workFileC = new File(inputFile.getPath() + ".work");
+            workWriterC = new PrintWriter(new FileWriter(workFileC));
+        } catch (IOException e) {
+            System.out.println("Fallo algo en los argumentos");
+        }
         Lenguaje lenguaje = lenguaje(lenguajeString.toLowerCase());
+        Simae.fuenteDesmarcado(inputReaderC, workWriterC, lenguaje);
+        workWriterC.close();
 
-        Simae.fuenteDesmarcado(inputReader, workWriter, lenguaje);
-        workWriter.close();
-
-        return writeFile(outputFileName);
-
+        return writeFile(outputFileName, inputReaderC ,workFileC);
     }
-
-
 }
