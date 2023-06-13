@@ -5,13 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
 import simae.lib.Simae;
 
 import java.io.File;
@@ -19,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class SelectorApplicationController {
@@ -29,10 +26,6 @@ public class SelectorApplicationController {
 
     @FXML
     private CheckBox soloQuitaMarcas;
-
-    @FXML
-    private ComboBox seleccionLenguajes;
-
     @FXML
     private ListView<?> listaDeArchivos;
 
@@ -58,14 +51,6 @@ public class SelectorApplicationController {
     private FileChooser fc = new FileChooser();
 
     private String extension() {
-        switch (seleccionLenguajes.getSelectionModel().getSelectedItem().toString()) {
-            case "C++":
-                return ".cpp";
-            case "Java":
-                return ".java";
-            case "Python3":
-                return ".py";
-        }
         return null;
     }
 
@@ -96,9 +81,8 @@ public class SelectorApplicationController {
     private void initialize() {
         listaArchivosObjeto = new ArrayList<>();
         listaCompleta = new ArrayList<>();
-        seleccionLenguajes.getItems().addAll(Lenguaje.CPLUSPLUS, Lenguaje.JAVA8, Lenguaje.PYTHON3, "Determinar según extensión del archivo");
-        seleccionLenguajes.getSelectionModel().select(0);
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
+        fc.getExtensionFilters().addAll( new FileChooser.ExtensionFilter("Todos (.*)", "*.cpp", "*.java", "*.py"), new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"), new FileChooser.ExtensionFilter("Java (.java)", "*.java"), new FileChooser.ExtensionFilter("Python (.py)", "*.py"));
+
     }
 
 
@@ -109,13 +93,7 @@ public class SelectorApplicationController {
             archivos.stream()
                     .filter(file -> !listaArchivosObjeto.stream().anyMatch(archivo -> file.equals(archivo.getFile()))) //FIXME: sobreescribir equals y usar contains
                     .forEach(file -> listaArchivosObjeto.add(new Archivo(file)));
-            /*archivos.stream()
-                            .filter(file -> !listaObservable.stream().anyMatch(archivo -> file.equals(((Archivo) (archivo)).getFile()))) //FIXME: convertir ObservableList a tipo Archivo
-                            .forEach(file -> listaObservable.add(new Archivo(file)));
-            archivos.stream()
-                            .filter(file -> !listaObservable.contains(file.getName()))
-                            .forEach(file -> listaObservable.add(file.getName()));
-            */
+
             actualizaLista();
         }
     }
@@ -129,7 +107,7 @@ public class SelectorApplicationController {
         } else {
             Path dir = selectedDirectory.toPath();
             Files.find(dir, Integer.MAX_VALUE, (path, attributes) ->
-                    path.getFileName().toString().toLowerCase().endsWith(extension()))
+                            path.getFileName().toString().toLowerCase().endsWith(extension()))
                     .forEach(file -> listaArchivosObjeto.add(new Archivo(file.toFile())));
             actualizaLista();
         }
@@ -147,16 +125,25 @@ public class SelectorApplicationController {
 
     @FXML
     void marcaArchivos() throws Exception {
-        SimaeLauncher simaeLauncher = new SimaeLauncher();
+        long inicio = System.currentTimeMillis();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M'; //FIXME: intentar cambiar metodo
-        //if (extension() != null) archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), seleccionLenguajes.getValue().toString(), decideMarca));
-
+        SimaeLauncher simaeLauncher = new SimaeLauncher();
         textoError.setVisible(false);
         textoProcesado.setVisible(false);
 
-        //FIXME: volver a enviar en paralelo editando SimaeLauncher
-        if (listaObservable.stream()
-                .anyMatch(file -> (decideMarca == 'M') ? !(simaeLauncher.launchTagging(((Archivo)file).getFile(), ((Archivo)file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))) == 0) : !simaeLauncher.launchUntagging(((Archivo) file).getFile(), ((Archivo) file).getFile().toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))))) {
+
+        if (listaObservable.parallelStream()
+                .anyMatch(file -> (decideMarca == 'M') ?
+                        !(simaeLauncher.launchTagging(
+                                ((Archivo)file).getFile(),
+                                ((Archivo)file).getFile().toString(),
+                                lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))
+                        ) == 0) :
+                        !simaeLauncher.launchUntagging(
+                                ((Archivo)file).getFile(),
+                                ((Archivo)file).getFile().toString(),
+                                lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))
+                        ))) {
             Simae.reproducirAudio(1);
             textoError.setVisible(true);
         }
@@ -166,57 +153,59 @@ public class SelectorApplicationController {
             textoProcesado.setVisible(true);
         }
 
+
         /*for (File file : archivos) {
             System.out.println(file.toString().substring(file.toString().lastIndexOf(".")));
             simae.marcaDesmarcaPorArchivos(file, file.toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca);
         }*/
         //archivos.parallelStream().forEach(file -> simae.marcaDesmarcaPorArchivos(file, file.toString(), lenguaje(file.toString().substring(file.toString().lastIndexOf("."))), decideMarca));
+        long fin = System.currentTimeMillis();
+        long resta = fin - inicio;
+        System.out.println("Tiempo de ejec: " + resta + " milisegundos.");
 
     }
 
-    @FXML
-    void filtraObjeto() {
-        actualizaLista();
-        seleccionLenguajes.setAccessibleHelp("Lenguaje: " + seleccionLenguajes.getSelectionModel().getSelectedItem().toString());
-        if(fc.getExtensionFilters().size() != 0) fc.getExtensionFilters().removeAll(fc.getExtensionFilters());
-        switch(seleccionLenguajes.getSelectionModel().getSelectedItem().toString()) {
-            case "C++":
-                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"));
-                break;
-            case "Java":
-                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Java (.java)", "*.java"));
-                break;
-            case "Python3":
-                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Python (.py)", "*.py"));
-            default:
-                fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"), new FileChooser.ExtensionFilter("Java (.java)", "*.java"), new FileChooser.ExtensionFilter("Python (.py)", "*.py"), new FileChooser.ExtensionFilter("Todos (.*)", "*.cpp", "*.java", "*.py"));
-        }
-    }
 
     @FXML
     void eliminarTodos() {
         listaObservable.removeAll(listaObservable);
         listaCompleta.removeAll(listaCompleta);
         listaArchivosObjeto.removeAll(listaArchivosObjeto);
+        detectaHabilitaQuitado();
+        detectaHabilitaMarcado();
     }
 
     @FXML
     void eliminarArchivoSeleccionado() {
-        for (Archivo archivo : listaArchivosObjeto)
-            if (listaDeArchivos.getSelectionModel().getSelectedItems().contains(archivo)) listaArchivosObjeto.remove(archivo);
+        Iterator<Archivo> iterator = listaArchivosObjeto.iterator();
+        while (iterator.hasNext()) {
+            Archivo archivo = iterator.next();
+            if (listaDeArchivos.getSelectionModel().getSelectedItems().contains(archivo)) {
+                iterator.remove();
+            }
+        }
         listaObservable.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
         listaCompleta.removeAll(listaDeArchivos.getSelectionModel().getSelectedItems());
         detectaHabilitaQuitado();
+        detectaHabilitaMarcado();
     }
+
 
     @FXML
     void detectaHabilitaQuitado() {
         botonQuitarSeleccion.setDisable(listaDeArchivos.getSelectionModel().getSelectedItems().size() == 0);
     }
 
+    void detectaHabilitaMarcado(){
+        botonMarcar.setDisable(listaDeArchivos.getSelectionModel().getSelectedItems().size() == 0);
+    }
+
     private void habilitarMarcado() {
         botonMarcar.setDisable(false);
         botonQuitar.setDisable(false);
     }
+
+
+
 
 }
