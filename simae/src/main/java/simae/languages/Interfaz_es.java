@@ -11,6 +11,7 @@ public class Interfaz_es extends ListResourceBundle {
                     {"endsOn", "CIERRA EN LINEA "},
                     {"closes", "CIERRA "},
                     {"ofLine", " DE LINEA "},
+                    {"and", " y "},
                    //Descripcion de argumentos
                     {"language", "Idioma utilizado para el marcado y mensajes"},
                     {"input", "Archivo de entrada"},

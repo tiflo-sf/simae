@@ -21,14 +21,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class Simae {
-	
-	//FIXME: reestructurar funcion para que no solo funcione con translationunit
-	private static List<AnotacionMarca> iniciaTranslationUnit(CharStream antlrEntrada, Lenguaje lenguaje, String language) {
-		StringTags st;
-		HashMap<String, String> strings;
 
-		st = new StringTags((language != null) ? language : "");
-		strings = st.getStrings();
+	//FIXME: reestructurar funcion para que no solo funcione con translationunit
+	private static List<AnotacionMarca> iniciaTranslationUnit(CharStream antlrEntrada, Lenguaje lenguaje, String language, HashMap<String, String> strings) {
 
 		Lexer lexer = ANTLRFactory.getLexer(lenguaje, antlrEntrada);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -62,7 +57,7 @@ public class Simae {
 
 	}
 
-	private static void algoritmoMarcado(BufferedReader brPreprocesado, PrintWriter pw, List<AnotacionMarca> todasMarcas) throws IOException {
+	private static void algoritmoMarcado(BufferedReader brPreprocesado, PrintWriter pw, List<AnotacionMarca> todasMarcas, HashMap<String, String> strings) throws IOException {
 
 		/*
 		 * Se recorre la lista de marcas
@@ -79,7 +74,7 @@ public class Simae {
 
 		entrada = brPreprocesado.readLine();
 		int posEnFila = 0;
-		Collections.sort(todasMarcas);
+		//Collections.sort(todasMarcas);
 		Iterator<AnotacionMarca> it = todasMarcas.iterator();
 		AnotacionMarca marca;
 		AnotacionMarca marcaSiguiente = null;
@@ -106,8 +101,7 @@ public class Simae {
 			while (marcaSiguiente != null) {
 				if (nroFila != marcaSiguiente.getFila()
 						|| posEnFila != marcaSiguiente.getPosicion()) break;
-
-				pw.print(" y " + marcaSiguiente.getMarca());
+				pw.print(strings.get("and") + marcaSiguiente.getMarca());
 				marcaSiguiente = it.hasNext() ? it.next() : null;
 			}
 			pw.print(marca.getFinComentario());
@@ -130,10 +124,13 @@ public class Simae {
 		CharStream antlrEntrada = CharStreams.fromString(armaCompleto);
 		
 		BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompleto));
-		
-		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, programmingLanguage, language);
 
-        algoritmoMarcado(brPreprocesado, pw, todasMarcas);
+		StringTags st = new StringTags((language != null) ? language : "");
+		HashMap<String, String> strings = st.getStrings();
+
+		List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, programmingLanguage, language, strings);
+
+        algoritmoMarcado(brPreprocesado, pw, todasMarcas, strings);
 
 	}
 

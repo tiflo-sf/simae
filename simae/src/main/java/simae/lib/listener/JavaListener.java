@@ -83,7 +83,7 @@ public class JavaListener extends JavaParserBaseListener {
 
 
 	@Override
-	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+	public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
 		String texto = strings.get("closes") + getOriginalCode(ctx.typeTypeOrVoid().getStart(),ctx.formalParameters().getStop(),0) + strings.get("ofLine") + ctx.getStart().getLine();
 		marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
@@ -91,7 +91,7 @@ public class JavaListener extends JavaParserBaseListener {
 	}
 
 	@Override
-	public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
 		//typeTypeOrVoid IDENTIFIER formalParameters ('[' ']')* (THROWS qualifiedNameList)? methodBody;
 		String texto = strings.get("endsOn") + ctx.getStop().getLine();
 		Token ultimoAntesDeMarca = ctx.qualifiedNameList() != null ? ctx.qualifiedNameList().getStop() : ctx.formalParameters().getStop();
@@ -139,6 +139,7 @@ public class JavaListener extends JavaParserBaseListener {
 				texto));
 	}
 
+	@Override
 	public void enterIfElseStatement(JavaParser.IfElseStatementContext ctx) {
 		//IF parExpression statement elseStatement
 		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
@@ -150,9 +151,18 @@ public class JavaListener extends JavaParserBaseListener {
 
 	@Override
 	public void enterElseStatement(JavaParser.ElseStatementContext ctx) {
-		//ELSE statement;
+		JavaParser.IfElseStatementContext ifElse = (JavaParser.IfElseStatementContext) ctx.getParent();
+
+		String ifCompleto = getOriginalCode(ifElse.getStart(), ifElse.parExpression().getStop());
+		String textoIf = strings.get("closes") + ifCompleto + strings.get("ofLine") + ifElse.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ifElse.statement().getStop().getLine(),
+				ifElse.statement().getStop().getCharPositionInLine(),
+				textoIf));
+
+
 		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
-		Token elseT = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
+		Token elseT = (Token) ctx.getChild(ctx.getChildCount() - 2).getPayload();
 		marcas.add(new AnotacionMarca(elseT.getLine(),
 				elseT.getCharPositionInLine() + 3,
 				texto));
@@ -160,15 +170,6 @@ public class JavaListener extends JavaParserBaseListener {
 
 	@Override
 	public void exitElseStatement(JavaParser.ElseStatementContext ctx) {
-		//IF parExpression statement (elseStatement)?
-		//ELSE statement;
-		//Como no esta separado en IfElse e If, primero se procesa el If.
-		JavaParser.IfElseStatementContext ifPadre = (JavaParser.IfElseStatementContext)ctx.getParent();
-		String ifCompleto = getOriginalCode(ifPadre.getStart(), ifPadre.parExpression().getStop());
-		String texto = strings.get("closes") + ifCompleto + strings.get("ofLine") + ifPadre.getStart().getLine();
-		marcas.add(new AnotacionMarca(ifPadre.statement().getStop().getLine(),
-				ifPadre.statement().getStop().getCharPositionInLine(),
-				texto));
 
 		//Ahora se procesa el Else
 		String textoElse = strings.get("closes") + "else" + strings.get("ofLine") + ctx.getStart().getLine();

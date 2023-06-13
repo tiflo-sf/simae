@@ -3,7 +3,7 @@ package simae.lib.java8;
 import org.junit.jupiter.api.Test;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
-import simae.lib.cPlusPlus.Tests;
+import simae.lib.cPlusPlus.es.Tests;
 
 import java.io.IOException;
 
@@ -14,22 +14,22 @@ class WhileTest extends Tests {
 	
 	@Test
 	void whileTest() throws IOException {
-		  prog = "public class Main {\n" +
-				  "      public static void main(String[] args) {\n" +
-				  "      	int k = 1;\n" +
-				  "      	while(k<10){\n" +
-				  "      		k++;\n" +
-				  "      	}\n" +
-				  "      }\n" +
-				  "}";
-		  esperado = "public class Main /*/CIERRA EN LINEA 8/*/{\n" +
-				  "      public static void main(String[] args)/*/CIERRA EN LINEA 7/*/ {\n" +
-				  "      	int k = 1;\n" +
-				  "      	while(k<10)/*/CIERRA EN LINEA 6/*/{\n" +
-				  "      		k++;\n" +
-				  "      	}/*/CIERRA while(k<10) DE LINEA 4/*/\n" +
-				  "      }/*/CIERRA void main(String[] args) DE LINEA 2/*/\n" +
-				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
+		  prog = "public class Main {" + nl +
+				  "      public static void main(String[] args) {" + nl +
+				  "      	int k = 1;" + nl +
+				  "      	while(k<10){" + nl +
+				  "      		k++;" + nl +
+				  "      	}" + nl +
+				  "      }" + nl +
+				  "}" + nl;
+		  esperado = "public class Main /*/CIERRA EN LINEA 8/*/{" + nl +
+				  "      public static void main(String[] args)/*/CIERRA EN LINEA 7/*/ {" + nl +
+				  "      	int k = 1;" + nl +
+				  "      	while(k<10)/*/CIERRA EN LINEA 6/*/{" + nl +
+				  "      		k++;" + nl +
+				  "      	}/*/CIERRA while(k<10) DE LINEA 4/*/" + nl +
+				  "      }/*/CIERRA void main(String[] args) DE LINEA 2/*/" + nl +
+				  "}/*/CIERRA class Main DE LINEA 1/*/" + nl;
 		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}

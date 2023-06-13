@@ -3,7 +3,7 @@ package simae.lib.python;
 import org.junit.jupiter.api.Test;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
-import simae.lib.cPlusPlus.Tests;
+import simae.lib.cPlusPlus.es.Tests;
 
 import java.io.IOException;
 
@@ -14,9 +14,9 @@ class ClassTest extends Tests {
 	
 	@Test
 	void testWhile() throws IOException {
-		  prog = "class MyClass:\n" +
+		  prog = "class MyClass:" + nl +
 				  "  x = 5" + nl;
-		  esperado = "class MyClass:# /CIERRA EN LINEA 2/\n" +
+		  esperado = "class MyClass:# /CIERRA EN LINEA 2/" + nl +
 				  "  x = 5# /CIERRA class MyClass DE LINEA 1/" + nl;
 		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");

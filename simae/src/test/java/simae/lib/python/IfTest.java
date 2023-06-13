@@ -3,7 +3,7 @@ package simae.lib.python;
 import org.junit.jupiter.api.Test;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
-import simae.lib.cPlusPlus.Tests;
+import simae.lib.cPlusPlus.es.Tests;
 
 import java.io.IOException;
 
@@ -14,14 +14,14 @@ class IfTest extends Tests {
 	
 	@Test
 	void ifTest() throws IOException {
-		  prog = "a = 33\n" +
-				  "b = 200\n" +
-				  "if b > a:\n" +
-				  "  print(\"b is greater than a\")";
-		  esperado = "a = 33\n" +
-				  "b = 200\n" +
-				  "if b > a:# /CIERRA EN LINEA 4/\n" +
-				  "  print(\"b is greater than a\")# /CIERRA if b > a DE LINEA 3/\n";
+		  prog = "a = 33" + nl +
+				  "b = 200" + nl +
+				  "if b > a:" + nl +
+				  "  print(\"b is greater than a\")" + nl;
+		  esperado = "a = 33" + nl +
+				  "b = 200" + nl +
+				  "if b > a:# /CIERRA EN LINEA 4/" + nl +
+				  "  print(\"b is greater than a\")# /CIERRA if b > a DE LINEA 3/" + nl;
 		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}

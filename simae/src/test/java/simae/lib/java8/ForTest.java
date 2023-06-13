@@ -3,7 +3,7 @@ package simae.lib.java8;
 import org.junit.jupiter.api.Test;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
-import simae.lib.cPlusPlus.Tests;
+import simae.lib.cPlusPlus.es.Tests;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ class ForTest extends Tests {
 				  "      		k++;\n" +
 				  "      	}\n" +
 				  "      }\n" +
-				  "}";
+				  "}" + nl;
 		  esperado = "public class Main /*/CIERRA EN LINEA 8/*/{\n" +
 				  "      public static void main(String[] args)/*/CIERRA EN LINEA 7/*/ {\n" +
 				  "      	int k = 1;\n" +
