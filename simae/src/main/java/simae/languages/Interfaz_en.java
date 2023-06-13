@@ -10,6 +10,7 @@ public class Interfaz_en extends ListResourceBundle {
                     {"endsOn", "CLOSES ON LINE "},
                     {"closes", "CLOSES "},
                     {"ofLine", " OF LINE "},
+                    {"and", " and "},
                     //Descripcion de argumentos
                     {"language", "Language used for tagging and messages"},
                     {"untag", "Removes SIMAE tags from <inputFile>"},
@@ -36,7 +37,6 @@ public class Interfaz_en extends ListResourceBundle {
                     {"missingResource", "The entered language is not available."},
                     {"overwritten1", "The option "},
                     {"overwritten2", " should be specified only once.\n"},
-
 
 
             };
