@@ -1,4 +1,4 @@
-package simae.lib.cPlusPlus;
+package simae.lib.cPlusPlus.es;
 
 public abstract class Tests {
 	protected final String nl = System.lineSeparator();

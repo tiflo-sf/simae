@@ -125,7 +125,17 @@ public class CPPListener extends CPP14BaseListener {
 	
 	@Override
 	public void enterElsestatement(CPP14Parser.ElsestatementContext ctx) {
-		String texto = strings.get("closes") + "EN LINEA " + ctx.statement().getStop().getLine();
+		CPP14Parser.IfElseStatementContext ifElse = (CPP14Parser.IfElseStatementContext) ctx.getParent();
+
+		String ifCompleto = getOriginalCode(ifElse.getStart(), ifElse.condition().getStop());
+		String textoIf = strings.get("closes") + ifCompleto + strings.get("ofLine") + ifElse.getStart().getLine();
+
+		marcas.add(new AnotacionMarca(ifElse.statement().getStop().getLine(),
+				ifElse.statement().getStop().getCharPositionInLine(),
+				textoIf));
+
+
+		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
 		Token elseT = (Token)ctx.getChild(ctx.getChildCount() - 2).getPayload();
 	    marcas.add(new AnotacionMarca(elseT.getLine(),
 	    						  elseT.getCharPositionInLine() + 3,
@@ -142,7 +152,17 @@ public class CPPListener extends CPP14BaseListener {
                                       ctx.getStop().getCharPositionInLine(),
                                       texto));		
 	}
-	
+
+	@Override
+	public void enterIfElseStatement(CPP14Parser.IfElseStatementContext ctx) {
+		//If '(' condition ')' statement elsestatement
+		String texto = strings.get("endsOn") + ctx.statement().getStop().getLine();
+		Token parentesis = (Token)ctx.getChild(ctx.getChildCount() - 3).getPayload();
+		marcas.add(new AnotacionMarca(parentesis.getLine(),
+				parentesis.getCharPositionInLine(),
+				texto));
+	}
+
 	@Override
 	public void exitWhileStatement(CPP14Parser.WhileStatementContext ctx) {
 		//While '(' condition ')' statement

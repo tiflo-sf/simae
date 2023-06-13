@@ -3,7 +3,7 @@
 
 ![](https://i.imgur.com/oSRdStq.png)
 
-##### Table of Contents  
+##### Tabla de contenidos  
 - [Descripción](#Descripcion)  
 - [Instalación y uso](#Instalación-y-uso)
     * [Uso con GUI](#usocongui)
@@ -36,23 +36,37 @@ SIMAE es una herramienta de asistencia a la programación para desarrolladores c
 2. Desde una terminal, ejecutar el comando:
 
 ```bash=
-java -jar simae<version>.jar <nombreDelArchivoDeEntrada> <nombreDelArchivoDeSalida> <lenguaje>
+java -jar simae<version>.jar <nombreDelArchivoDeEntrada> [parámetros]
 ```
+
+Parámetros posibles:
+
+|Parámetro|Nombre completo|Descripción|
+|---|---|---|
+|[inputFile]|-|Input filename|
+|-o|--out=outputFile|Output filename (default is inputFile)|
+|-p| --lang=language    |Input file programming language (java8, c++, python3)|
+|-l| --locale=locale    |Language used for tagging and messages|
+|-u| --untag              |Removes SIMAE tags from inputFile|
+|-s| --sound              |Plays a sound to indicate the result of the process (CLI only)|
+  |-g| --gui|Shows graphical interface|
+  |-h| --help|Displays this usage description|
+  |-v| --version|Version of SIMAE|
 
 |Nombre del lenguaje|Nombre como se debe poner en CLI|
 |-------------------|--------------------------------|
 |C++|c++|
-|Java|java|
+|Java|java8|
 |Python (versión 3.x)|python3|
 
 Ejemplo:
-java -jar simae-0.1.0-alpha.jar test.py salidaTest.py python3
+java -jar simae-0.2.0-alpha.jar test.py
 
 ### Integración en ZinjaI 
 
 Desde la materia Algoritmos y Estructuras de Datos se utiliza el IDE Zinjai con las librerías de Windows. Por lo que se añade un instructivo para generar una macro de manera que el código se marque automáticamente con un botón o hotkeys.
 
-#### En Zinjai:
+#### En ZinjaI:
 
 0) Guardar el jar en un lugar accesible
 
@@ -92,7 +106,7 @@ Y para agregar la macro usamos esta configuración:
 
 ```
 Nombre: simae
-Comando: java -jar <DirecciónDeZinjai> "${CURRENT_SOURCE}" "${CURRENT_SOURCE}"
+Comando: java -jar <DirecciónDeSIMAE> "${CURRENT_SOURCE}" "${CURRENT_SOURCE}"
 Directorio de trabajo: vacio (no escribir nada)
 Acción antes de ejecutar: Guardar el fuente actual
 Ejecución asíncrona: NO
@@ -101,7 +115,7 @@ Acción luego de ejecutar: Recargar fuente actual
 Mostrar en la barra de herramientas: SI
 ````
 
-**IMPORTANTE: reemplazar <DirecciónDeZijaI> por la dirección donde se encuentra el software. En caso de cumplir el paso 0 será C:/simae/simae.jar o /home/simae/simae.jar**
+**IMPORTANTE: reemplazar <DirecciónDeSIMAE> por la dirección donde se encuentra el software. En caso de cumplir el paso 0 será C:/simae/simae.jar o /home/simae/simae.jar**
 
 ![Pestaña de Zinjai con macros añadidas](https://gitlab.com/Patacon/patacon.gitlab.io/-/raw/main/images/simae-macro.png)
 
@@ -186,3 +200,4 @@ Lineas de trabajo:
 
 ## Referencias
 * Assenza T., Ballardini C., Marchetti P.A., Golobisky, M.F.. (2021, 13 de Agosto). Herramienta de Soporte para Programadores con Discapacidad Visual mediante el Marcado de Código Fuente. IEEE Xplore. https://ieeexplore.ieee.org/abstract/document/9505334/
+* Google group: https://groups.google.com/g/tiflosf-simae

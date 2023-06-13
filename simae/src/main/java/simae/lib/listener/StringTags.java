@@ -24,6 +24,7 @@ public class StringTags {
         strings.put("endsOn", (String) rb.getObject("endsOn"));
         strings.put("closes", (String) rb.getObject("closes"));
         strings.put("ofLine", (String) rb.getObject("ofLine"));
+        strings.put("and", (String) rb.getObject("and"));
     }
 
     public HashMap<String, String> getStrings() {

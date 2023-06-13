@@ -1,4 +1,4 @@
-package simae.lib.cPlusPlus;
+package simae.lib.cPlusPlus.es;
 
 import org.junit.jupiter.api.Test;
 import simae.SimaeLauncher;
@@ -12,7 +12,7 @@ class ClassTest extends Tests {
 
 	
 	@Test
-	void testIf() throws IOException {
+	void testClass() throws IOException {
 		  prog = "class CRender {" + nl +
 				  "public:" + nl +
 				  "    char buffer[255];" + nl +

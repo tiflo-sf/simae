@@ -3,7 +3,7 @@ package simae.lib.python;
 import org.junit.jupiter.api.Test;
 import simae.SimaeLauncher;
 import simae.lib.Lenguaje;
-import simae.lib.cPlusPlus.Tests;
+import simae.lib.cPlusPlus.es.Tests;
 
 import java.io.IOException;
 

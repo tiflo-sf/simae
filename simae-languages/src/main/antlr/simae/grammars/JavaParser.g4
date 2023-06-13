@@ -388,7 +388,7 @@ statement
     : blockLabel=block                                                      # BlockLabelStatement
     | ASSERT expression (':' expression)? ';'                               # AssertStatement
     | IF parExpression statement                                            # IfStatement
-    | ELSE statement                                                        # ElseStatement
+    | IF parExpression statement elseStatement                              # IfElseStatement
     | FOR '(' forControl ')' statement                                      # ForStatement
     | WHILE parExpression statement                                         # WhileStatement
     | DO statement WHILE parExpression ';'                                  # DoWhileStatement
@@ -405,6 +405,9 @@ statement
     | identifierLabel=IDENTIFIER ':' statement                              # IdentifierStatement
     ;
 
+elseStatement
+    : ELSE statement
+    ;
 
 catchClause
     : CATCH '(' variableModifier* catchType IDENTIFIER ')' block

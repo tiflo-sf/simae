@@ -10,6 +10,7 @@ public class Interfaz_en extends ListResourceBundle {
                     {"endsOn", "CLOSES ON LINE "},
                     {"closes", "CLOSES "},
                     {"ofLine", " OF LINE "},
+                    {"and", " and "},
                     //Descripcion de argumentos
                     {"language", "Language used for tagging and messages"},
                     {"untag", "Removes SIMAE tags from <inputFile>"},
@@ -29,14 +30,13 @@ public class Interfaz_en extends ListResourceBundle {
                     {"falloDesmarcado", "Error in the process of untagging marks.\n"},
                     {"workFileError", "Failed to write work file.\n"},
                     {"success", "The file has been successfully marked.\n"},
-                    {"successUntag", "The file has been successfully unmarked.\n"},
+                    {"successUntag", "The file has been successfully untagged.\n"},
                     {"undefinedArgument1", "The arguments "},
                     {"undefinedArgument2", " don't exist.\n"},
                     {"missing", "You must provide a value for the argument "},
                     {"missingResource", "The entered language is not available."},
                     {"overwritten1", "The option "},
                     {"overwritten2", " should be specified only once.\n"},
-
 
 
             };
