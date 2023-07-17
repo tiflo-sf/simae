@@ -81,15 +81,12 @@ task crearJarAPI(type: Jar) {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     doLast {
-        copy {
-            from 'build/libs/simae-0.2.2-simaeAPI.jar'
-            into '../simae-plugins/vs-code/src/libs/resources'
-        }
-        def jarFile = file('../simae-plugins/vs-code/src/libs/resources/simae-0.2.2-simaeAPI.jar')
+        def jarFile = file('build/libs/simae-0.2.2-simaeAPI.jar')
         def newFile = file('../simae-plugins/vs-code/src/libs/resources/simae.jar')
-        jarFile.renameTo(newFile)}
+        // Rename the JAR file
+        jarFile.renameTo(newFile)
+    }
 }
-
 
 
 task construirPlugin(type: Exec) {
