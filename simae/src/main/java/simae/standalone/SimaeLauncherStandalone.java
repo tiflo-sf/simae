@@ -1,37 +1,15 @@
-package simae;
+package simae.standalone;
 
-import simae.lib.Lenguaje;
-import simae.lib.Simae;
+import simae.core.SimaeLauncher;
+import simae.core.lib.Lenguaje;
+import simae.standalone.lib.SimaeStandalone;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
-public class SimaeLauncher {
-
-    private static String VERSION = "SIMAE 0.2.2";
-    public SimaeLauncher() {
-    }
-
-    public static String getVERSION() {
-        return VERSION;
-    }
-
-    public static Lenguaje lenguaje(String lenguajeString) {
-        switch(lenguajeString) {
-            case "c++":
-                return Lenguaje.CPLUSPLUS;
-            case "java":
-            case "java8":
-                return Lenguaje.JAVA8;
-            case "python3":
-                return Lenguaje.PYTHON3;
-            default:
-                System.out.println("Lenguaje invalido");
-                return null;
-        }
-    }
+public class SimaeLauncherStandalone extends SimaeLauncher {
 
 
     private boolean writeFile(String outputFileName, BufferedReader inputReader, File workFile) {
@@ -60,7 +38,7 @@ public class SimaeLauncher {
         }
         try {
             Lenguaje lenguaje = lenguaje(lenguajeString.toLowerCase());
-            Simae.fuenteMarcado(inputReaderC, workWriterC, lenguaje, null);
+            SimaeStandalone.fuenteMarcado(inputReaderC, workWriterC, lenguaje, null);
             workWriterC.close();
         } catch (IOException e) {
             return 1;
@@ -74,7 +52,7 @@ public class SimaeLauncher {
         BufferedReader reader = new BufferedReader(srEntrada);
         StringWriter swSalida = new StringWriter();
         PrintWriter writer = new PrintWriter(swSalida);
-        Simae.fuenteMarcado(reader, writer, lenguaje, idioma);
+        SimaeStandalone.fuenteMarcado(reader, writer, lenguaje, idioma);
         String salida = swSalida.toString();
         srEntrada.close();
         swSalida.close();
@@ -95,7 +73,7 @@ public class SimaeLauncher {
             System.out.println("Fallo algo en los argumentos");
         }
         Lenguaje lenguaje = lenguaje(lenguajeString.toLowerCase());
-        Simae.fuenteDesmarcado(inputReaderC, workWriterC, lenguaje);
+        SimaeStandalone.fuenteDesmarcado(inputReaderC, workWriterC, lenguaje);
         workWriterC.close();
 
         return writeFile(outputFileName, inputReaderC ,workFileC);

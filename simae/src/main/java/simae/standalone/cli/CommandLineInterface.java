@@ -1,4 +1,3 @@
-package simae.cli;
 import java.io.*;
 import java.util.List;
 import java.util.Locale;
@@ -7,9 +6,11 @@ import java.util.concurrent.Callable;
 
 import javafx.application.Application;
 import picocli.CommandLine;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
-import simae.lib.Simae;
+import simae.core.SimaeLauncher;
+import simae.core.lib.Lenguaje;
+import simae.standalone.SimaeLauncherStandalone;
+import simae.standalone.lib.SimaeStandalone;
+import simae.standalone.gui.SelectorApplication;
 
 class InitLocale {
 
@@ -22,7 +23,7 @@ class InitLocale {
 }
 
 //FIXME: faltan tests para la clase
-@CommandLine.Command(resourceBundle = "simae.languages.Interfaz", name="simae", sortOptions = false)
+@CommandLine.Command(resourceBundle = "simae.core.languages.Interfaz", name="simae", sortOptions = false)
 public class CommandLineInterface implements Callable<Integer> {
 
 	@CommandLine.Parameters(index="0", arity="0..1", paramLabel = "<inputFile>", descriptionKey = "input")
@@ -66,7 +67,7 @@ public class CommandLineInterface implements Callable<Integer> {
 			commandLine.parseArgs(args);
 
 			if (language != null) Locale.setDefault(new Locale(language));
-			rb = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
+			rb = ResourceBundle.getBundle("simae.core.languages.Interfaz", Locale.getDefault());
 
 			if (commandLine.isUsageHelpRequested()) {
 				commandLine.usage(System.out);
@@ -92,7 +93,7 @@ public class CommandLineInterface implements Callable<Integer> {
 	public Integer call() throws Exception {
 
 		if (gui == null && inputFile == null && outputFile == null && languageString == null) {
-			Application.launch(simae.gui.SelectorApplication.class);
+			Application.launch(SelectorApplication.class);
 			return 0;
 		}
 
@@ -102,7 +103,7 @@ public class CommandLineInterface implements Callable<Integer> {
 		}
 
 		if (gui != null) {
-			Application.launch(simae.gui.SelectorApplication.class);
+			Application.launch(SelectorApplication.class);
 		} else {
 			//FIXME: mantener o modificar por la funcion marcaPorArchivos?
 
@@ -139,13 +140,13 @@ public class CommandLineInterface implements Callable<Integer> {
 					return -1;
 			}
 
-			SimaeLauncher launcher = new SimaeLauncher();
+			SimaeLauncherStandalone launcher = new SimaeLauncherStandalone();
 
 			File fileToTag = new File(inputFile);
 
 			if (!fileToTag.exists()) {
 				System.out.println((String) rb.getObject("invalidInput"));
-				if (withSound != null) Simae.reproducirAudio(1);
+				if (withSound != null) SimaeStandalone.reproducirAudio(1);
 				return 1;
 			}
 
@@ -154,19 +155,19 @@ public class CommandLineInterface implements Callable<Integer> {
 					case 0:
 						System.out.printf((String) rb.getObject("success"));
 						if (withSound != null) {
-							Simae.reproducirAudio(0);
+							SimaeStandalone.reproducirAudio(0);
 						}
 						break;
 					case 1:
 						System.out.println((String) rb.getObject("falloMarcado"));
 						if (withSound != null) {
-							Simae.reproducirAudio(1);
+							SimaeStandalone.reproducirAudio(1);
 						}
 						break;
 					case 2:
 						System.out.println((String) rb.getObject("workFileError"));
 						if (withSound != null) {
-							Simae.reproducirAudio(1);
+							SimaeStandalone.reproducirAudio(1);
 						}
 				}
 			}
@@ -174,13 +175,13 @@ public class CommandLineInterface implements Callable<Integer> {
 				if (launcher.launchUntagging(new File(inputFile), outputFile, languageString)) {
 					System.out.printf((String) rb.getObject("successUntag"));
 					if (withSound != null) {
-						Simae.reproducirAudio(0);
+						SimaeStandalone.reproducirAudio(0);
 					}
 				}
 				else {
 					System.out.println((String) rb.getObject("falloDesmarcado"));
 					if (withSound != null) {
-						Simae.reproducirAudio(1);
+						SimaeStandalone.reproducirAudio(1);
 					}
 				}
 			}

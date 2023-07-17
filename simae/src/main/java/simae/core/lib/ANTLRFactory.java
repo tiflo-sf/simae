@@ -1,4 +1,4 @@
-package simae.lib;
+package simae.core.lib;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -6,11 +6,10 @@ import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
+import simae.core.lib.listener.CPPListener;
+import simae.core.lib.listener.PythonListener;
 import simae.grammars.*;
-import simae.lib.listener.CPPListener;
-import simae.lib.listener.JavaListener;
-import simae.lib.listener.PythonListener;
-import simae.lib.listener.StringTags;
+import simae.core.lib.listener.JavaListener;
 
 import java.util.HashMap;
 import java.util.List;

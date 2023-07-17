@@ -1,9 +1,10 @@
 package simae.lib.java8;
 
 import org.junit.jupiter.api.Test;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
+
+import simae.core.lib.Lenguaje;
 import simae.lib.cPlusPlus.es.Tests;
+import simae.standalone.SimaeLauncherStandalone;
 
 import java.io.IOException;
 
@@ -36,7 +37,7 @@ class MethodTest extends Tests {
 				  "    }/*/CIERRA void main(String[] args) DE LINEA 7/*/" + nl +
 				  "    " + nl +
 				  "}/*/CIERRA class Main DE LINEA 1/*/" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
+		  marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

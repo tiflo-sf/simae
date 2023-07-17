@@ -1,4 +1,4 @@
-package simae.languages;
+package simae.core.languages;
 
 import java.util.ListResourceBundle;
 

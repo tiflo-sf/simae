@@ -1,17 +1,15 @@
-package simae.lib.listener;
+package simae.core.lib.listener;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import simae.lib.AnotacionMarca;
+import simae.core.lib.AnotacionMarca;
 
 import simae.grammars.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 

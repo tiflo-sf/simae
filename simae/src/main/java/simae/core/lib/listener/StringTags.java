@@ -1,4 +1,4 @@
-package simae.lib.listener;
+package simae.core.lib.listener;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -10,12 +10,12 @@ public class StringTags {
     HashMap<String, String> strings;
 
     public StringTags() {
-        rb = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.getDefault());
+        rb = ResourceBundle.getBundle("simae.core.languages.Interfaz", Locale.getDefault());
         initializeLanguage();
     }
 
     public StringTags(String language) {
-        this.rb = ResourceBundle.getBundle("simae.languages.Interfaz", Locale.forLanguageTag(language));
+        this.rb = ResourceBundle.getBundle("simae.core.languages.Interfaz", Locale.forLanguageTag(language));
         strings = new HashMap<>();
         initializeLanguage();
     }

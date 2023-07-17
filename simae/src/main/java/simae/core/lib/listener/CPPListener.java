@@ -1,4 +1,4 @@
-package simae.lib.listener;
+package simae.core.lib.listener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import simae.grammars.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
-import simae.lib.AnotacionMarca;
+import simae.core.lib.AnotacionMarca;
 
 public class CPPListener extends CPP14BaseListener {
 

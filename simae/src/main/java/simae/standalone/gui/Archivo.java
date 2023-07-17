@@ -1,4 +1,4 @@
-package simae.gui;
+package simae.standalone.gui;
 
 import java.io.File;
 

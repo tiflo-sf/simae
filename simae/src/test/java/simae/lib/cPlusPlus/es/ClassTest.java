@@ -1,8 +1,9 @@
 package simae.lib.cPlusPlus.es;
 
 import org.junit.jupiter.api.Test;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
+
+import simae.core.lib.Lenguaje;
+import simae.standalone.SimaeLauncherStandalone;
 
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ class ClassTest extends Tests {
  				  "    char buffer[255];" + nl +
 				  "    void llamadoFuncion(const char *argumento);" + nl +
 				  "}/*/CIERRA class CRender  DE LINEA 1/*/;" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
+		  marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.CPLUSPLUS, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

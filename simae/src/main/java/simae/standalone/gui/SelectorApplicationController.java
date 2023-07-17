@@ -1,4 +1,4 @@
-package simae.gui;
+package simae.standalone.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,8 +9,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import simae.SimaeLauncher;
-import simae.lib.Simae;
+import simae.standalone.SimaeLauncherStandalone;
+import simae.standalone.lib.SimaeStandalone;
 
 import java.io.File;
 import java.io.IOException;
@@ -127,7 +127,7 @@ public class SelectorApplicationController {
     void marcaArchivos() throws Exception {
         long inicio = System.currentTimeMillis();
         char decideMarca = soloQuitaMarcas.isSelected() ? 'D' : 'M'; //FIXME: intentar cambiar metodo
-        SimaeLauncher simaeLauncher = new SimaeLauncher();
+        SimaeLauncherStandalone simaeLauncher = new SimaeLauncherStandalone();
         textoError.setVisible(false);
         textoProcesado.setVisible(false);
 
@@ -144,12 +144,12 @@ public class SelectorApplicationController {
                                 ((Archivo)file).getFile().toString(),
                                 lenguaje(file.toString().substring(file.toString().lastIndexOf(".")))
                         ))) {
-            Simae.reproducirAudio(1);
+            SimaeStandalone.reproducirAudio(1);
             textoError.setVisible(true);
         }
 
         if (!textoError.isVisible()) {
-            Simae.reproducirAudio(0);
+            SimaeStandalone.reproducirAudio(0);
             textoProcesado.setVisible(true);
         }
 
@@ -204,6 +204,7 @@ public class SelectorApplicationController {
         botonMarcar.setDisable(false);
         botonQuitar.setDisable(false);
     }
+
 
 
 

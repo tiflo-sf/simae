@@ -1,9 +1,10 @@
 package simae.lib.java8;
 
 import org.junit.jupiter.api.Test;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
+
+import simae.core.lib.Lenguaje;
 import simae.lib.cPlusPlus.es.Tests;
+import simae.standalone.SimaeLauncherStandalone;
 
 import java.io.IOException;
 
@@ -14,23 +15,23 @@ class ForTest extends Tests {
 	
 	@Test
 	void forTest() throws IOException {
-		  prog = "public class Main {\n" +
-				  "      public static void main(String[] args) {\n" +
+		  prog = "public class Main {" + nl +
+				  "      public static void main(String[] args) {" + nl +
 				  "      	int k = 1;\n" +
-				  "      	for(int i=0; i<10; i++){\n" +
-				  "      		k++;\n" +
-				  "      	}\n" +
-				  "      }\n" +
+				  "      	for(int i=0; i<10; i++){" + nl +
+				  "      		k++;" + nl +
+				  "      	}" + nl +
+				  "      }" + nl +
 				  "}" + nl;
-		  esperado = "public class Main /*/CIERRA EN LINEA 8/*/{\n" +
-				  "      public static void main(String[] args)/*/CIERRA EN LINEA 7/*/ {\n" +
-				  "      	int k = 1;\n" +
-				  "      	for(int i=0; i<10; i++)/*/CIERRA EN LINEA 6/*/{\n" +
-				  "      		k++;\n" +
-				  "      	}/*/CIERRA for(int i=0; i<10; i++) DE LINEA 4/*/\n" +
-				  "      }/*/CIERRA void main(String[] args) DE LINEA 2/*/\n" +
-				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
+		  esperado = "public class Main /*/CIERRA EN LINEA 8/*/{" + nl +
+				  "      public static void main(String[] args)/*/CIERRA EN LINEA 7/*/ {" + nl +
+				  "      	int k = 1;" + nl +
+				  "      	for(int i=0; i<10; i++)/*/CIERRA EN LINEA 6/*/{" + nl +
+				  "      		k++;" + nl +
+				  "      	}/*/CIERRA for(int i=0; i<10; i++) DE LINEA 4/*/" + nl +
+				  "      }/*/CIERRA void main(String[] args) DE LINEA 2/*/" + nl +
+				  "}/*/CIERRA class Main DE LINEA 1/*/" + nl;
+		  marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

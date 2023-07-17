@@ -1,4 +1,4 @@
-package simae.lib;
+package simae.core.lib;
 
 
 public class AnotacionMarca implements Comparable<AnotacionMarca> {

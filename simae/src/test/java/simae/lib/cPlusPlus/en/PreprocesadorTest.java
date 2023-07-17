@@ -1,9 +1,10 @@
 package simae.lib.cPlusPlus.en;
 
 import org.junit.jupiter.api.Test;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
+
+import simae.core.lib.Lenguaje;
 import simae.lib.cPlusPlus.es.Tests;
+import simae.standalone.SimaeLauncherStandalone;
 
 import java.io.IOException;
 
@@ -21,7 +22,7 @@ class PreprocesadorTest extends Tests {
 		 		"	while(c)/*/CLOSES ON LINE 3/*/ if(c)/*/CLOSES ON LINE 3/*/ {" + nl +
 		 		"	}/*/CLOSES if(c) OF LINE 2 and CLOSES while(c) OF LINE 2/*/" + nl +
 		 		"}/*/CLOSES main() OF LINE 1/*/" + nl;
-		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "en");
+		 marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.CPLUSPLUS, "en");
 		 assertEquals(esperado,marcado, "The expected code and the result are not equals.");
 	}
 

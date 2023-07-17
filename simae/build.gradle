@@ -17,9 +17,7 @@ plugins {
 
 version = "0.2.2"
 
-shadowJar {
-    classifier = null
-}
+
 
 compileJava {
     options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
@@ -62,5 +60,28 @@ tasks.named('test') {
 }
 
 application {
-    mainClass = 'simae.cli.CommandLineInterface'
+    mainClass = 'CommandLineInterface'
+}
+
+task createSecondJar(type: Jar) {
+    duplicatesStrategy = 'exclude'
+    archiveClassifier.set('simaeAPI')
+    from sourceSets.main.output
+
+    manifest {
+        attributes 'Main-Class': 'simae.api.API'
+    }
+
+
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+shadowJar {
+    classifier = null
+}
+
+build {
+    dependsOn shadowJar
+    dependsOn createSecondJar
 }

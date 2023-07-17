@@ -1,13 +1,12 @@
-package simae.lib.listener;
+package simae.core.lib.listener;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
-import simae.lib.AnotacionMarca;
+import simae.core.lib.AnotacionMarca;
 import simae.grammars.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class JavaListener extends JavaParserBaseListener {
 
