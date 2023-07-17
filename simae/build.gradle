@@ -13,10 +13,17 @@ plugins {
     id 'application'
     id 'java'
     id("com.github.johnrengelman.shadow") version "7.1.0"
+    id 'com.github.node-gradle.node' version '3.0.0'
 }
 
 version = "0.2.2"
 
+
+node {
+    version = '18.14.2' // Versión de Node.js que deseas usar
+    npmVersion = '9.5.0' // Versión de NPM que deseas usar
+    download = true
+}
 
 
 compileJava {
@@ -63,25 +70,42 @@ application {
     mainClass = 'CommandLineInterface'
 }
 
-task createSecondJar(type: Jar) {
+task crearJarAPI(type: Jar) {
     duplicatesStrategy = 'exclude'
     archiveClassifier.set('simaeAPI')
     from sourceSets.main.output
-
     manifest {
         attributes 'Main-Class': 'simae.api.API'
     }
-
-
     from {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    doLast {
+        copy {
+            from 'build/libs/simae-0.2.2-simaeAPI.jar'
+            into '../simae-plugins/vs-code/src/libs/resources'
+        }
+        def jarFile = file('../simae-plugins/vs-code/src/libs/resources/simae-0.2.2-simaeAPI.jar')
+        def newFile = file('../simae-plugins/vs-code/src/libs/resources/simae.jar')
+        jarFile.renameTo(newFile)}
 }
+
+
+
+task construirPlugin(type: Exec) {
+    dependsOn crearJarAPI
+    workingDir '../simae-plugins/vs-code/src'
+    commandLine 'C:\\Program Files\\nodejs\\npm.cmd', 'run', 'vsce:package'
+}
+
+
+
+
 shadowJar {
     classifier = null
 }
 
 build {
     dependsOn shadowJar
-    dependsOn createSecondJar
+    dependsOn construirPlugin
 }
