@@ -32,8 +32,4 @@ public class JavaAbstractFactory {
         return ((JavaParser) parser).compilationUnit();
     }
 
-    public static List<AnotacionMarca> getMarcas(ParseTreeListener parseTreeListener) {
-        return ((JavaListener) parseTreeListener).getMarcas();
-    }
-
 }

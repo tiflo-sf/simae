@@ -46,8 +46,7 @@ public class Simae {
 		ParseTreeWalker walker = new ParseTreeWalker();
 		walker.walk(extractor, tree);
 
-		//return ANTLRFactory.getMarcas(lenguaje, extractor);
-		return (List<AnotacionMarca>) claseLenguaje.getMethod("getMarcas", ParseTreeListener.class).invoke(null, extractor);
+		return (List<AnotacionMarca>) extractor.getClass().getMethod("getMarcas").invoke(extractor);
 	}
 
 

@@ -29,9 +29,5 @@ public class CPlusPlusAbstractFactory {
         return ((CPP14Parser) parser).translationunit();
     }
 
-    public static List<AnotacionMarca> getMarcas(ParseTreeListener parseTreeListener) {
-        return ((CPPListener) parseTreeListener).getMarcas();
-    }
-
 
 }

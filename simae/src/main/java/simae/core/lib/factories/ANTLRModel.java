@@ -8,6 +8,7 @@ import simae.core.lib.listener.CPPListener;
 import simae.grammars.CPP14Lexer;
 import simae.grammars.CPP14Parser;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +34,10 @@ public class ANTLRModel {
 
     public Class<?> getParseTreeListener() {
         return parseTreeListener;
+    }
+
+    public List<AnotacionMarca> getMarcas(ParseTreeListener extractedParseTreeListener) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        return (List<AnotacionMarca>) parseTreeListener.getMethod("getMarcas").invoke(parseTreeListener);
     }
 
 }

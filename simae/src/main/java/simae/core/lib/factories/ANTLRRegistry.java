@@ -17,6 +17,7 @@ public class ANTLRRegistry {
         registry = new HashMap<>();
     }
 
+    //FIXME: crear una clase que tenga esta conversión junto con las de string lenguaje a Lenguaje, y de Lenguaje a string
     public Class<?> getClassFrom(Lenguaje lenguaje) {
         switch (lenguaje) {
             case CPLUSPLUS:

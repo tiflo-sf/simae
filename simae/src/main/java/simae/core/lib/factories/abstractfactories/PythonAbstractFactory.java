@@ -33,8 +33,4 @@ public class PythonAbstractFactory {
         return ((Python3Parser) parser).file_input();
     }
 
-    public static List<AnotacionMarca> getMarcas(ParseTreeListener parseTreeListener) {
-        return ((PythonListener) parseTreeListener).getMarcas();
-    }
-
 }
