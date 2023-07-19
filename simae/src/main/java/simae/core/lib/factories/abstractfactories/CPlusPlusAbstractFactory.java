@@ -18,27 +18,15 @@ public class CPlusPlusAbstractFactory {
 
     public static void register(ANTLRRegistry registry) {
         registry.registerLanguage(CPlusPlusAbstractFactory.class, new ANTLRModel(
-                getLexer(),
-                getParser(),
-                getListener()
+                CPP14Lexer.class,
+                CPP14Parser.class,
+                CPPListener.class
         ));
     }
 
 
-    public static Class<?> getLexer() {
-        return CPP14Lexer.class;
-    }
-
-    public static Class<?> getParser() {
-        return CPP14Parser.class;
-    }
-
     public static ParseTree getParseTree(Parser parser) {
         return ((CPP14Parser) parser).translationunit();
-    }
-
-    public static Class<?> getListener() {
-        return CPPListener.class;
     }
 
     public static List<AnotacionMarca> getMarcas(ParseTreeListener parseTreeListener) {

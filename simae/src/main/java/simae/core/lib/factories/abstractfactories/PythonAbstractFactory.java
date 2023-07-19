@@ -23,27 +23,14 @@ public class PythonAbstractFactory {
 
     public static void register(ANTLRRegistry registry) {
         registry.registerLanguage(PythonAbstractFactory.class, new ANTLRModel(
-                getLexer(),
-                getParser(),
-                getListener()
+                Python3Lexer.class,
+                Python3Parser.class,
+                PythonListener.class
         ));
-    }
-
-
-    public static Class<?> getLexer() {
-        return Python3Lexer.class;
-    }
-
-    public static Class<?> getParser() {
-        return Python3Parser.class;
     }
 
     public static ParseTree getParseTree(Parser parser) {
         return ((Python3Parser) parser).file_input();
-    }
-
-    public static Class<?> getListener() {
-        return PythonListener.class;
     }
 
     public static List<AnotacionMarca> getMarcas(ParseTreeListener parseTreeListener) {

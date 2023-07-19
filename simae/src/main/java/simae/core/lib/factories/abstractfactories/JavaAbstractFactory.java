@@ -23,27 +23,13 @@ public class JavaAbstractFactory {
 
     public static void register(ANTLRRegistry registry) {
         registry.registerLanguage(JavaAbstractFactory.class, new ANTLRModel(
-                getLexer(),
-                getParser(),
-                getListener()
+                JavaLexer.class,
+                JavaParser.class,
+                JavaListener.class
         ));
     }
-
-
-    public static Class<?> getLexer() {
-        return JavaLexer.class;
-    }
-
-    public static Class<?> getParser() {
-        return JavaParser.class;
-    }
-
     public static ParseTree getParseTree(Parser parser) {
         return ((JavaParser) parser).compilationUnit();
-    }
-
-    public static Class<?> getListener() {
-        return JavaListener.class;
     }
 
     public static List<AnotacionMarca> getMarcas(ParseTreeListener parseTreeListener) {
