@@ -5,6 +5,10 @@ import org.antlr.v4.runtime.CharStreams;
 import simae.core.lib.AnotacionMarca;
 import simae.core.lib.Lenguaje;
 import simae.core.lib.Simae;
+import simae.core.lib.factories.ANTLRRegistry;
+import simae.core.lib.factories.abstractfactories.CPlusPlusAbstractFactory;
+import simae.core.lib.factories.abstractfactories.JavaAbstractFactory;
+import simae.core.lib.factories.abstractfactories.PythonAbstractFactory;
 import simae.core.lib.listener.StringTags;
 
 import javax.sound.sampled.AudioSystem;
@@ -13,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,13 +26,34 @@ public class SimaeStandalone extends Simae {
 
     public static void fuenteMarcado(BufferedReader br, PrintWriter pw, Lenguaje programmingLanguage, String language) throws IOException {
 
+        //Creado de la registry
+        ANTLRRegistry antlrRegistry = new ANTLRRegistry();
+
+        //Registro de lenguajes
+        CPlusPlusAbstractFactory.register(antlrRegistry);
+        JavaAbstractFactory.register(antlrRegistry);
+        PythonAbstractFactory.register(antlrRegistry);
+
         String armaCompleto = fuenteDesmarcado(br, programmingLanguage);
         CharStream antlrEntrada = CharStreams.fromString(armaCompleto);
         BufferedReader brPreprocesado = new BufferedReader(new StringReader(armaCompleto));
         StringTags st = new StringTags((language != null) ? language : "");
         HashMap<String, String> strings = st.getStrings();
-        List<AnotacionMarca> todasMarcas = iniciaTranslationUnit(antlrEntrada, programmingLanguage, language);
+
+        List<AnotacionMarca> todasMarcas = null;
+        try {
+            todasMarcas = iniciaTranslationUnit(antlrRegistry, antlrEntrada, programmingLanguage, language);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         algoritmoMarcado(brPreprocesado, pw, todasMarcas, strings);
+
 
     }
 
