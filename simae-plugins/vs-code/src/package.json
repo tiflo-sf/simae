@@ -9,21 +9,38 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
+    "activationEvents": [
     "onCommand:extension.simaevs"
-],
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.simaevs",
-        "title": "SIMAE"
+        "command": "extension.leerMarca",
+        "title": "Leer marca generada por SIMAE"
+      },
+      {
+        "command": "extension.irDerecha",
+        "title": "Ir a la siguiente marca"
+      },
+      {
+        "command": "extension.irIzquierda",
+        "title": "Ir a la anterior marca"
       }
+
     ],
     "keybindings": [
       {
-        "command": "extension.simaevs",
+        "command": "extension.leerMarca",
         "key": "ctrl+alt+s"
+      },
+      {
+        "command": "extension.irDerecha",
+        "key": "ctrl+alt+d"
+      },
+      {
+        "command": "extension.irIzquierda",
+        "key": "ctrl+alt+i"
       }
     ],
     "files": [

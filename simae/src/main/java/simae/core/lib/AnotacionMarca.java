@@ -48,9 +48,9 @@ public class AnotacionMarca implements Comparable<AnotacionMarca> {
 	
 	@Override
 	public String toString() {
-		return getFila() + " " + getMarca() ;
+		return getFila() +  " " + getPosicion()+ " " + getMarca() ;
 	}
-	
+
 	public String getTexto() {
 		return getInicioComentario() + getMarca() + getFinComentario();
 	}
