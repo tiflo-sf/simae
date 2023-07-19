@@ -23,11 +23,8 @@ public class CPlusPlusAbstractFactory {
                 CPPListener.class
         ));
     }
-
-
     public static ParseTree getParseTree(Parser parser) {
         return ((CPP14Parser) parser).translationunit();
     }
-
 
 }
