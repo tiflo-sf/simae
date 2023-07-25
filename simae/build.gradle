@@ -22,8 +22,8 @@ version = "0.2.2"
 
 
 node {
-    version = '18.14.2' // Versión de Node.js que deseas usar
-    npmVersion = '9.5.0' // Versión de NPM que deseas usar
+    version = '18.14.2' // Versión de Node.js
+    npmVersion = '9.5.0' // Versión de NPM
     download = true
 }
 
@@ -75,13 +75,13 @@ application {
 task crearJarAPI(type: Jar) {
     duplicatesStrategy = 'exclude'
     archiveClassifier.set('simaeAPI')
-    from sourceSets.main.output
+    from sourceSets.main.output //agrega archivos compilados
     exclude('**/javafx/**/*.class', '**/picocli/**/*.class', '**/javax**/*.class', '**/**/*.dll', '**/**/*.so', '**/**/*.dylib')
     manifest {
         attributes 'Main-Class': 'simae.api.API'
     }
     from {
-        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } // agrega dependencias locales y dependencias externas
     }
 
 
@@ -97,7 +97,12 @@ task crearJarAPI(type: Jar) {
 task construirPlugin(type: Exec) {
     dependsOn crearJarAPI
     workingDir '../simae-plugins/vs-code/src'
-    commandLine 'C:\\Program Files\\nodejs\\npm.cmd', 'run', 'vsce:package'
+    String npm = 'npm';
+    String osName = System.getProperty('os.name').toLowerCase()
+    if (osName.contains('windows')) {
+        npm = 'npm.cmd';
+    }
+    commandLine npm, 'run', 'vsce:package'
 }
 
 
