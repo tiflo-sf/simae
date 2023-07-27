@@ -65,7 +65,8 @@ function activate(context) {
 
   
   /**
-   * Controla que el plugin se pueda ejecutar, lo ejecuta en caso de que se pueda, y muestra errores en caso contrario. 
+   * Controla que el plugin se pueda ejecutar. Ejecuta una acción
+   * en caso de que se pueda, e informa errores en caso contrario. 
    * @param {*} accion - Funcion que se va a ejecutar en caso de que no existan errores.
    * @returns 
    */

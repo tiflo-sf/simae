@@ -3,9 +3,12 @@ const vscode = require('vscode');
 const path = require('path');
 const i18next = require('i18next');
 
-
-// Función para cargar los archivos JSON de traducción
-function loadTranslationFile(lang) {
+/**
+ * Carga el archivo json del idioma.
+ * @param {*} lang - Idioma a cagar ('es' o 'en')
+ * @returns 
+ */
+function cargarLocale(lang) {
   const filePath = path.join(__dirname, 'locales', `${lang}.json`);
     const fileContent = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(fileContent);
@@ -17,10 +20,10 @@ i18next.init({
   lng: 'en',
   resources: {
     en: {
-      translation: loadTranslationFile('en'),
+      translation: cargarLocale('en'),
     },
     es: {
-      translation: loadTranslationFile('es'),
+      translation: cargarLocale('es'),
     },
   },
   interpolation: {
@@ -28,11 +31,17 @@ i18next.init({
   },
 });
 
-// Función para acceder a mensajes
+/**
+ * Retorna el mensaje correspondiente a una key en el idioma actual.
+ * @param {*} key - key del mensaje.
+ * @returns 
+ */
 function msg(key) {
   return i18next.t(key);
 }
-
+/**
+ * Retorna el idioma seleccionado por el usuario en la configuracion de SIMAE.
+ */
 function getLocale() {
     let idioma = vscode.workspace.getConfiguration('SIMAE').get('idioma');
     //obtener idioma actual segun configuracion o vs code

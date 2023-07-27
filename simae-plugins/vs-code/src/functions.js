@@ -10,10 +10,11 @@ const { msg } = require('./locale.js');
 
  
  /**
+   * Obtiene la linea donde se encuentra el usuario y verifica que exista una marca para esa linea. 
+   * Si existe, la informa con una hint. Si existe mas de una las une con 'y'/'and'. Si no existe
+   * una marca en esa linea, lo informa.
    * @param {Map<number, Marca[]>} multimap - Multimap de marcas
    * @param {vscode.TextEditor} editor - Editor.
-   * obtiene la linea donde se encuentra el editor y verifica que exista una marca para esa linea. 
-   * Si existe, la muestra. Si existe mas de una las une con un 'y'
    */
 function mostrarMarcas(multimap, editor) {
     if (multimap.has(editor.selection.active.line + 1)) {
@@ -178,7 +179,7 @@ function anteriorPosicion(arreglo, fila) {
 /**
  * Obtiene la codificación del archivo actual.
  * @param {vscode.TextEditor} editor - Editor actual.
- * @returns {Promise<string|null>} - Una promesa que se resuelve con el encoding o null si la confianza es baja.
+ * @returns {Promise<string|null>} Una promesa que se resuelve con el encoding o null si la confianza es baja.
  * @async
  */
 
