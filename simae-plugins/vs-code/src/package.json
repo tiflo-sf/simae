@@ -26,6 +26,10 @@
       {
         "command": "extension.irIzquierda",
         "title": "Ir a la anterior marca"
+      },
+      {
+        "command": "extension.abrirConf",
+        "title": "Abrir configuración"
       }
 
     ],
@@ -41,6 +45,10 @@
       {
         "command": "extension.irIzquierda",
         "key": "ctrl+alt+i"
+      },
+      {
+        "command": "extension.abrirConf",
+        "key": "ctrl+alt+c"
       }
     ],
     "files": [
@@ -48,7 +56,28 @@
       "package.json",
       "README.md",
       "libs/resources/simae.jar" 
-    ]
+    ],
+    "configuration": {
+      "title": "Configuración de SIMAE",
+      "properties": {
+        "SIMAE.idioma": {
+          "type": "string",
+          "enum": ["Español", "Ingles", "Idioma del sistema operativo"],
+          "default": "Idioma del sistema operativo",
+          "enumDescriptions": [
+            "Español",
+            "Inglés",
+            "Idioma del sistema operativo"
+          ],
+          "description": "Elige el idioma en el que se leerán las marcas.",
+          "enumValues": [
+            "es",
+            "en",
+            "so"
+          ]
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",

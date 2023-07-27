@@ -1,113 +1,111 @@
 const vscode = require('vscode');
 const { mostrarMarcas, armarMultimap, moverCursor } = require('./functions.js');
+const { msg, getLocale } = require('./locale.js');
+const i18next = require('i18next');
+const path = require('path');
 
+let ultimoContenido = null;
+let ultimasMarcas = null;
 
 /**
  * @param {vscode.ExtensionContext} context
  */
-function activate(context) { //leer
+function activate(context) {
 
+/**
+ * Muestra una hint con las marcas de SIMAE en la linea que se encuentra el usuario.
+ * @function leerMarca
+ */
+  let leerMarca = vscode.commands.registerCommand('extension.leerMarca', () => {
+    ejecutar(mostrarMarcas);
+  });
 
-  const path = require('path'); //path 
-  let ultimoContenido = null; //ultimo contenido del archivo
-  let ultimasMarcas = null; //ultima lista de marcas mostrada por la consola
-  let editor = vscode.window.activeTextEditor;
-  const filePath = editor.document.uri.fsPath; //path del archivo
-  const fileExt = path.extname(filePath); //extension del archivo
+/**
+ * Mueve el cursor a la siguiente marca y muestra una hint con la información de la marca.
+ * @function irDerecha
+ */
+  let irDerecha = vscode.commands.registerCommand('extension.irDerecha', () => {
+   ejecutar((marcas, editor) => {
+      moverCursor(marcas, editor, 1);
+    });
+  });
 
+/**
+ * Mueve el cursor a la marca anterior y muestra una hint con la información de la marca.
+ * @function irIzquierda
+ */
+  let irIzquierda = vscode.commands.registerCommand('extension.irIzquierda', () => {
+    ejecutar((marcas, editor) => {
+      moverCursor(marcas, editor, -1);
+    });
+  });
 
-  let leerMarca = vscode.commands.registerCommand('extension.leerMarca', () => { //leer marca
-    if (editor) { //si esta en el editor activo
-      if ([".java", ".cpp", ".py"].includes(fileExt)) { //si es cpp, java, py
-        const contenido = editor.document.getText();
-        if(contenido != ultimoContenido){
-          armarMultimap(filePath, context, editor)
-          .then((marcas) => {
-            ultimasMarcas = marcas;
-            mostrarMarcas(ultimasMarcas, editor);
-          })
-          .catch(() => {
-            vscode.window.showInformationMessage("Ocurrió un error al ejecutar SIMAE.");
-          });
-        ultimoContenido = contenido;
-        } else {
-          mostrarMarcas(ultimasMarcas, editor);
-        }
-      } else {
-        vscode.window.showInformationMessage('SIMAE esta disponible para archivos .java, .cpp y .py');
-      }
-    } else {
-      vscode.window.showInformationMessage('SIMAE solo se puede ejecutar en un editor.');
-    }
+  /**
+ * Abre la ventana de configuración de SIMAE.
+ * @function abrirConf
+ */
+  let abrirConf = vscode.commands.registerCommand('extension.abrirConf', () => {
+    vscode.commands.executeCommand('workbench.action.openSettings', 'SIMAE');
   });
 
 
+/**
+ * Cambia el idioma de los mensajes de la hint al definido por el usuario en la configuración.
+ * Si se cambió el idioma, detecta el evento y vuelve a generar el multimap con las marcas en el nuevo idioma.
+ * @function cambiaLenguaje
+ **/
 
-  let irDerecha = vscode.commands.registerCommand('extension.irDerecha', () => { //leer marca
+  function cambiaLenguaje() {
+    i18next.changeLanguage(getLocale());
+    context.subscriptions.push(vscode.workspace.onDidChangeConfiguration((event) => {
+      if (event.affectsConfiguration('SIMAE.idioma')) {
+          ultimoContenido= null;
+      }}));
+  }
+
+  
+  /**
+   * Controla que el plugin se pueda ejecutar, lo ejecuta en caso de que se pueda, y muestra errores en caso contrario. 
+   * @param {*} accion - Funcion que se va a ejecutar en caso de que no existan errores.
+   * @returns 
+   */
+  function ejecutar(accion) {
+    cambiaLenguaje();
     let editor = vscode.window.activeTextEditor;
-    if (editor) { //si esta en el editor activo
-      const filePath = editor.document.uri.fsPath; //path del archivo
-      const fileExt = path.extname(filePath); //extension del archivo
-      if ([".java", ".cpp", ".py"].includes(fileExt)) { //si es cpp, java, py
-        const contenido = editor.document.getText();
-        if(ultimoContenido == null || contenido != ultimoContenido){
-          armarMultimap(filePath, context, editor)
-          .then((marcas) => {
-            ultimasMarcas = marcas;
-            ultimoContenido = contenido;
-            moverCursor(ultimasMarcas, editor, 1);
-          })
-          .catch(() => {
-            vscode.window.showInformationMessage("Ocurrió un error al ejecutar SIMAE.");
-          });
-        } else {
-            moverCursor(ultimasMarcas, editor, 1)
-        }
-      } else {
-        vscode.window.showInformationMessage('SIMAE esta disponible para archivos .java, .cpp y .py');
-      }
-    } else {
-      vscode.window.showInformationMessage('SIMAE solo se puede ejecutar en un editor.');
+    if (!editor) {
+      vscode.window.showInformationMessage(msg("soloEditor"));
+      return;
     }
-  });
-
-
-
-  let irIzquierda = vscode.commands.registerCommand('extension.irIzquierda', () => { //leer marca
-       let editor = vscode.window.activeTextEditor;
-        if (editor) { //si esta en el editor activo
-          const filePath = editor.document.uri.fsPath; //path del archivo
-          const fileExt = path.extname(filePath); //extension del archivo
-          if ([".java", ".cpp", ".py"].includes(fileExt)) { //si es cpp, java, py
-            const contenido = editor.document.getText();
-            if(ultimoContenido == null || contenido != ultimoContenido){
-              armarMultimap(filePath, context, editor)
-              .then((marcas) => {
-                ultimasMarcas = marcas;
-                ultimoContenido = contenido;
-                moverCursor(ultimasMarcas, editor, -1)
-              })
-              .catch(() => {
-                vscode.window.showInformationMessage("Ocurrió un error al ejecutar SIMAE.");
-              });
-            } else {
-              moverCursor(ultimasMarcas, editor, -1);
-            }
-          } else {
-              vscode.window.showInformationMessage('SIMAE actulamente está disponible para archivos .java, .cpp y .py');
-          }
-            } else {
-              vscode.window.showInformationMessage('SIMAE solo se puede ejecutar en un editor.');
-            }
+    const filePath = editor.document.uri.fsPath;
+    const fileExt = path.extname(filePath);
+    if (![".java", ".cpp", ".py"].includes(fileExt)) {
+      vscode.window.showInformationMessage(msg("lenguajesDisponibles"));
+      return;
+    }
+    const contenido = editor.document.getText();
+    if (ultimoContenido == null || contenido != ultimoContenido) {
+      armarMultimap(filePath, context, editor)
+        .then((marcas) => {
+          ultimasMarcas = marcas;
+          ultimoContenido = contenido;
+          accion(ultimasMarcas, editor);
+        })
+        .catch(() => {
+          vscode.window.showInformationMessage(msg("errorEjecucion"));
         });
-          
+    } else {
+      accion(ultimasMarcas, editor);
+    }
+  }
 
-  context.subscriptions.push(leerMarca, irDerecha, irIzquierda);
+  
+ 
+  context.subscriptions.push(leerMarca, irDerecha, irIzquierda, abrirConf);
 }
 
 function deactivate() {}
- 
-module.exports = { //exporta modulos activate y deactivate.
+
+module.exports = {
   activate,
   deactivate
-}
+};

@@ -1,3 +1,5 @@
+package simae.standalone.cli;
+
 import java.io.*;
 import java.util.List;
 import java.util.Locale;

@@ -5,17 +5,21 @@ import simae.core.lib.AnotacionMarca;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class API {
 
     public static void main(String[] args) {
-        String filename = args[0];
-        String languageString = getFileExtension(filename);
+        String languageString = getFileExtension(args[0]);
+        Charset codificacion = getEncoding(args[1]);
+        String idioma = getIdioma(args[2]);
+
         SimaeLauncherAPI launcher = new SimaeLauncherAPI();
         List<AnotacionMarca> marcas = null;
         try {
-            marcas = launcher.obtenerMarcas(new File(filename), languageString);
+            marcas = launcher.obtenerMarcas(new File(args[0]), languageString, codificacion, idioma);
         } catch (FileNotFoundException e) {
             System.out.println("Fallo la lectura del archivo");
         } catch (InvocationTargetException e) {
@@ -34,7 +38,8 @@ public class API {
 
 
 
-    private static String getFileExtension (String name){
+
+    private static String getFileExtension(String name) {
         int lastIndexOf = name.lastIndexOf(".");
         if (lastIndexOf == -1) {
             return ""; // empty extension
@@ -42,5 +47,32 @@ public class API {
         return name.substring(lastIndexOf);
     }
 
+    public static Charset getEncoding(String encodingJS) {
+        switch (encodingJS.toUpperCase()) {
+            case "ASCII":
+                return StandardCharsets.US_ASCII;
+            case "ISO-8859-1":
+                return StandardCharsets.ISO_8859_1;
+            case "UTF-8":
+                return StandardCharsets.UTF_8;
+            case "UTF-16BE":
+                return StandardCharsets.UTF_16BE;
+            case "UTF-16LE":
+                return StandardCharsets.UTF_16LE;
+            default:
+                return Charset.defaultCharset();
+        }
+    }
+
+    private static String getIdioma(String language) {
+        switch(language){
+            case "Ingles":
+                return "en";
+            case "Español":
+                return "es";
+            default:
+                return "";
+        }
+    }
 }
 
