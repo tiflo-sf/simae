@@ -1,0 +1,11 @@
+{
+  "linea": "Línea: ",
+  "sinMarcas": " No hay marcas.",
+  "concat": " y ",
+  "noMasMarcas": "No hay mas marcas en el documento en direccion ",
+  "derecha": "derecha",
+  "izquierda": "izquierda",
+  "errorEjecucion": "Ocurrió un error al ejecutar SIMAE.",
+  "lenguajesDisponibles": "SIMAE esta disponible para archivos .java, .cpp y .py",
+  "soloEditor": "SIMAE solo se puede ejecutar en un editor."
+}

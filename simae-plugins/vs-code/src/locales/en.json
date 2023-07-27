@@ -1,0 +1,11 @@
+{
+  "linea": "Line: ",
+  "sinMarcas": " No tags found.",
+  "concat": " and ",
+  "noMasMarcas": "No more tags in the document in direction ",
+  "derecha": "right.",
+  "izquierda": "left.",
+  "errorEjecucion": "An error occurred while executing SIMAE.",
+  "lenguajesDisponibles": "SIMAE is available for .java, .cpp, and .py files.",
+  "soloEditor": "SIMAE can only be executed in an editor."
+}
