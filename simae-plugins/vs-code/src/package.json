@@ -3,13 +3,14 @@
   "displayName": "SIMAE",
   "description": "Herramienta de asistencia a la programación para desarrolladores con discapacidad visual, que brinda información contextual mediante el marcado de las estructuras contenidas en el código fuente.",
   "version": "0.0.1",
+  "publisher": "tiflo-sf",
   "engines": {
     "vscode": "^1.77.0"
   },
   "categories": [
     "Other"
   ],
-    "activationEvents": [
+  "activationEvents": [
     "onCommand:extension.simaevs"
   ],
   "main": "./extension.js",
@@ -17,21 +18,24 @@
     "commands": [
       {
         "command": "extension.leerMarca",
-        "title": "Leer marca generada por SIMAE"
+        "title": "Leer Marca"
       },
       {
         "command": "extension.irDerecha",
-        "title": "Ir a la siguiente marca"
+        "title": "Ir a la Derecha"
       },
       {
         "command": "extension.irIzquierda",
-        "title": "Ir a la anterior marca"
+        "title": "Ir a la Izquierda"
       },
       {
         "command": "extension.abrirConf",
-        "title": "Abrir configuración"
+        "title": "Abrir Configuración"
+      },
+      {
+        "command": "extension.mostrarAyuda",
+        "title": "Mostrar Ayuda"
       }
-
     ],
     "keybindings": [
       {
@@ -49,6 +53,10 @@
       {
         "command": "extension.abrirConf",
         "key": "ctrl+alt+c"
+      },
+      {
+        "command": "extension.mostrarAyuda",
+        "key": "ctrl+alt+h"
       }
     ],
     "files": [
@@ -97,6 +105,5 @@
     "mocha": "^10.2.0",
     "typescript": "^4.9.5"
   },
-  
   "extensionKind": ["ui"]
 }

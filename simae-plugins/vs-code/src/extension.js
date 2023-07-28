@@ -1,8 +1,9 @@
 const vscode = require('vscode');
-const { mostrarMarcas, armarMultimap, moverCursor } = require('./functions.js');
+const { mostrarMarcas, armarMultimap, moverCursor, abrirAyuda } = require('./functions.js');
 const { msg, getLocale } = require('./locale.js');
 const i18next = require('i18next');
 const path = require('path');
+
 
 let ultimoContenido = null;
 let ultimasMarcas = null;
@@ -11,6 +12,7 @@ let ultimasMarcas = null;
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+
 
 /**
  * Muestra una hint con las marcas de SIMAE en la linea que se encuentra el usuario.
@@ -48,10 +50,18 @@ function activate(context) {
     vscode.commands.executeCommand('workbench.action.openSettings', 'SIMAE');
   });
 
+   /**
+ * Abre dialog con las combinaciones de teclas de SIMAE.
+ * @function mostrarAyuda
+ */
+  let mostrarAyuda = vscode.commands.registerCommand('extension.mostrarAyuda', () => {
+    abrirAyuda();
+  });
+
 
 /**
  * Cambia el idioma de los mensajes de la hint al definido por el usuario en la configuración.
- * Si se cambió el idioma, detecta el evento y vuelve a generar el multimap con las marcas en el nuevo idioma.
+ * Si se cambió el idioma, detecta el evento para generar el multimap con las marcas en el nuevo idioma.
  * @function cambiaLenguaje
  **/
 
@@ -91,17 +101,18 @@ function activate(context) {
           ultimoContenido = contenido;
           accion(ultimasMarcas, editor);
         })
-        .catch(() => {
-          vscode.window.showInformationMessage(msg("errorEjecucion"));
+        .catch((error) => {
+          vscode.window.showInformationMessage(error);
         });
     } else {
       accion(ultimasMarcas, editor);
     }
   }
 
+
   
  
-  context.subscriptions.push(leerMarca, irDerecha, irIzquierda, abrirConf);
+  context.subscriptions.push(leerMarca, irDerecha, irIzquierda, abrirConf, mostrarAyuda);
 }
 
 function deactivate() {}

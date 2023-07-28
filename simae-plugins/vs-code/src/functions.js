@@ -4,6 +4,7 @@ const { spawn } = require('child_process');
 const { msg } = require('./locale.js');
 
 
+
  /**
  * @param {vscode.ExtensionContext} context
  */
@@ -11,8 +12,7 @@ const { msg } = require('./locale.js');
  
  /**
    * Obtiene la linea donde se encuentra el usuario y verifica que exista una marca para esa linea. 
-   * Si existe, la informa con una hint. Si existe mas de una las une con 'y'/'and'. Si no existe
-   * una marca en esa linea, lo informa.
+   * Si existe, la muestra con una hint accesible por el lector de pantalla. Si existe mas de una las une con 'y'/'and'.
    * @param {Map<number, Marca[]>} multimap - Multimap de marcas
    * @param {vscode.TextEditor} editor - Editor.
    */
@@ -41,41 +41,37 @@ function mostrarMarcas(multimap, editor) {
  */
 
 
-  async function armarMultimap(filePath, context, editor) {
-      const idioma = vscode.workspace.getConfiguration('SIMAE').get('idioma');
-      const path = require('path'); //path 
-      const simaeJar = path.join(context.extensionPath, 'libs', 'resources', 'simae.jar'); //path relativo del jar
-      await editor.document.save();
-      return new Promise((resolve, reject) => {
-        getEncoding(editor).then(encoding => {
-          if (encoding) {
+async function armarMultimap(filePath, context, editor) {
+  const idioma = vscode.workspace.getConfiguration('SIMAE').get('idioma');
+  const path = require('path'); //path 
+  const simaeJar = path.join(context.extensionPath, 'libs', 'resources', 'simae.jar'); //path relativo del jar
+  await editor.document.save();
+  return new Promise((resolve, reject) => {
+    getEncoding(editor).then(encoding => {
+      if (encoding) {
         const proceso = spawn('java', ['-jar', simaeJar, filePath, encoding, idioma]);
-        let stdoutData = '';
-        
-        proceso.stdout.on('data', (data) => {
-          stdoutData += data;
+        let salidaConsola = '';
+        proceso.stdout.on('data', (datos) => {
+            salidaConsola += datos;
         });
-    
-        proceso.stderr.on('data', (data) => {
-          console.error('Error:', data.toString());
-          reject(data.toString());
+        proceso.stderr.on('data', (datos) => {
+          reject(msg("errorEjecucion")); //falla por error
         });
-    
         proceso.on('close', (code) => {
-          if (code === 0) {
-            const salida = stdoutData.trim().split('\n');
-            console.log("Salida" + salida);
+          if (code == 0) {
+            const salida = salidaConsola.trim().split('\n');
             const marcas = procesarSalida(salida);
-            resolve(marcas);
+            resolve(marcas); //si todo ok resuelve la promesa con el multimap
           } else {
-            reject('Codigo de error: ' + code);
+            reject(msg("errorEjecucion")); //falla porque se obtuvo codigo distinto de 0
           }
         });
+      } else {
+        reject(msg("errorEncoding")); //falla porque no se pudo obtener el encoding
       }
     });
-      });
-      
-    }
+  }); 
+}
 
     
     /**
@@ -107,18 +103,18 @@ function mostrarMarcas(multimap, editor) {
  */
 
 
-  function multimapToArray(multimap) {
-    const result = [];
-    for (const [key, values] of multimap) {
-      for (const value of values) {
-        let fila= value.fila;
-        let columna = value.columna;
-        let texto = value.marca;
-        result.push({fila, columna, texto});
-      }
+function multimapToArray(multimap) {
+  const result = [];
+  for (const [key, values] of multimap) {
+    for (const value of values) {
+      let fila= value.fila;
+      let columna = value.columna;
+      let texto = value.marca;
+      result.push({fila, columna, texto});
     }
-    return result;
   }
+  return result;
+}
 
 /**
  * Encuentra la siguiente marca más cercana en dirección derecha a partir de la línea donde se encuentra el usuario.
@@ -161,20 +157,20 @@ function anteriorPosicion(arreglo, fila) {
  * @param {vscode.TextEditor} editor - El editor de texto 
  * @param {number} antsig - Entero que indica la dirección del movimiento del cursor (1 para sig marca y -1 para anterior)
  */
-  function moverCursor(ultimasMarcas, editor, antsig){ 
-    const direccion = antsig === 1 ? msg("derecha") : msg("izquierda");
-    let arreglo = multimapToArray(ultimasMarcas);
-    let siguienteMarca = antsig === 1? siguientePosicion(arreglo, editor.selection.active.line + 1) : anteriorPosicion(arreglo, editor.selection.active.line + 1);
-    if(siguienteMarca != -1){
-      const posicion = new vscode.Position(siguienteMarca.fila - 1, siguienteMarca.columna+1);
-      const rango = new vscode.Range(posicion, posicion);
-      editor.selection = new vscode.Selection(posicion, posicion);
-      editor.revealRange(rango);
-      mostrarMarcas(ultimasMarcas, editor);
-    } else {
-      vscode.window.showInformationMessage(msg("noMasMarcas") + direccion);
-    }
+function moverCursor(ultimasMarcas, editor, antsig){ 
+  const direccion = antsig === 1 ? msg("derecha") : msg("izquierda");
+  let arreglo = multimapToArray(ultimasMarcas);
+  let siguienteMarca = antsig === 1? siguientePosicion(arreglo, editor.selection.active.line + 1) : anteriorPosicion(arreglo, editor.selection.active.line + 1);
+  if(siguienteMarca != -1){
+    const posicion = new vscode.Position(siguienteMarca.fila - 1, siguienteMarca.columna+1);
+    const rango = new vscode.Range(posicion, posicion);
+    editor.selection = new vscode.Selection(posicion, posicion);
+    editor.revealRange(rango);
+    mostrarMarcas(ultimasMarcas, editor);
+  } else {
+    vscode.window.showInformationMessage(msg("noMasMarcas") + direccion);
   }
+}
   
 /**
  * Obtiene la codificación del archivo actual.
@@ -183,23 +179,34 @@ function anteriorPosicion(arreglo, fila) {
  * @async
  */
 
-  async function getEncoding(editor) {
-    const deteccion = jschardet.detect(Buffer.from(await vscode.workspace.fs.readFile(editor.document.uri)));
-    return deteccion.confidence > 0.8 ? deteccion.encoding : null;
+async function getEncoding(editor) {
+  const deteccion = jschardet.detect(Buffer.from(await vscode.workspace.fs.readFile(editor.document.uri)));
+  return deteccion.confidence > 0.8 ? deteccion.encoding : null;
 }
 
-  class Marca {
-    constructor(fila, columna, marca) {
-      this.fila = fila;
-      this.columna = columna;
-      this.marca = marca;
-    }
+/**
+ * Obtiene los atajos de teclado en el idioma actual y los muestra en un dialog accesible por el lector de pantalla.
+ */
+function abrirAyuda(){
+    const i18next = require('i18next');
+    const {getLocale } = require('./locale.js'); 
+    i18next.changeLanguage(getLocale());
+    vscode.window.showInformationMessage(msg("ayuda"), {modal: true});
+}
 
+class Marca {
+  constructor(fila, columna, marca) {
+    this.fila = fila;
+    this.columna = columna;
+    this.marca = marca;
   }
 
+}
 
-  module.exports = { //exporta funcionas usadas por la extension
-    armarMultimap,
-    mostrarMarcas,
-    moverCursor
-  }
+
+module.exports = { //exporta funcionas usadas por la extension
+  armarMultimap,
+  mostrarMarcas,
+  moverCursor,
+  abrirAyuda
+}
