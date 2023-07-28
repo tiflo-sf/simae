@@ -84,13 +84,12 @@ task crearJarAPI(type: Jar) {
         configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } // agrega dependencias locales y dependencias externas
     }
 
-
     doLast {
-        def jarFile = file('build/libs/simae-0.2.2-simaeAPI.jar')
-        def newFile = file('../simae-plugins/vs-code/src/libs/resources/simae.jar')
-        // Rename the JAR file using Java File API
+        def jarFile = project.file('build/libs/simae-0.2.2-simaeAPI.jar')
+        def newFile = project.file('../simae-plugins/vs-code/src/libs/resources/simae.jar')
         Files.move(jarFile.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
     }
+
 }
 
 
