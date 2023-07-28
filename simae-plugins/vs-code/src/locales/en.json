@@ -6,6 +6,8 @@
   "derecha": "right.",
   "izquierda": "left.",
   "errorEjecucion": "An error occurred while executing SIMAE.",
+  "errorEncoding": "An error occurred while obtaining the file's encoding.",
   "lenguajesDisponibles": "SIMAE is available for .java, .cpp, and .py files.",
-  "soloEditor": "SIMAE can only be executed in an editor."
+  "soloEditor": "SIMAE can only be executed in an editor.",
+  "ayuda": "Show tag: Ctrl+Shift+S. \nGo to next tag: Ctrl+Shift+D. \nGo to previous tag: Ctrl+Shift+I. \nSettings: Ctrl+Shift+C. \nHelp: Ctrl+Shift+H. \nPress enter to exit."
 }

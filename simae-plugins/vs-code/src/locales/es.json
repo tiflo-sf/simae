@@ -6,6 +6,8 @@
   "derecha": "derecha",
   "izquierda": "izquierda",
   "errorEjecucion": "Ocurrió un error al ejecutar SIMAE.",
+  "errorEncoding":"Ocurrió un error al obtener el encoding del archivo.",
   "lenguajesDisponibles": "SIMAE esta disponible para archivos .java, .cpp y .py",
-  "soloEditor": "SIMAE solo se puede ejecutar en un editor."
+  "soloEditor": "SIMAE solo se puede ejecutar en un editor.",
+  "ayuda":  "Mostrar marca: Ctrl+Shift+S. \nIr a marca siguiente: Ctrl+Shift+D. \nIr a marca anterior: Ctrl+Shift+I. \nConfiguracion: Ctrl+Shift+C. \nAyuda: Ctrl+Shift+H. \nPresione enter para salir."
 }
