@@ -41,37 +41,38 @@ function mostrarMarcas(multimap, editor) {
  */
 
 
-async function armarMultimap(filePath, context, editor) {
-  const idioma = vscode.workspace.getConfiguration('SIMAE').get('idioma');
-  const path = require('path'); //path 
-  const simaeJar = path.join(context.extensionPath, 'libs', 'resources', 'simae.jar'); //path relativo del jar
-  await editor.document.save();
-  return new Promise((resolve, reject) => {
-    getEncoding(editor).then(encoding => {
-      if (encoding) {
-        const proceso = spawn('java', ['-jar', simaeJar, filePath, encoding, idioma]);
-        let salidaConsola = '';
-        proceso.stdout.on('data', (datos) => {
-            salidaConsola += datos;
-        });
-        proceso.stderr.on('data', (datos) => {
-          reject(msg("errorEjecucion")); //falla por error
-        });
-        proceso.on('close', (code) => {
-          if (code == 0) {
-            const salida = salidaConsola.trim().split('\n');
-            const marcas = procesarSalida(salida);
-            resolve(marcas); //si todo ok resuelve la promesa con el multimap
-          } else {
-            reject(msg("errorEjecucion")); //falla porque se obtuvo codigo distinto de 0
-          }
-        });
-      } else {
-        reject(msg("errorEncoding")); //falla porque no se pudo obtener el encoding
-      }
-    });
-  }); 
-}
+ async function armarMultimap(filePath, context, editor, idioma) {
+   const path = require('path'); //path
+   const simaeJar = path.join(context.extensionPath, 'libs', 'resources', 'simae.jar'); //path relativo del jar
+   let errorConsola = '';
+   await editor.document.save();
+   return new Promise((resolve, reject) => {
+     getEncoding(editor).then(encoding => {
+       if (encoding) {
+         const proceso = spawn('java', ['-jar', simaeJar, filePath, encoding, idioma]);
+         let salidaConsola = '';
+         proceso.stdout.on('data', (datos) => {
+           salidaConsola += datos;
+         });
+         proceso.stderr.on('data', (datos) => {
+           errorConsola += datos;
+         });
+         proceso.on('close', (code) => {
+           if (code == 0) {
+             console.log("Idioma: "+  idioma);
+             const salida = salidaConsola.trim().split('\n');
+             const marcas = procesarSalida(salida);
+             resolve(marcas); //si todo ok resuelve la promesa con el multimap
+           } else {
+             reject(msg("errorEjecucion") + " " +  errorConsola); //falla porque se obtuvo codigo distinto de 0
+           }
+         });
+       } else {
+         reject(msg("errorEncoding")); //falla porque no se pudo obtener el encoding
+       }
+     });
+   });
+ }
 
     
     /**

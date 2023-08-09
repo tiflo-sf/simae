@@ -95,7 +95,7 @@ function activate(context) {
     }
     const contenido = editor.document.getText();
     if (ultimoContenido == null || contenido != ultimoContenido) {
-      armarMultimap(filePath, context, editor)
+      armarMultimap(filePath, context, editor, getLocale())
         .then((marcas) => {
           ultimasMarcas = marcas;
           ultimoContenido = contenido;

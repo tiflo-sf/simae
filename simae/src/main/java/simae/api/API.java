@@ -14,7 +14,7 @@ public class API {
     public static void main(String[] args) {
         String languageString = getFileExtension(args[0]);
         Charset codificacion = getEncoding(args[1]);
-        String idioma = getIdioma(args[2]);
+        String idioma = args[2];
 
         SimaeLauncherAPI launcher = new SimaeLauncherAPI();
         List<AnotacionMarca> marcas = null;
@@ -64,15 +64,6 @@ public class API {
         }
     }
 
-    private static String getIdioma(String language) {
-        switch(language){
-            case "Ingles":
-                return "en";
-            case "Español":
-                return "es";
-            default:
-                return "";
-        }
-    }
+
 }
 

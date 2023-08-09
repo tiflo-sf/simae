@@ -16,8 +16,8 @@ function cargarLocale(lang) {
 
 // Configuración de i18next
 i18next.init({
-  fallbackLng: 'en',
-  lng: 'en',
+  fallbackLng: 'es',
+  lng: 'es',
   resources: {
     en: {
       translation: cargarLocale('en'),
@@ -50,10 +50,10 @@ function getLocale() {
     } else if (idioma === 'Español') {
       return 'es';
     } else {
-      const osLanguage = vscode.env.language;
-      if (osLanguage.startsWith('en')) {
+      const vsLanguage = vscode.env.language;
+      if (vsLanguage.startsWith('en')) {
         return 'en';
-      } else if (osLanguage.startsWith('es')) {
+      } else if (vsLanguage.startsWith('es')) {
         return 'es';
       } else {
         return 'es';
