@@ -105,5 +105,13 @@
     "mocha": "^10.2.0",
     "typescript": "^4.9.5"
   },
-  "extensionKind": ["ui"]
+  "extensionKind": ["ui"],
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "fs": "^0.0.1-security",
+    "i18next": "^23.4.4",
+    "jschardet": "^3.0.0",
+    "os": "^0.1.2",
+    "path": "^0.12.7"
+  }
 }
