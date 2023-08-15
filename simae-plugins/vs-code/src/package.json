@@ -70,8 +70,8 @@
       "properties": {
         "SIMAE.idioma": {
           "type": "string",
-          "enum": ["Español", "Ingles", "Idioma del sistema operativo"],
-          "default": "Idioma del sistema operativo",
+          "enum": ["Español", "Ingles", "Idioma de Visual Studio Code"],
+          "default": "Español",
           "enumDescriptions": [
             "Español",
             "Inglés",
