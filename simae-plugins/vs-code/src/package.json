@@ -44,11 +44,11 @@
       },
       {
         "command": "extension.irDerecha",
-        "key": "ctrl+alt+d"
+        "key": "ctrl+alt+right"
       },
       {
         "command": "extension.irIzquierda",
-        "key": "ctrl+alt+i"
+        "key": "ctrl+alt+left"
       },
       {
         "command": "extension.abrirConf",

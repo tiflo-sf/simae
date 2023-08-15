@@ -105,16 +105,16 @@ function mostrarMarcas(multimap, editor) {
 
 
 function multimapToArray(multimap) {
-  const result = [];
-  for (const [key, values] of multimap) {
-    for (const value of values) {
-      let fila= value.fila;
-      let columna = value.columna;
-      let texto = value.marca;
-      result.push({fila, columna, texto});
+  const resultado = [];
+  for (const [key, marcas] of multimap) {
+    for (const marca of marcas) {
+      let fila= marca.fila;
+      let columna = marca.columna;
+      let texto = marca.marca;
+      resultado.push({fila, columna, texto});
     }
   }
-  return result;
+  return resultado;
 }
 
 /**
