@@ -7,6 +7,7 @@ import simae.core.lib.Lenguaje;
 import simae.core.lib.Simae;
 import simae.core.lib.factories.ANTLRRegistry;
 import simae.core.lib.factories.abstractfactories.CPlusPlusFactory;
+import simae.core.lib.factories.abstractfactories.CSharpFactory;
 import simae.core.lib.factories.abstractfactories.JavaFactory;
 import simae.core.lib.factories.abstractfactories.PythonFactory;
 import simae.core.lib.listener.StringTags;
@@ -37,6 +38,7 @@ public class SimaeStandalone extends Simae {
         antlrRegistry.register(Lenguaje.CPLUSPLUS, new CPlusPlusFactory());
         antlrRegistry.register(Lenguaje.JAVA8, new JavaFactory());
         antlrRegistry.register(Lenguaje.PYTHON3, new PythonFactory());
+        antlrRegistry.register(Lenguaje.CSHARP, new CSharpFactory());
 
         String armaCompleto = fuenteDesmarcado(br, programmingLanguage);
         CharStream antlrEntrada = CharStreams.fromString(armaCompleto);
