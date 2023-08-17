@@ -6,9 +6,9 @@ import simae.core.lib.AnotacionMarca;
 import simae.core.lib.Lenguaje;
 import simae.core.lib.Simae;
 import simae.core.lib.factories.ANTLRRegistry;
-import simae.core.lib.factories.abstractfactories.CPlusPlusAbstractFactory;
-import simae.core.lib.factories.abstractfactories.JavaAbstractFactory;
-import simae.core.lib.factories.abstractfactories.PythonAbstractFactory;
+import simae.core.lib.factories.abstractfactories.CPlusPlusFactory;
+import simae.core.lib.factories.abstractfactories.JavaFactory;
+import simae.core.lib.factories.abstractfactories.PythonFactory;
 
 import java.io.BufferedReader;
 import java.lang.reflect.InvocationTargetException;
@@ -21,9 +21,12 @@ public class SimaeAPI extends Simae {
         ANTLRRegistry antlrRegistry = new ANTLRRegistry();
 
         //Registro de lenguajes
-        CPlusPlusAbstractFactory.register(antlrRegistry);
-        JavaAbstractFactory.register(antlrRegistry);
-        PythonAbstractFactory.register(antlrRegistry);
+        antlrRegistry.register(Lenguaje.CPLUSPLUS, new CPlusPlusFactory());
+        antlrRegistry.register(Lenguaje.JAVA8, new JavaFactory());
+        antlrRegistry.register(Lenguaje.PYTHON3, new PythonFactory());
+        //CPlusPlusAbstractFactory.register(antlrRegistry);
+        //JavaAbstractFactory.register(antlrRegistry);
+        //PythonAbstractFactory.register(antlrRegistry);
 
         String armaCompleto = fuenteDesmarcado(br, programmingLanguage);
         CharStream antlrEntrada = CharStreams.fromString(armaCompleto);
