@@ -4,7 +4,6 @@ const { msg, getLocale } = require('./locale.js');
 const i18next = require('i18next');
 const path = require('path');
 
-
 let ultimoContenido = null;
 let ultimasMarcas = null;
 
@@ -13,12 +12,11 @@ let ultimasMarcas = null;
  */
 function activate(context) {
 
-
 /**
  * Muestra una hint con las marcas de SIMAE en la linea que se encuentra el usuario.
  * @function leerMarca
  */
-  let leerMarca = vscode.commands.registerCommand('extension.leerMarca', () => {
+  let leerMarca = vscode.commands.registerCommand('simae.leerMarca', () => {
     ejecutar(mostrarMarcas);
   });
 
@@ -26,7 +24,7 @@ function activate(context) {
  * Mueve el cursor a la siguiente marca y muestra una hint con la información de la marca.
  * @function irDerecha
  */
-  let irDerecha = vscode.commands.registerCommand('extension.irDerecha', () => {
+  let irDerecha = vscode.commands.registerCommand('simae.irDerecha', () => {
    ejecutar((marcas, editor) => {
       moverCursor(marcas, editor, 1);
     });
@@ -36,7 +34,7 @@ function activate(context) {
  * Mueve el cursor a la marca anterior y muestra una hint con la información de la marca.
  * @function irIzquierda
  */
-  let irIzquierda = vscode.commands.registerCommand('extension.irIzquierda', () => {
+  let irIzquierda = vscode.commands.registerCommand('simae.irIzquierda', () => {
     ejecutar((marcas, editor) => {
       moverCursor(marcas, editor, -1);
     });
@@ -46,7 +44,7 @@ function activate(context) {
  * Abre la ventana de configuración de SIMAE.
  * @function abrirConf
  */
-  let abrirConf = vscode.commands.registerCommand('extension.abrirConf', () => {
+  let abrirConf = vscode.commands.registerCommand('simae.abrirConf', () => {
     vscode.commands.executeCommand('workbench.action.openSettings', 'SIMAE');
   });
 
@@ -54,7 +52,7 @@ function activate(context) {
  * Abre dialog con las combinaciones de teclas de SIMAE.
  * @function mostrarAyuda
  */
-  let mostrarAyuda = vscode.commands.registerCommand('extension.mostrarAyuda', () => {
+  let mostrarAyuda = vscode.commands.registerCommand('simae.mostrarAyuda', () => {
     abrirAyuda();
   });
 
@@ -111,8 +109,8 @@ function activate(context) {
 
 
   
- 
   context.subscriptions.push(leerMarca, irDerecha, irIzquierda, abrirConf, mostrarAyuda);
+
 }
 
 function deactivate() {}

@@ -45,17 +45,15 @@ function msg(key) {
 function getLocale() {
     let idioma = vscode.workspace.getConfiguration('SIMAE').get('idioma');
     //obtener idioma actual segun configuracion o vs code
-    if (idioma === 'Ingles') {
+    if (idioma == 'Ingles') {
       return 'en';
-    } else if (idioma === 'Español') {
+    } else if (idioma == 'Español') {
       return 'es';
     } else {
       const vsLanguage = vscode.env.language;
       if (vsLanguage.startsWith('en')) {
         return 'en';
-      } else if (vsLanguage.startsWith('es')) {
-        return 'es';
-      } else {
+      } else{
         return 'es';
       }
     }

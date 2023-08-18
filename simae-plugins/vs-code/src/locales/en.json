@@ -1,5 +1,5 @@
 {
-  "linea": "Line: ",
+  "linea": "Lines ",
   "sinMarcas": " No tags found.",
   "concat": " and ",
   "noMasMarcas": "No more tags in the document in direction ",
@@ -9,5 +9,5 @@
   "errorEncoding": "An error occurred while obtaining the file's encoding.",
   "lenguajesDisponibles": "SIMAE is available for .java, .cpp, and .py files.",
   "soloEditor": "SIMAE can only be executed in an editor.",
-  "ayuda": "Show tag: Ctrl+Shift+S. \nGo to next tag: Ctrl+Shift+Right. \nGo to previous tag: Ctrl+Shift+Left. \nSettings: Ctrl+Shift+C. \nHelp: Ctrl+Shift+H. \nPress enter to exit."
+  "ayuda": "Read tag: Ctrl+Shift+S. \nGo to next tag: Ctrl+Shift+Right. \nGo to previous tag: Ctrl+Shift+Left. \nSettings: Ctrl+Shift+C. \nHelp: Ctrl+Shift+H. \nPress enter to go back."
 }
