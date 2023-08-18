@@ -20,13 +20,13 @@ function mostrarMarcas(multimap, editor) {
     if (multimap.has(editor.selection.active.line + 1)) {
       const marcas = multimap.get(editor.selection.active.line + 1);
       if (marcas.length == 1) { //si tiene una sola marca
-        vscode.window.showInformationMessage(msg("linea") + (editor.selection.active.line + 1)  +  ` ${marcas[0].marca}`);
+        vscode.window.showInformationMessage(msg("linea") + (editor.selection.active.line + 1)  + ":" +  ` ${marcas[0].marca}`);
       } else { //si tiene mas
         const mensaje = marcas.map(marcaArreglo => marcaArreglo.marca).join(msg("concat"));
-        vscode.window.showInformationMessage(msg("linea") + (editor.selection.active.line + 1) + ` ${mensaje}`);
+        vscode.window.showInformationMessage(msg("linea") + (editor.selection.active.line + 1) + ":" + ` ${mensaje}`);
       }
     } else {
-      vscode.window.showInformationMessage(msg("linea") + (editor.selection.active.line + 1) + msg("sinMarcas"));
+      vscode.window.showInformationMessage(msg("linea") + (editor.selection.active.line + 1) + ":" + msg("sinMarcas"));
     }
   }
   
@@ -48,8 +48,8 @@ function mostrarMarcas(multimap, editor) {
    await editor.document.save();
    return new Promise((resolve, reject) => {
      getEncoding(editor).then(encoding => {
-       if (encoding) {
-         const proceso = spawn('java', ['-jar', simaeJar, filePath, encoding, idioma]);
+       let encodingString = encoding ? encoding : "UTF-8";
+         const proceso = spawn('java', ['-jar', simaeJar, filePath, encodingString, idioma]);
          let salidaConsola = '';
          proceso.stdout.on('data', (datos) => {
            salidaConsola += datos;
@@ -67,9 +67,6 @@ function mostrarMarcas(multimap, editor) {
              reject(msg("errorEjecucion") + " " +  errorConsola); //falla porque se obtuvo codigo distinto de 0
            }
          });
-       } else {
-         reject(msg("errorEncoding")); //falla porque no se pudo obtener el encoding
-       }
      });
    });
  }
@@ -194,6 +191,8 @@ function abrirAyuda(){
     i18next.changeLanguage(getLocale());
     vscode.window.showInformationMessage(msg("ayuda"), {modal: true});
 }
+
+
 
 class Marca {
   constructor(fila, columna, marca) {

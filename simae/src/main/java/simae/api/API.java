@@ -60,7 +60,7 @@ public class API {
             case "UTF-16LE":
                 return StandardCharsets.UTF_16LE;
             default:
-                return Charset.defaultCharset();
+                return StandardCharsets.UTF_8;
         }
     }
 
