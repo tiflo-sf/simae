@@ -66,5 +66,153 @@ public class CSharpListener extends CSharpParserBaseListener {
                 texto));
     }
 
+    @Override
+    public void enterClass_definition(CSharpParser.Class_definitionContext ctx) {
+        //: CLASS identifier type_parameter_list? class_base? type_parameter_constraints_clauses?
+        //	    class_body ';'?
+        //	;
+        String texto = strings.get("endsOn") + ctx.class_body().getStop().getLine();
+        Token identifier = ctx.identifier().getStop();
+        marcas.add(new AnotacionMarca(identifier.getLine(),
+                identifier.getCharPositionInLine() + (identifier.getText().length() - 1),
+                texto));
+    }
 
-}
+    @Override
+    public void exitClass_definition(CSharpParser.Class_definitionContext ctx) {
+        //: CLASS identifier type_parameter_list? class_base? type_parameter_constraints_clauses?
+        //	    class_body ';'?
+        //	;
+        String classCompleto = ctx.identifier().getText();
+        String texto = strings.get("closes") + classCompleto + strings.get("ofLine") + ctx.getStart().getLine();
+        marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+                ctx.getStop().getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void enterWhileStatement(CSharpParser.WhileStatementContext ctx) {
+        //	| WHILE OPEN_PARENS expression CLOSE_PARENS embedded_statement
+        String texto = strings.get("endsOn") + ctx.embedded_statement().getStop().getLine();
+        Token parentesis = ctx.CLOSE_PARENS().getSymbol();
+        marcas.add(new AnotacionMarca(parentesis.getLine(),
+                parentesis.getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void exitWhileStatement(CSharpParser.WhileStatementContext ctx) {
+        //	| WHILE OPEN_PARENS expression CLOSE_PARENS embedded_statement
+        String whileCompleto = getOriginalCode(ctx.getStart(), ctx.CLOSE_PARENS().getSymbol());
+        String texto = strings.get("closes") + whileCompleto + strings.get("ofLine") + ctx.getStart().getLine();
+        marcas.add(new AnotacionMarca(ctx.embedded_statement().getStop().getLine(),
+                ctx.getStop().getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void enterDoStatement(CSharpParser.DoStatementContext ctx) {
+        //	| DO embedded_statement WHILE OPEN_PARENS expression CLOSE_PARENS ';'
+        String texto = strings.get("endsOn") + ctx.CLOSE_PARENS().getSymbol().getLine();
+        Token parentesis = ctx.DO().getSymbol();
+        marcas.add(new AnotacionMarca(parentesis.getLine(),
+                parentesis.getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void exitDoStatement(CSharpParser.DoStatementContext ctx) {
+        //	| DO embedded_statement WHILE OPEN_PARENS expression CLOSE_PARENS ';'
+        String texto = strings.get("closes") + "DO" + strings.get("ofLine") + ctx.getStart().getLine();
+        marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+                ctx.getStop().getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void enterForStatement(CSharpParser.ForStatementContext ctx) {
+        // 	| FOR OPEN_PARENS for_initializer? ';' expression? ';' for_iterator? CLOSE_PARENS embedded_statement
+
+        String texto = strings.get("endsOn") + ctx.embedded_statement().getStop().getLine();
+        Token parentesis = ctx.CLOSE_PARENS().getSymbol();
+        marcas.add(new AnotacionMarca(parentesis.getLine(),
+                parentesis.getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void exitForStatement(CSharpParser.ForStatementContext ctx) {
+        // 	| FOR OPEN_PARENS for_initializer? ';' expression? ';' for_iterator? CLOSE_PARENS embedded_statement
+        String forCompleto = getOriginalCode(ctx.getStart(), ctx.CLOSE_PARENS().getSymbol());
+        String texto = strings.get("closes") + forCompleto + strings.get("ofLine") + ctx.getStart().getLine();
+        marcas.add(new AnotacionMarca(ctx.embedded_statement().getStop().getLine(),
+                ctx.getStop().getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void enterForeachStatement(CSharpParser.ForeachStatementContext ctx) {
+        // | AWAIT? FOREACH OPEN_PARENS local_variable_type identifier IN expression CLOSE_PARENS embedded_statement
+        String texto = strings.get("endsOn") + ctx.embedded_statement().getStop().getLine();
+        Token parentesis = ctx.CLOSE_PARENS().getSymbol();
+        marcas.add(new AnotacionMarca(parentesis.getLine(),
+                parentesis.getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void exitForeachStatement(CSharpParser.ForeachStatementContext ctx) {
+        // | AWAIT? FOREACH OPEN_PARENS local_variable_type identifier IN expression CLOSE_PARENS embedded_statement
+        String forEachCompleto = getOriginalCode(ctx.getStart(), ctx.CLOSE_PARENS().getSymbol());
+        String texto = strings.get("closes") + forEachCompleto + strings.get("ofLine") + ctx.getStart().getLine();
+        marcas.add(new AnotacionMarca(ctx.embedded_statement().getStop().getLine(),
+                ctx.getStop().getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void enterIfStatement(CSharpParser.IfStatementContext ctx) {
+        // 	| IF OPEN_PARENS expression CLOSE_PARENS if_body (ELSE if_body)?               #ifStatement
+        String texto = strings.get("endsOn") + ctx.CLOSE_PARENS().getSymbol().getLine();
+        Token parentesis = ctx.CLOSE_PARENS().getSymbol();
+        marcas.add(new AnotacionMarca(parentesis.getLine(),
+                parentesis.getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void exitIfStatement(CSharpParser.IfStatementContext ctx) {
+        // 	| IF OPEN_PARENS expression CLOSE_PARENS if_body (ELSE if_body)?
+        String ifCompleto = getOriginalCode(ctx.getStart(), ctx.CLOSE_PARENS().getSymbol());
+        String texto = strings.get("closes") + ifCompleto + strings.get("ofLine") + ctx.getStart().getLine();
+        marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+                ctx.getStop().getCharPositionInLine(),
+                texto));
+    }
+
+    @Override
+    public void enterMethod_declaration(CSharpParser.Method_declarationContext ctx) {
+        // : method_member_name type_parameter_list? OPEN_PARENS formal_parameter_list? CLOSE_PARENS
+        //	    type_parameter_constraints_clauses? (method_body | right_arrow throwable_expression ';')
+        //	;
+        String texto = strings.get("endsOn") + ctx.CLOSE_PARENS().getSymbol().getLine();
+        Token parentesis = ctx.CLOSE_PARENS().getSymbol();
+        marcas.add(new AnotacionMarca(parentesis.getLine(),
+                parentesis.getCharPositionInLine(),
+                texto));
+
+    }
+
+    @Override
+    public void exitMethod_declaration(CSharpParser.Method_declarationContext ctx) {
+        // : method_member_name type_parameter_list? OPEN_PARENS formal_parameter_list? CLOSE_PARENS
+        //	    type_parameter_constraints_clauses? (method_body | right_arrow throwable_expression ';')
+        //	;
+        String methodCompleto = getOriginalCode(ctx.getStart(), ctx.CLOSE_PARENS().getSymbol());
+        String texto = strings.get("closes") + methodCompleto + strings.get("ofLine") + ctx.getStart().getLine();
+        marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+                ctx.getStop().getCharPositionInLine(),
+                texto));
+    }
+
+    }

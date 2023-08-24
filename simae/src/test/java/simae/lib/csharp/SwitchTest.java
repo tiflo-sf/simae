@@ -29,9 +29,24 @@ class SwitchTest extends Tests {
 				"            default: Console.WriteLine(\"El número no es 1, 2 ni 3\"); break;\n" +
 				"        }\n" +
 				"    }\n" +
-				"}";
-		 esperado = "int a = 4;" + nl +
-				 	"int b = 4;" + nl; 
+				"}" + nl;
+		esperado = "using System;\n" +
+				"\n" +
+				"class Program/*/CIERRA EN LINEA 17/*/\n" +
+				"{\n" +
+				"    static void Main(string[] args)/*/CIERRA EN LINEA 5/*/\n" +
+				"    {\n" +
+				"        int numero = 2;\n" +
+				"\n" +
+				"        switch (numero)/*/CIERRA EN LINEA 15/*/\n" +
+				"        {\n" +
+				"            case 1: Console.WriteLine(\"El número es 1\"); break;\n" +
+				"            case 2: Console.WriteLine(\"El número es 2\"); break;\n" +
+				"            case 3: Console.WriteLine(\"El número es 3\"); break;\n" +
+				"            default: Console.WriteLine(\"El número no es 1, 2 ni 3\"); break;\n" +
+				"        }/*/CIERRA switch (numero DE LINEA 9/*/\n" +
+				"    }/*/CIERRA Main(string[] args) DE LINEA 5/*/\n" +
+				"}/*/CIERRA Program DE LINEA 3/*/" + nl;
 		 marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.CSHARP, "es");
 		 assertEquals(esperado,marcado, "No son iguales.");
 	}
