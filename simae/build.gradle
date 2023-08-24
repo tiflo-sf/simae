@@ -101,11 +101,7 @@ task construirPlugin(type: Exec) {
     if (osName.contains('windows')) {
         npm = 'npm.cmd';
     }
-    doFirst {
-        if (!file('node_modules').exists()) {
-            commandLine npm, 'install'
-        }
-    }
+
     commandLine npm, 'run', 'vsce:package'
 }
 
