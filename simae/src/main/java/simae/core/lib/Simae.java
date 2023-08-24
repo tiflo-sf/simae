@@ -6,8 +6,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import simae.core.lib.factories.ANTLRModel;
 import simae.core.lib.factories.ANTLRRegistry;
+import simae.core.lib.factories.abstractfactories.AbstractFactory;
 import simae.core.lib.listener.StringTags;
 
 import java.io.BufferedReader;
@@ -25,15 +25,34 @@ public class Simae {
 		st = new StringTags((language != null) ? language : "");
 		strings = st.getStrings();
 
-		Class<?> claseLenguaje = antlrRegistry.getClassFrom(lenguaje);
-		ANTLRModel antlrModel = antlrRegistry.getModel(claseLenguaje);
+		//Class<?> claseLenguaje = antlrRegistry.getClassFrom(lenguaje);
+		//ANTLRModel antlrModel = antlrRegistry.getFactory(claseLenguaje);
+
+		AbstractFactory factory = antlrRegistry.getFactory(lenguaje);
+
+		Lexer lexer = factory.getLexer(antlrEntrada);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		Parser parser = factory.getParser(tokens);
+		ParseTree tree = factory.getParseTree(parser);
+		ParseTreeListener extractor = factory.getParseTreeListener(parser, strings);
+		ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
+		walker.walk(extractor, tree); // initiate walk of tree with listener
+
+		//System.out.println(extractor.marcas);
+
+		return factory.getMarcas(extractor);
+
+
+		//Class<?> lexerClass = factory.getLexer();
+		//Lexer lexer = (Lexer) lexerClass.getDeclaredConstructor(CharStream.class).newInstance(antlrEntrada);
+		//Class<?> parserClass = factory.getParser();
 
 		//Lexer lexer = ANTLRFactory.getLexer(lenguaje, antlrEntrada);
 		//Lexer lexer = ANTLRRegistry.getLexer(lenguaje).fromInput(antlrEntrada);
 		//Parser parser = ANTLRFactory.getParser(lenguaje, tokens);
 		//ParseTree tree = ANTLRFactory.getTree(lenguaje, parser);
 		//ParseTreeListener extractor = ANTLRFactory.getListener(lenguaje, parser, strings);
-
+/*
 		Lexer lexer = null;
 		lexer = (Lexer) antlrModel.getLexer().getDeclaredConstructor(CharStream.class).newInstance(antlrEntrada);
 
@@ -47,6 +66,7 @@ public class Simae {
 		walker.walk(extractor, tree);
 
 		return (List<AnotacionMarca>) extractor.getClass().getMethod("getMarcas").invoke(extractor);
+		*/
 	}
 
 

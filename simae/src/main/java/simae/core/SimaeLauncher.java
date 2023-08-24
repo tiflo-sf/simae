@@ -24,6 +24,9 @@ public class SimaeLauncher {
             case "python3":
             case ".py":
                 return Lenguaje.PYTHON3;
+            case "cSharp":
+            case ".cs":
+                return Lenguaje.CSHARP;
             default:
                 System.out.println("Lenguaje no valido");
                 return null;

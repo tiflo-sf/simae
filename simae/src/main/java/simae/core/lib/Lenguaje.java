@@ -3,7 +3,7 @@ package simae.core.lib;
 public enum Lenguaje {
 
 
-    CPLUSPLUS("C++"), JAVA8("Java"), PYTHON3("Python3");
+    CPLUSPLUS("C++"), JAVA8("Java"), PYTHON3("Python3"), CSHARP("CSharp");
 
     private String nombre;
 

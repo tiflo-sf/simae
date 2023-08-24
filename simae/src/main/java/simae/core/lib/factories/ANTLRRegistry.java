@@ -1,27 +1,24 @@
 package simae.core.lib.factories;
 
-import org.antlr.v4.runtime.*;
-import simae.core.lib.AnotacionMarca;
 import simae.core.lib.Lenguaje;
-import simae.core.lib.factories.abstractfactories.CPlusPlusAbstractFactory;
-import simae.core.lib.factories.abstractfactories.JavaAbstractFactory;
-import simae.core.lib.factories.abstractfactories.PythonAbstractFactory;
+import simae.core.lib.factories.abstractfactories.AbstractFactory;
 
 import java.util.HashMap;
-import java.util.List;
 
 
 public class ANTLRRegistry {
+
+    HashMap<Lenguaje, AbstractFactory> registry;
 
     public ANTLRRegistry() {
         registry = new HashMap<>();
     }
 
     //FIXME: crear una clase que tenga esta conversión junto con las de string lenguaje a Lenguaje, y de Lenguaje a string
-    public Class<?> getClassFrom(Lenguaje lenguaje) {
+    /*public Class<?> getClassFrom(Lenguaje lenguaje) {
         switch (lenguaje) {
             case CPLUSPLUS:
-                return CPlusPlusAbstractFactory.class;
+                return CPlusPlusFactory.class;
             case JAVA8:
                 return JavaAbstractFactory.class;
             case PYTHON3:
@@ -30,14 +27,13 @@ public class ANTLRRegistry {
 
         return null;
     }
+    */
 
-    HashMap<Class<?>, ANTLRModel> registry;
-
-    public void registerLanguage(Class<?> lenguaje, ANTLRModel antlrModel) {
-        registry.put(lenguaje, antlrModel);
+    public void register(Lenguaje lenguaje, AbstractFactory factory) {
+        registry.put(lenguaje, factory);
     }
 
-    public ANTLRModel getModel(Class<?> lenguaje) {
+    public AbstractFactory getFactory(Lenguaje lenguaje) {
         return registry.get(lenguaje);
     }
 
