@@ -1,4 +1,4 @@
-package simae.lib.csharp;
+package simae.lib.csharp.es;
 
 import org.junit.jupiter.api.Test;
 import simae.core.lib.Lenguaje;
@@ -34,7 +34,7 @@ class SwitchTest extends Tests {
 				"\n" +
 				"class Program/*/CIERRA EN LINEA 17/*/\n" +
 				"{\n" +
-				"    static void Main(string[] args)/*/CIERRA EN LINEA 5/*/\n" +
+				"    static void Main(string[] args)/*/CIERRA EN LINEA 16/*/\n" +
 				"    {\n" +
 				"        int numero = 2;\n" +
 				"\n" +

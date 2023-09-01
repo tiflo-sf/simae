@@ -7,6 +7,7 @@ import simae.core.lib.AnotacionMarca;
 import simae.grammars.CPP14Parser;
 import simae.grammars.CSharpParser;
 import simae.grammars.CSharpParserBaseListener;
+import simae.grammars.JavaParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +72,7 @@ public class CSharpListener extends CSharpParserBaseListener {
         //: CLASS identifier type_parameter_list? class_base? type_parameter_constraints_clauses?
         //	    class_body ';'?
         //	;
-        String texto = strings.get("endsOn") + ctx.class_body().getStop().getLine();
+        String texto = strings.get("endsOn") + ctx.getStop().getLine();
         Token identifier = ctx.identifier().getStop();
         marcas.add(new AnotacionMarca(identifier.getLine(),
                 identifier.getCharPositionInLine() + (identifier.getText().length() - 1),
@@ -116,7 +117,7 @@ public class CSharpListener extends CSharpParserBaseListener {
         String texto = strings.get("endsOn") + ctx.CLOSE_PARENS().getSymbol().getLine();
         Token parentesis = ctx.DO().getSymbol();
         marcas.add(new AnotacionMarca(parentesis.getLine(),
-                parentesis.getCharPositionInLine(),
+                parentesis.getCharPositionInLine() + 1,
                 texto));
     }
 
@@ -173,7 +174,7 @@ public class CSharpListener extends CSharpParserBaseListener {
     @Override
     public void enterIfStatement(CSharpParser.IfStatementContext ctx) {
         // 	| IF OPEN_PARENS expression CLOSE_PARENS if_body (ELSE if_body)?               #ifStatement
-        String texto = strings.get("endsOn") + ctx.CLOSE_PARENS().getSymbol().getLine();
+        String texto = strings.get("endsOn") + ctx.getStop().getLine();
         Token parentesis = ctx.CLOSE_PARENS().getSymbol();
         marcas.add(new AnotacionMarca(parentesis.getLine(),
                 parentesis.getCharPositionInLine(),
@@ -182,7 +183,7 @@ public class CSharpListener extends CSharpParserBaseListener {
 
     @Override
     public void exitIfStatement(CSharpParser.IfStatementContext ctx) {
-        // 	| IF OPEN_PARENS expression CLOSE_PARENS if_body (ELSE if_body)?
+        // 	| IF OPEN_PARENS expression CLOSE_PARENS if_body
         String ifCompleto = getOriginalCode(ctx.getStart(), ctx.CLOSE_PARENS().getSymbol());
         String texto = strings.get("closes") + ifCompleto + strings.get("ofLine") + ctx.getStart().getLine();
         marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
@@ -191,11 +192,50 @@ public class CSharpListener extends CSharpParserBaseListener {
     }
 
     @Override
+    public void enterIfElseStatement(CSharpParser.IfElseStatementContext ctx) {
+        //	| IF OPEN_PARENS expression CLOSE_PARENS if_body ELSE if_body
+        String texto = strings.get("endsOn") + ctx.if_body().getStop().getLine();
+        Token parentesis = ctx.CLOSE_PARENS().getSymbol();
+        marcas.add(new AnotacionMarca(parentesis.getLine(),
+                parentesis.getCharPositionInLine(),
+                texto));
+    }
+
+
+    @Override
+    public void enterElsestatement(CSharpParser.ElsestatementContext ctx) {
+        CSharpParser.IfElseStatementContext ifElse = (CSharpParser.IfElseStatementContext) ctx.getParent();
+
+        String ifCompleto = getOriginalCode(ifElse.getStart(), ifElse.CLOSE_PARENS().getSymbol());
+        String textoIf = strings.get("closes") + ifCompleto + strings.get("ofLine") + ifElse.getStart().getLine();
+
+        marcas.add(new AnotacionMarca(ifElse.if_body().getStop().getLine(),
+                ifElse.if_body().getStop().getCharPositionInLine(),
+                textoIf));
+
+        String texto = strings.get("endsOn") + ctx.if_body().getStop().getLine();
+        Token elseT = (Token) ctx.getChild(ctx.getChildCount() - 2).getPayload();
+        marcas.add(new AnotacionMarca(elseT.getLine(),
+                elseT.getCharPositionInLine() + 3,
+                texto));
+    }
+
+    @Override
+    public void exitElsestatement(CSharpParser.ElsestatementContext ctx) {
+
+        //Ahora se procesa el Else
+        String textoElse = strings.get("closes") + "else" + strings.get("ofLine") + ctx.getStart().getLine();
+        marcas.add(new AnotacionMarca(ctx.getStop().getLine(),
+                ctx.getStop().getCharPositionInLine(),
+                textoElse));
+    }
+
+    @Override
     public void enterMethod_declaration(CSharpParser.Method_declarationContext ctx) {
         // : method_member_name type_parameter_list? OPEN_PARENS formal_parameter_list? CLOSE_PARENS
         //	    type_parameter_constraints_clauses? (method_body | right_arrow throwable_expression ';')
         //	;
-        String texto = strings.get("endsOn") + ctx.CLOSE_PARENS().getSymbol().getLine();
+        String texto = strings.get("endsOn") + ctx.getStop().getLine();
         Token parentesis = ctx.CLOSE_PARENS().getSymbol();
         marcas.add(new AnotacionMarca(parentesis.getLine(),
                 parentesis.getCharPositionInLine(),

@@ -442,13 +442,21 @@ embedded_statement
 	| simple_embedded_statement
 	;
 
+
+elsestatement
+   : (ELSE if_body);
+
 simple_embedded_statement
 	: ';'                                                         #theEmptyStatement
 	| expression ';'                                              #expressionStatement
 
+
+
 	// selection statements
-	| IF OPEN_PARENS expression CLOSE_PARENS if_body (ELSE if_body)?               #ifStatement
+	| IF OPEN_PARENS expression CLOSE_PARENS if_body                                              #ifStatement
+	| IF OPEN_PARENS expression CLOSE_PARENS if_body elsestatement                                #ifElseStatement
     | SWITCH OPEN_PARENS expression CLOSE_PARENS OPEN_BRACE switch_section* CLOSE_BRACE           #switchStatement
+
 
     // iteration statements
 	| WHILE OPEN_PARENS expression CLOSE_PARENS embedded_statement                                        #whileStatement
@@ -474,6 +482,9 @@ simple_embedded_statement
 	| UNSAFE block                                                                       #unsafeStatement
 	| FIXED OPEN_PARENS pointer_type fixed_pointer_declarators CLOSE_PARENS embedded_statement            #fixedStatement
 	;
+
+
+
 
 block
 	: OPEN_BRACE statement_list? CLOSE_BRACE
