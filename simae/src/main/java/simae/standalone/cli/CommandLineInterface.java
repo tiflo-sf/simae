@@ -119,7 +119,7 @@ public class CommandLineInterface implements Callable<Integer> {
 			//}
 
 
-			switch (languageString) { //FIXME: esto esta hardcodeado
+			switch (languageString) { //FIXME: esto esta hardcodeado en muchos lugares
 				//case "c++":
 				case ".cpp":
 					programmingLenguage = Lenguaje.CPLUSPLUS;
@@ -134,6 +134,10 @@ public class CommandLineInterface implements Callable<Integer> {
 				case ".py":
 					programmingLenguage = Lenguaje.PYTHON3;
 					languageString = "python3";
+					break;
+				case ".cs":
+					programmingLenguage = Lenguaje.CSHARP;
+					languageString = "csharp";
 					break;
 				default:
 					spec.commandLine().usage(System.out.printf((String) rb.getObject("extension")));

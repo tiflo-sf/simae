@@ -24,7 +24,7 @@ public class SimaeLauncher {
             case "python3":
             case ".py":
                 return Lenguaje.PYTHON3;
-            case "cSharp":
+            case "csharp":
             case ".cs":
                 return Lenguaje.CSHARP;
             default:
