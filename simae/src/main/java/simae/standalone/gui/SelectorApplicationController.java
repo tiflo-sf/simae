@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import simae.core.lib.Lenguaje;
 import simae.standalone.SimaeLauncherStandalone;
 import simae.standalone.lib.SimaeStandalone;
 
@@ -62,6 +63,9 @@ public class SelectorApplicationController {
                 return "Java";
             case ".py":
                 return "Python3";
+            case "cSharp":
+            case ".cs":
+                return "CSharp";
         }
         return null;
     }
@@ -81,7 +85,7 @@ public class SelectorApplicationController {
     private void initialize() {
         listaArchivosObjeto = new ArrayList<>();
         listaCompleta = new ArrayList<>();
-        fc.getExtensionFilters().addAll( new FileChooser.ExtensionFilter("Todos (.*)", "*.cpp", "*.java", "*.py"), new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"), new FileChooser.ExtensionFilter("Java (.java)", "*.java"), new FileChooser.ExtensionFilter("Python (.py)", "*.py"));
+        fc.getExtensionFilters().addAll( new FileChooser.ExtensionFilter("Todos (.*)", "*.cpp", "*.java", "*.py", "*.cs"), new FileChooser.ExtensionFilter("C++ (.cpp)", "*.cpp"), new FileChooser.ExtensionFilter("Java (.java)", "*.java"), new FileChooser.ExtensionFilter("Python (.py)", "*.py"), new FileChooser.ExtensionFilter("C# (.cs)", "*.cs"));
 
     }
 
