@@ -18,7 +18,7 @@ class InitLocale {
 
 	@CommandLine.Option(names = { "-l", "--locale" }, paramLabel = "<locale>", descriptionKey = "language")
 	void setLocale(String locale) {
-		Locale.setDefault(new Locale(locale));
+		Locale.setDefault(locale.equals("es") ? new Locale(locale) : new Locale("en"));
 	}
 	@CommandLine.Unmatched
 	List<String> remainder; // ignore any other parameters and options in the first parsing phase
@@ -64,12 +64,12 @@ public class CommandLineInterface implements Callable<Integer> {
 	public static void main(String[] args) {
 		try {
 			new CommandLine(new InitLocale()).parseArgs(args);
-
+			if (language == null && (!Locale.getDefault().getLanguage().equals("en") && !Locale.getDefault().getLanguage().equals("es"))){
+				Locale.setDefault(new Locale("en"));
+			}
+			rb = ResourceBundle.getBundle("simae.core.languages.Interfaz", Locale.getDefault());
 			CommandLine commandLine = new CommandLine(new CommandLineInterface());
 			commandLine.parseArgs(args);
-
-			if (language != null) Locale.setDefault(new Locale(language));
-			rb = ResourceBundle.getBundle("simae.core.languages.Interfaz", Locale.getDefault());
 
 			if (commandLine.isUsageHelpRequested()) {
 				commandLine.usage(System.out);
