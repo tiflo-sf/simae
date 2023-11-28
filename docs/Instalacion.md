@@ -11,6 +11,7 @@ nav_order: 3
 - [Instalación directa (Windows)](#instalacion-directa)
 - [Instalación estándar (Windows, Linux, macOS) ](#instalacion-estandar)
 - [Integración en ZinjaI IDE](#integracion-en-zinjaI)
+- [Plugin de Visual Studio Code](#plugin-vscode)
  
 ## Alternativa 1. Instalación directa (Windows) <a name ="instalacion-directa"/>
 
@@ -18,7 +19,7 @@ Para instalar **SIMAE** en un paso descargue y ejecute el instalador para Window
 
 |Release|Enlace directo|Fecha de publicación|
 |---|---|---|
-|0.2.2| [simae-instalador.exe](https://github.com/tiflo-sf/simae/releases/download/v0.2.2/simae-instalador.exe)| 2022\-12\-19|
+|0.3.0| [simae-instalador.exe](https://github.com/tiflo-sf/simae/releases/download/v0.3.0/simae-instalador.exe)| 2023\-11\-28|
 
 Este instalador configura un runtime personalizado de Java y la aplicación **SIMAE** como archivo `simae.exe` con acceso directo desde el escritorio (opcional).
 
@@ -48,7 +49,7 @@ Descargar la última versión de la herramienta desde el apartado [Releases](htt
 
 |Release|Enlace directo|Fecha de publicación|
 |---|---|---|
-|0.2.2| [simae-0.2.2.zip](https://github.com/tiflo-sf/simae/releases/download/v0.2.2/simae.zip)| 2022\-12\-19|
+|0.3.0| [simae-0.3.0.zip](https://github.com/tiflo-sf/simae/releases/download/v0.3.0/simae.zip)| 2023\-11\-28|
 
 Crear una carpeta para la instalación de SIMAE. La carpeta se denominará `C:\simae\` 
 
@@ -114,4 +115,17 @@ Finalmente, la macro se encuentra agregada al IDE.
 
 ![Pestaña de ZinjaI con macros añadidas](https://user-images.githubusercontent.com/42981462/175972523-b1d526d3-3f07-47a2-89b4-4497816c8647.png)
 
+## Plugin para Visual Studio Code <a name="plugin-vscode"/>
 
+Desde SIMAE 0.3.0, se incluye un nuevo plugin experimental que permite:
+
+* Utilizar atajos de teclados para moverse entre marcas y leer la marca actual.
+* Utilizar hints en lugar de comentarios quitando la necesidad de editar el código para utilizar SIMAE.
+* Modificar desde vs-code el lenguaje de las marcas que se utilizará.
+
+Este plugin demostró ser muy práctico a la hora de utilizar SIMAE, y está en contínuo desarrollo para lograr una versión estable y convertirse en el modo de uso recomendado para los usuarios de Visual Studio Code.
+
+Las instrucciones de instalación están actualmente en construcción. No obstante, el plugin se encuentra disponible para usuarios experimentados que deseen probarlo.
+|Release de plugin|Versión del motor|Enlace directo|Fecha de publicación|
+|---|---|---|---|
+|0.0.1|0.3.0|[simae-0.0.1.vsix](https://github.com/tiflo-sf/simae/releases/download/v0.3.0/simae-0.0.1.vsix)| 2023\-11\-28|
