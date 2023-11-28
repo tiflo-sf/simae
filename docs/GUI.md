@@ -11,7 +11,8 @@ SIMAE cuenta con una interfaz gráfica (graphical user interface -- GUI). La mis
 java -jar simae.jar
 ```
 
-![Interfaz Gráfica](https://user-images.githubusercontent.com/42981462/159582933-73f197e2-0348-4805-948b-599ba2cd5724.png)
+![Interfaz grafica](https://github.com/tiflo-sf/simae/assets/42981462/8c32f933-c95b-4118-a0b0-38802d46c2cc)
+
 
 |Elemento|Función|
 |---|----|
