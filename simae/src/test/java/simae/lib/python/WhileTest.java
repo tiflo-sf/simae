@@ -1,9 +1,10 @@
 package simae.lib.python;
 
 import org.junit.jupiter.api.Test;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
+
+import simae.core.lib.Lenguaje;
 import simae.lib.cPlusPlus.es.Tests;
+import simae.standalone.SimaeLauncherStandalone;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ class WhileTest extends Tests {
 		  esperado = "while(c):# /CIERRA EN LINEA 2/" + nl +
 			  		"    print(\"print1\")# /CIERRA while(c) DE LINEA 1/" + nl +
 			  		"print(\"print2\")" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
+		  marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

@@ -1,9 +1,10 @@
 package simae.lib.java8;
 
 import org.junit.jupiter.api.Test;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
+
+import simae.core.lib.Lenguaje;
 import simae.lib.cPlusPlus.es.Tests;
+import simae.standalone.SimaeLauncherStandalone;
 
 import java.io.IOException;
 
@@ -14,26 +15,26 @@ class DoWhileTest extends Tests {
 	
 	@Test
 	void doWhileTest() throws IOException {
-		  prog = "public class Main {\n" +
-				  "	public static void main(String[] args) {\n" +
-				  "		int i = 5;\n" +
-				  "		do {\n" +
-				  "			System.out.println(i);\n" +
-				  "			i++;\n" +
-				  "		} while (i <= 10);\n" +
-				  "	}\n" +
-				  "}" + nl;
+		  prog = "public class Main {" + nl +
+				  "	public static void main(String[] args) {" + nl +
+				  "		int i = 5;" + nl +
+				  "		do {" + nl +
+				  "			System.out.println(i);" + nl +
+				  "			i++;" + nl +
+				  "		} while (i <= 10);" + nl +
+				  "	}" + nl +
+				  "}";
 
-		  esperado = "public class Main /*/CIERRA EN LINEA 9/*/{\n" +
-				  "	public static void main(String[] args)/*/CIERRA EN LINEA 8/*/ {\n" +
-				  "		int i = 5;\n" +
-				  "		do/*/CIERRA EN LINEA 7/*/ {\n" +
-				  "			System.out.println(i);\n" +
-				  "			i++;\n" +
-				  "		} while (i <= 10);/*/CIERRA do while DE LINEA 4/*/\n" +
-				  "	}/*/CIERRA void main(String[] args) DE LINEA 2/*/\n" +
-				  "}/*/CIERRA class Main DE LINEA 1/*/\n";
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.JAVA8, "es");
+		  esperado = "public class Main /*/CIERRA EN LINEA 9/*/{" + nl +
+				  "	public static void main(String[] args)/*/CIERRA EN LINEA 8/*/ {" + nl +
+				  "		int i = 5;" + nl +
+				  "		do/*/CIERRA EN LINEA 7/*/ {" + nl +
+				  "			System.out.println(i);" + nl +
+				  "			i++;" + nl +
+				  "		} while (i <= 10);/*/CIERRA do while DE LINEA 4/*/" + nl +
+				  "	}/*/CIERRA void main(String[] args) DE LINEA 2/*/" + nl +
+				  "}/*/CIERRA class Main DE LINEA 1/*/" + nl;
+		  marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.JAVA8, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

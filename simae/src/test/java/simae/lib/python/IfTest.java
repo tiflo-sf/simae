@@ -1,9 +1,10 @@
 package simae.lib.python;
 
 import org.junit.jupiter.api.Test;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
+
+import simae.core.lib.Lenguaje;
 import simae.lib.cPlusPlus.es.Tests;
+import simae.standalone.SimaeLauncherStandalone;
 
 import java.io.IOException;
 
@@ -22,7 +23,7 @@ class IfTest extends Tests {
 				  "b = 200" + nl +
 				  "if b > a:# /CIERRA EN LINEA 4/" + nl +
 				  "  print(\"b is greater than a\")# /CIERRA if b > a DE LINEA 3/" + nl;
-		  marcado = SimaeLauncher.launchTagging(prog, Lenguaje.PYTHON3, "es");
+		  marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.PYTHON3, "es");
 		  assertEquals(esperado,marcado, "No son iguales.");
 	}
 }

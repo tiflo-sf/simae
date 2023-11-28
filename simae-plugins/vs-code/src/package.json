@@ -1,0 +1,117 @@
+{
+  "name": "simae",
+  "displayName": "SIMAE",
+  "description": "SIMAE brinda asistencia a la programación para desarrolladores con discapacidad visual, proporcionando información contextual de las estructuras contenidas dentro del código fuente.",
+  "version": "0.0.1",
+  "publisher": "tiflo-sf",
+  "engines": {
+    "vscode": "^1.77.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "simae.leerMarca",
+        "title": "Leer Marca"
+      },
+      {
+        "command": "simae.irDerecha",
+        "title": "Ir a la Derecha"
+      },
+      {
+        "command": "simae.irIzquierda",
+        "title": "Ir a la Izquierda"
+      },
+      {
+        "command": "simae.abrirConf",
+        "title": "Abrir Configuración"
+      },
+      {
+        "command": "simae.mostrarAyuda",
+        "title": "Mostrar Ayuda"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "simae.leerMarca",
+        "key": "ctrl+alt+s"
+      },
+      {
+        "command": "simae.irDerecha",
+        "key": "ctrl+alt+right"
+      },
+      {
+        "command": "simae.irIzquierda",
+        "key": "ctrl+alt+left"
+      },
+      {
+        "command": "simae.abrirConf",
+        "key": "ctrl+alt+c"
+      },
+      {
+        "command": "simae.mostrarAyuda",
+        "key": "ctrl+alt+h"
+      }
+    ],
+    "files": [
+      "src/**",
+      "package.json",
+      "README.md",
+      "libs/resources/simae.jar" 
+    ],
+    "configuration": {
+      "title": "Configuración de SIMAE",
+      "properties": {
+        "SIMAE.idioma": {
+          "type": "string",
+          "enum": ["Español", "Inglés", "Idioma de Visual Studio Code"],
+          "default": "Español",
+          "enumDescriptions": [
+            "Español",
+            "Inglés",
+            "Idioma de Visual Studio Code"
+          ],
+          "description": "Elige el idioma en el que se leerán las marcas.",
+          "enumValues": [
+            "es",
+            "en",
+            "so"
+          ]
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js",
+    "vsce:package": "vsce package"
+  },
+  "devDependencies": {
+    "vscode": "^1.1.37",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.77.0",
+    "@vscode/test-electron": "^2.3.0",
+    "eslint": "^8.36.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5"
+  },
+  "extensionKind": ["ui"],
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "fs": "^0.0.1-security",
+    "i18next": "^23.4.4",
+    "jschardet": "^3.0.0",
+    "os": "^0.1.2",
+    "path": "^0.12.7"
+  }
+}

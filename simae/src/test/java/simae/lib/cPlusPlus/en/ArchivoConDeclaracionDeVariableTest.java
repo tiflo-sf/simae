@@ -1,9 +1,9 @@
 package simae.lib.cPlusPlus.en;
 
 import org.junit.jupiter.api.Test;
-import simae.SimaeLauncher;
-import simae.lib.Lenguaje;
+import simae.core.lib.Lenguaje;
 import simae.lib.cPlusPlus.es.Tests;
+import simae.standalone.SimaeLauncherStandalone;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ class ArchivoConDeclaracionDeVariableTest extends Tests {
 		 
 		 prog = "int a = 4;" + nl;
 		 esperado = "int a = 4;" + nl;
-		 marcado = SimaeLauncher.launchTagging(prog, Lenguaje.CPLUSPLUS, "en");
+		 marcado = SimaeLauncherStandalone.launchTagging(prog, Lenguaje.CPLUSPLUS, "en");
 		 assertEquals(esperado,marcado, "The expected code and the result are not equals.");
 	}
 
