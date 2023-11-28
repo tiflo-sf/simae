@@ -126,6 +126,7 @@ Desde SIMAE 0.3.0, se incluye un nuevo plugin experimental que permite:
 Este plugin demostró ser muy práctico a la hora de utilizar SIMAE, y está en contínuo desarrollo para lograr una versión estable y convertirse en el modo de uso recomendado para los usuarios de Visual Studio Code.
 
 Las instrucciones de instalación están actualmente en construcción. No obstante, el plugin se encuentra disponible para usuarios experimentados que deseen probarlo.
+
 |Release de plugin|Versión del motor|Enlace directo|Fecha de publicación|
 |---|---|---|---|
 |0.0.1|0.3.0|[simae-0.0.1.vsix](https://github.com/tiflo-sf/simae/releases/download/v0.3.0/simae-0.0.1.vsix)| 2023\-11\-28|
