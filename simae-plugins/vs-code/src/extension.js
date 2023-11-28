@@ -87,7 +87,7 @@ function activate(context) {
     }
     const filePath = editor.document.uri.fsPath;
     const fileExt = path.extname(filePath);
-    if (![".java", ".cpp", ".py"].includes(fileExt)) {
+    if (![".java", ".cpp", ".py", ".cs"].includes(fileExt)) {
       vscode.window.showInformationMessage(msg("lenguajesDisponibles"));
       return;
     }
