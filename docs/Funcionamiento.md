@@ -69,7 +69,7 @@ Para leer las marcas en el código, el programador ciego utiliza un editor de t
 
 ## Lenguajes soportados
 
-La herramienta soporta el marcado y desmarcado de Java, C++ y Python, y se planifica incorporar otros como R, Go, C# y Javascript.
+La herramienta soporta el marcado y desmarcado de Java, C++, C# y Python, y se planifica incorporar otros como R, Go, y Javascript.
 
 ## Descripción técnica
 
