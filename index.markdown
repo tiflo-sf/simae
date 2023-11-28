@@ -10,7 +10,8 @@ nav_order: 1
 # SIMAE
 **SI**stema de **MA**rcado **E**structural de Código Fuente
 
-![](https://i.imgur.com/oSRdStq.png)
+![Interfaz grafica](https://github.com/tiflo-sf/simae/assets/42981462/c2af738e-2034-4d6c-89fd-074ee3083412)
+
 
 ##### Contenidos
 - [Descripción](#descripcion)
