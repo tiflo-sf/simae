@@ -4,7 +4,7 @@ import simae.core.lib.Lenguaje;
 
 public class SimaeLauncher {
 
-    private static String VERSION = "SIMAE 0.2.2";
+    private static String VERSION = "SIMAE 0.3.0";
     public SimaeLauncher() {
     }
 
@@ -24,7 +24,7 @@ public class SimaeLauncher {
             case "python3":
             case ".py":
                 return Lenguaje.PYTHON3;
-            case "cSharp":
+            case "csharp":
             case ".cs":
                 return Lenguaje.CSHARP;
             default:

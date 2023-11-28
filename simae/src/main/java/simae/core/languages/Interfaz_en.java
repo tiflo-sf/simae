@@ -23,7 +23,7 @@ public class Interfaz_en extends ListResourceBundle {
                     {"usage.synopsisHeading", "Usage: "},
                     {"withSound", "Plays a sound to indicate the result of the process (CLI only)"},
                     //Mensajes de exito y error"
-                    {"extension", "The input file must have a .java, .cpp or .py extension.\n"},
+                    {"extension", "The input file must have a .java, .cpp, .py or .cs extension.\n"},
                     {"emptyInput", "You must enter an input file.\n"},
                     {"invalidInput", "The input file is not valid.\n"},
                     {"falloMarcado", "Error in the process of writing marks.\n"},

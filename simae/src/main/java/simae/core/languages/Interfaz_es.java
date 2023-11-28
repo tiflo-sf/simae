@@ -24,7 +24,7 @@ public class Interfaz_es extends ListResourceBundle {
                     {"usage.synopsisHeading", "Uso: "},
                     {"withSound", "Reproduce un sonido para indicar el resultado del proceso (solo CLI)"},
                     //Mensajes de exito y error
-                    {"extension", "El archivo de entrada debe tener extensión .java, .cpp o .py.\n"},
+                    {"extension", "El archivo de entrada debe tener extensión .java, .cpp, .py o .cs.\n"},
                     {"emptyInput", "Debe ingresar un archivo de entrada.\n"},
                     {"invalidInput", "El archivo de entrada no es válido.\n"},
                     {"falloMarcado", "Fallo en el proceso de escritura de marcas.\n"},
