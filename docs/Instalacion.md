@@ -130,3 +130,9 @@ Las instrucciones de instalación están actualmente en construcción. No obstan
 |Release de plugin|Versión del motor|Enlace directo|Fecha de publicación|
 |---|---|---|---|
 |0.0.1|0.3.0|[simae-0.0.1.vsix](https://github.com/tiflo-sf/simae/releases/download/v0.3.0/simae-0.0.1.vsix)| 2023\-11\-28|
+
+La extensión se encuentra también disponible en [marketplace](https://marketplace.visualstudio.com/items?itemName=tiflo-sf.simae) y puede instalarse presionando control + p en vscode e ingresando el siguiente mandato:
+
+```
+ext install tiflo-sf.simae
+```
