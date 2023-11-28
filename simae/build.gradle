@@ -69,7 +69,7 @@ tasks.named('test') {
 }
 
 application {
-    mainClass = 'CommandLineInterface'
+    mainClass = 'simae.standalone.cli.CommandLineInterface'
 }
 
 task crearJarAPI(type: Jar) {
