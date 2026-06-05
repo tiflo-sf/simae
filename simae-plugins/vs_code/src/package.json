@@ -2,7 +2,7 @@
   "name": "simae",
   "displayName": "SIMAE",
   "description": "SIMAE brinda asistencia a la programación para desarrolladores con discapacidad visual, proporcionando información contextual de las estructuras contenidas dentro del código fuente.",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "publisher": "tiflo-sf",
   "engines": {
     "vscode": "^1.77.0"
@@ -96,7 +96,7 @@
     "postInstall": "node ./src/setup.js",
     "pretest": "npm run lint",
     "test": "node ./test/runTest.js",
-    "vsce:package": "vsce package"
+    "vsce:package": "npx @vscode/vsce package"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",

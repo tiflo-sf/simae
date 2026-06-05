@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const jschardet = require('jschardet');
 const path = require('path');
+const fs = require('fs');
 const { spawn } = require('child_process');
 const { msg } = require('./locale.js');
 const { Marca } = require('./models/marca.js')
@@ -48,8 +49,14 @@ async function armarMultimap(filePath, context, editor, idioma) {
     return null;
   }
 
-  const javaBin = path.join(jrePath, 'bin', 'java');
-  
+  let javaBin = path.join(jrePath, 'bin', 'java');
+  // Fix stale global state if 'jrePath' has an extra 'jre' folder
+  if (!fs.existsSync(javaBin) && jrePath.endsWith('jre')) {
+    jrePath = path.dirname(jrePath);
+    javaBin = path.join(jrePath, 'bin', 'java');
+    context.globalState.update('jrePath', jrePath);
+  }
+
   process.env['JAVA_HOME'] = jrePath;
   process.env['PATH'] = `${path.join(jrePath, 'bin')}${path.delimiter}${process.env['PATH']}`;
 

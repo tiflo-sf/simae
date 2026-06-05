@@ -17,7 +17,7 @@ function obtenerURL() {
   let url;
 
   if (platform === 'win32') {
-    url = 'https://firebasestorage.googleapis.com/v0/b/simae-67068.appspot.com/o/jre_win.zip?alt=media&token=da0e97e4-5edc-413d-ae8c-ecb4381e6232';
+    url = 'https://github.com/tiflo-sf/simae/releases/download/v1.0.0/jre_win.zip';
   } else if (platform === 'darwin') {
     url = 'JRE_MACOS'; //TO-DO
   } else if (platform === 'linux') {
@@ -34,17 +34,26 @@ function obtenerURL() {
  * @param {string} url - URL de descarga del JRE.
  * @param {string} jrePath - PATH del archivo descargado.
  */
-function descargarJRE(url, jrePath) {
+function descargarJRE(urlStr, jrePath) {
   return new Promise((resolve, reject) => {
-    const archivo = fs.createWriteStream(jrePath);
-    https.get(url, (response) => {
+    https.get(urlStr, (response) => {
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+        let redirectUrl = response.headers.location;
+        if (!redirectUrl.startsWith('http')) {
+          const { URL } = require('url');
+          const urlObj = new URL(urlStr);
+          redirectUrl = urlObj.origin + redirectUrl;
+        }
+        return resolve(descargarJRE(redirectUrl, jrePath));
+      }
+      const archivo = fs.createWriteStream(jrePath);
       response.pipe(archivo);
       archivo.on('finish', () => {
         archivo.close(() => resolve(jrePath));
       });
     }).on('error', (err) => {
       fs.unlink(jrePath, (errs) => {
-        if (errs) throw err;
+        if (errs) console.error(errs);
       });
       reject(err.message);
     });
@@ -134,8 +143,10 @@ async function setup(context) {
             const instalado = await javaInstalado();
             if(!instalado){
                 let jrePath = await instalarJRE(context);
-                jrePath = path.join(jrePath, 'jre');
-                context.globalState.update('jrePath', jrePath); 
+                if (fs.existsSync(path.join(jrePath, 'jre'))) {
+                    jrePath = path.join(jrePath, 'jre');
+                }
+                context.globalState.update('jrePath', jrePath);
             } else {
                 const javaPath = await getJavaPath()
                 context.globalState.update('jrePath', javaPath);
