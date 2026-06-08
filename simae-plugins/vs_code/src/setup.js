@@ -34,28 +34,74 @@ function obtenerURL() {
  * @param {string} url - URL de descarga del JRE.
  * @param {string} jrePath - PATH del archivo descargado.
  */
-function descargarJRE(urlStr, jrePath) {
+function descargarJRE(urlStr, jrePath, redirecciones = 0) {
   return new Promise((resolve, reject) => {
-    https.get(urlStr, (response) => {
-      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
-        let redirectUrl = response.headers.location;
-        if (!redirectUrl.startsWith('http')) {
-          const { URL } = require('url');
-          const urlObj = new URL(urlStr);
-          redirectUrl = urlObj.origin + redirectUrl;
+    if (redirecciones > 5) {
+      return reject(new Error('Demasiadas redirecciones al intentar descargar el JRE.'));
+    }
+
+    let finalizado = false;
+
+    function limpiarArchivoParcial() {
+      fs.unlink(jrePath, (err) => {
+        if (err && err.code !== 'ENOENT') {
+          console.error('Error al limpiar archivo parcial:', err);
         }
-        return resolve(descargarJRE(redirectUrl, jrePath));
+      });
+    }
+
+    function fallar(err) {
+      if (finalizado) return;
+      finalizado = true;
+      limpiarArchivoParcial();
+      reject(err);
+    }
+
+    const req = https.get(urlStr, (response) => {
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+        const { URL } = require('url');
+        const redirectUrl = new URL(response.headers.location, urlStr).toString();
+        return resolve(descargarJRE(redirectUrl, jrePath, redirecciones + 1));
       }
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        response.resume();
+        return fallar(new Error(`Error HTTP ${response.statusCode}`));
+      }
+
       const archivo = fs.createWriteStream(jrePath);
+
+      archivo.on('error', (err) => {
+        fallar(new Error(`Error escribiendo el archivo local: ${err.message}`));
+      });
+
+      response.on('error', (err) => {
+        fallar(new Error(`Error en el stream de respuesta: ${err.message}`));
+      });
+
+      response.on('aborted', () => {
+        fallar(new Error('La conexión de descarga se abortó inesperadamente.'));
+      });
+
       response.pipe(archivo);
+
       archivo.on('finish', () => {
-        archivo.close(() => resolve(jrePath));
+        if (finalizado) return;
+        archivo.close((err) => {
+          if (finalizado) return;
+          if (err) return fallar(err);
+          finalizado = true;
+          resolve(jrePath);
+        });
       });
-    }).on('error', (err) => {
-      fs.unlink(jrePath, (errs) => {
-        if (errs) console.error(errs);
-      });
-      reject(err.message);
+    });
+
+    req.on('error', (err) => {
+      fallar(new Error(`Error en la petición de red: ${err.message}`));
+    });
+
+    req.setTimeout(30000, () => {
+      req.destroy(new Error('Timeout de descarga excedido.'));
     });
   });
 }
