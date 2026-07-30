@@ -17,7 +17,7 @@ function obtenerURL() {
   let url;
 
   if (platform === 'win32') {
-    url = 'https://firebasestorage.googleapis.com/v0/b/simae-67068.appspot.com/o/jre_win.zip?alt=media&token=da0e97e4-5edc-413d-ae8c-ecb4381e6232';
+    url = 'https://github.com/tiflo-sf/simae/releases/download/v1.0.0/jre_win.zip';
   } else if (platform === 'darwin') {
     url = 'JRE_MACOS'; //TO-DO
   } else if (platform === 'linux') {
@@ -34,19 +34,74 @@ function obtenerURL() {
  * @param {string} url - URL de descarga del JRE.
  * @param {string} jrePath - PATH del archivo descargado.
  */
-function descargarJRE(url, jrePath) {
+function descargarJRE(urlStr, jrePath, redirecciones = 0) {
   return new Promise((resolve, reject) => {
-    const archivo = fs.createWriteStream(jrePath);
-    https.get(url, (response) => {
+    if (redirecciones > 5) {
+      return reject(new Error('Demasiadas redirecciones al intentar descargar el JRE.'));
+    }
+
+    let finalizado = false;
+
+    function limpiarArchivoParcial() {
+      fs.unlink(jrePath, (err) => {
+        if (err && err.code !== 'ENOENT') {
+          console.error('Error al limpiar archivo parcial:', err);
+        }
+      });
+    }
+
+    function fallar(err) {
+      if (finalizado) return;
+      finalizado = true;
+      limpiarArchivoParcial();
+      reject(err);
+    }
+
+    const req = https.get(urlStr, (response) => {
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+        const { URL } = require('url');
+        const redirectUrl = new URL(response.headers.location, urlStr).toString();
+        return resolve(descargarJRE(redirectUrl, jrePath, redirecciones + 1));
+      }
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        response.resume();
+        return fallar(new Error(`Error HTTP ${response.statusCode}`));
+      }
+
+      const archivo = fs.createWriteStream(jrePath);
+
+      archivo.on('error', (err) => {
+        fallar(new Error(`Error escribiendo el archivo local: ${err.message}`));
+      });
+
+      response.on('error', (err) => {
+        fallar(new Error(`Error en el stream de respuesta: ${err.message}`));
+      });
+
+      response.on('aborted', () => {
+        fallar(new Error('La conexión de descarga se abortó inesperadamente.'));
+      });
+
       response.pipe(archivo);
+
       archivo.on('finish', () => {
-        archivo.close(() => resolve(jrePath));
+        if (finalizado) return;
+        archivo.close((err) => {
+          if (finalizado) return;
+          if (err) return fallar(err);
+          finalizado = true;
+          resolve(jrePath);
+        });
       });
-    }).on('error', (err) => {
-      fs.unlink(jrePath, (errs) => {
-        if (errs) throw err;
-      });
-      reject(err.message);
+    });
+
+    req.on('error', (err) => {
+      fallar(new Error(`Error en la petición de red: ${err.message}`));
+    });
+
+    req.setTimeout(30000, () => {
+      req.destroy(new Error('Timeout de descarga excedido.'));
     });
   });
 }
@@ -134,8 +189,10 @@ async function setup(context) {
             const instalado = await javaInstalado();
             if(!instalado){
                 let jrePath = await instalarJRE(context);
-                jrePath = path.join(jrePath, 'jre');
-                context.globalState.update('jrePath', jrePath); 
+                if (fs.existsSync(path.join(jrePath, 'jre'))) {
+                    jrePath = path.join(jrePath, 'jre');
+                }
+                context.globalState.update('jrePath', jrePath);
             } else {
                 const javaPath = await getJavaPath()
                 context.globalState.update('jrePath', javaPath);

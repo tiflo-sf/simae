@@ -9,7 +9,7 @@ plugins {
     id 'com.github.node-gradle.node' version '3.0.0'
 }
 
-version = '1.0.0'
+version = '1.0.1'
 
 compileJava {
     options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
@@ -60,7 +60,7 @@ task generateVersionFile {
 }
 
 shadowJar {
-    classifier = null
+    archiveClassifier.set('')
 }
 
 build {
